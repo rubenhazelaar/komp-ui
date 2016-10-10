@@ -1,0 +1,33 @@
+# TODO
+- CRUD
+ - form handling
+- !!!Table
+    - responsive
+    - multiple versions
+        - Accordion
+            - all possibly open & only one
+                - maintain open state (for multiple and one)
+        - ~~Action~~ >> on prop
+    - ~~row filter column filter~~
+    - ~~limit, offset for pagination~~
+    - !!!callback, unique/key callback
+    - Hide certain columns
+    - ~~Render with initial limit & then grow triggered from outside~~
+        - Make actions from it
+    - 
+- Pagination
+    - Work with table as well
+- DatePicker
+- Toolbar
+- Loader (topbar)
+- MultiPanel >>> page
+    >>> for navigation animations/transitions
+    - Decoupled from router
+- Menu
+- FilterList
+- Searchbar
+- MultiSelect
+- Multi Input
+- multi key value
+- accordion
+    - all possibly open & only one

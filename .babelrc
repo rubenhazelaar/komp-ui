@@ -1,0 +1,13 @@
+{
+    "presets": [
+        ["es2015", {
+          "modules": false,
+          "loose": true
+        }]
+    ],
+    "plugins": [
+        "syntax-flow",
+        "transform-flow-strip-types",
+        "transform-object-assign"
+    ]
+}
