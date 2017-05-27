@@ -1,0 +1,50 @@
+import component, {state} from 'kompo';
+import {merge, delegate} from 'kompo-util';
+
+import table from './table';
+import tableRow from './tableRow';
+import accordionTableRow from './accordionTableRow';
+
+export default component.compose(table, {
+    rowSlot(c, filtered, raw) {},
+    appendRow(
+        table,
+        frag,
+        rows,
+        key,
+        props
+    ) {
+        if(rows[key]) {
+            frag.appendChild(rows[key][0]);
+            frag.appendChild(rows[key][1]);
+            return;
+        }
+
+        const tr = tableRow(props),
+            contentTr = accordionTableRow(props),
+            selector = s => {
+                return s.data[key];
+            };
+        
+        rows[key] = [
+            tr,
+            contentTr
+        ];
+        
+        component.mount(table, frag, tr, selector);
+        component.mount(table, frag, contentTr, selector);
+    },
+    on(table) {
+        const tableProps = component.getProps(table),
+            selector = 'tr';
+
+        delegate(table, selector, 'click', function(e) {
+            e.preventDefault();
+            const next = this.nextSibling,
+                props = component.getProps(table);
+            console.log(123);
+        });
+    },
+    rowClass: '',
+    showOne: true
+});

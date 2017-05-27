@@ -1,0 +1,32 @@
+.o-MultiPanel {
+    overflow: hidden;
+}
+
+.o-MultiPanel > div  {
+    display: flex;
+}
+
+.o-MultiPanel > div > *  {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+}
+
+.o-MultiPanel--withOverlay > div > .o-MultiPanel-panel {
+    position: relative;
+}
+
+.o-MultiPanel-panel-overlay {
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: all .5s;
+    background-color: rgba(255,255,255,.5);
+    z-index: -999;
+    opacity: 0;
+}
+
+.o-MultiPanel--withOverlay > div > .o-MultiPanel-panel:not(.o-MultiPanel-panel--selected) .o-MultiPanel-panel-overlay  {
+    z-index: 999;
+    opacity: 1;
+}

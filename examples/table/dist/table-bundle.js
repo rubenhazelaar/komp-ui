@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 27);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -90,15 +90,19 @@ var _component = __webpack_require__(1);
 
 var _component2 = _interopRequireDefault(_component);
 
-var _router = __webpack_require__(24);
+var _link = __webpack_require__(22);
+
+var _link2 = _interopRequireDefault(_link);
+
+var _router = __webpack_require__(23);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _app = __webpack_require__(25);
+var _app = __webpack_require__(24);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _dispatch = __webpack_require__(26);
+var _dispatch = __webpack_require__(10);
 
 var _dispatch2 = _interopRequireDefault(_dispatch);
 
@@ -118,13 +122,18 @@ var _merge = __webpack_require__(6);
 
 var _merge2 = _interopRequireDefault(_merge);
 
+var _isFunction = __webpack_require__(11);
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = {
     construct: _router2.default,
     route: _router.route,
     indexRoute: _router.indexRoute,
-    swap: _router.swap
+    swap: _router.swap,
+    link: _link2.default
 };
 
 var state = {
@@ -139,7 +148,8 @@ var state = {
 var util = {
     hasProxy: _hasProxy2.default,
     isObject: _isObject2.default,
-    merge: _merge2.default
+    merge: _merge2.default,
+    isFunction: _isFunction2.default
 };
 
 exports.default = {
@@ -285,26 +295,21 @@ function update(Element) {
         state = selector ? selector(Element.__kompo__.state) : Element.__kompo__.state,
         isRoot = Element === Element.__kompo__.root;
 
-    for (var i = 0, l = mounts.length; i < l; ++i) {
-        render(mounts[i]);
-    }
-
     // State is false, do not run statefulls
-    if (!state) return;
+    if (state) {
+        // If is object and flagged dirty or not at all than do not update
+        var checkIfDirty = _hasProxy2.default ? (0, _isObject2.default)(state) || Array.isArray(state) : (0, _isObject2.default)(state) && !Array.isArray(state);
 
-    // If is object and flagged dirty or not at all than do not update
-    var checkIfDirty = _hasProxy2.default ? (0, _isObject2.default)(state) || Array.isArray(state) : (0, _isObject2.default)(state) && !Array.isArray(state);
-
-    if (checkIfDirty && state.hasOwnProperty('__kompo_dirty__') && state.__kompo_dirty__.length === 0) {
-        if (isRoot) {
-            (0, _observe.markClean)(state);
+        if (!(checkIfDirty && state.hasOwnProperty('__kompo_dirty__') && state.__kompo_dirty__.length === 0)) {
+            var statefulls = kompo.statefulls;
+            for (var i = 0, l = statefulls.length; i < l; ++i) {
+                statefulls[i](state, Element);
+            }
         }
-        return;
     }
 
-    var statefulls = kompo.statefulls;
-    for (var _i = 0, _l = statefulls.length; _i < _l; ++_i) {
-        statefulls[_i](state, Element);
+    for (var _i = 0, _l = mounts.length; _i < _l; ++_i) {
+        render(mounts[_i]);
     }
 
     if (isRoot) {
@@ -359,13 +364,13 @@ function mount(parent, child, selector, sel) {
 }
 
 function _mount(parent, Element, child, selector) {
-    Element.appendChild(child);
-
     if (selector) {
         setState(child, selector);
     }
 
     render(child);
+
+    Element.appendChild(child);
 
     // Protection if same element is appended multiple times
     var mounts = parent.kompo.mounts;
@@ -413,12 +418,12 @@ function react(Element, statefull) {
 }
 
 /**
- * Mimics the slot functionality of 
+ * Mimics the slot functionality of
  * Web Components
- * 
- * Slots are named, their name & location is 
+ *
+ * Slots are named, their name & location is
  * predefined in the component.
- * 
+ *
  * @param Element
  * @param name
  * @param cb
@@ -433,7 +438,7 @@ function slot(Element, name, cb) {
 
 /**
  * Checks whether a slot with the given name exists
- * 
+ *
  * @param Element
  * @param name
  * @returns {boolean}
@@ -443,9 +448,9 @@ function hasSlot(Element, name) {
 }
 
 /**
- * Gets the router from an Element. The router is 
+ * Gets the router from an Element. The router is
  * add globally to the Element prototype
- * 
+ *
  * @param Element
  * @returns {router}
  */
@@ -457,7 +462,7 @@ function getRouter(Element) {
  * Adds properties to an existing component,
  * making it possible to compose a component with
  * different behavior.
- * 
+ *
  * @param constructComponent
  * @param composeProps
  * @returns {function()}
@@ -543,55 +548,55 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.addClasses = exports.throttle = exports.replace = exports.remove = exports.merge = exports.matches = exports.isObject = exports.isFunction = exports.empty = exports.delegate = exports.debounce = exports.addAttributes = exports.createText = exports.createFragment = exports.create = exports.capitalize = undefined;
 
-var _capitalize = __webpack_require__(15);
+var _capitalize = __webpack_require__(13);
 
 var _capitalize2 = _interopRequireDefault(_capitalize);
 
-var _create = __webpack_require__(9);
+var _create = __webpack_require__(7);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _debounce = __webpack_require__(16);
+var _debounce = __webpack_require__(14);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _delegate = __webpack_require__(17);
+var _delegate = __webpack_require__(15);
 
 var _delegate2 = _interopRequireDefault(_delegate);
 
-var _empty = __webpack_require__(18);
+var _empty = __webpack_require__(16);
 
 var _empty2 = _interopRequireDefault(_empty);
 
-var _isFunction = __webpack_require__(19);
+var _isFunction = __webpack_require__(17);
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
 
-var _isObject = __webpack_require__(10);
+var _isObject = __webpack_require__(8);
 
 var _isObject2 = _interopRequireDefault(_isObject);
 
-var _matches = __webpack_require__(11);
+var _matches = __webpack_require__(9);
 
 var _matches2 = _interopRequireDefault(_matches);
 
-var _merge = __webpack_require__(20);
+var _merge = __webpack_require__(18);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _remove = __webpack_require__(21);
+var _remove = __webpack_require__(19);
 
 var _remove2 = _interopRequireDefault(_remove);
 
-var _replace = __webpack_require__(22);
+var _replace = __webpack_require__(20);
 
 var _replace2 = _interopRequireDefault(_replace);
 
-var _throttle = __webpack_require__(23);
+var _throttle = __webpack_require__(21);
 
 var _throttle2 = _interopRequireDefault(_throttle);
 
-var _addClasses = __webpack_require__(14);
+var _addClasses = __webpack_require__(12);
 
 var _addClasses2 = _interopRequireDefault(_addClasses);
 
@@ -814,7 +819,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.default = isObject;
 
@@ -879,151 +884,6 @@ function merge() {
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tableRow__ = __webpack_require__(8);
-
-
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('table', function (_ref) {
-    var _this = this;
-
-    var appendRow = _ref.appendRow;
-    var rowFilter = _ref.rowFilter;
-    var columnFilter = _ref.columnFilter;
-    var on = _ref.on;
-    var classes = _ref.classes;
-    var oddRowClass = _ref.oddRowClass;
-    var evenRowClass = _ref.evenRowClass;
-
-    var head = document.createElement('thead'),
-        body = document.createElement('tbody'),
-        frag = document.createDocumentFragment();
-
-    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(on)) on(this);
-
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
-
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (state) {
-        var data = state.data,
-            offset = state.offset,
-            limit = state.limit,
-            props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(_this);
-
-        if (!Array.isArray(data) || data.length < 1) return;
-
-        props.rows = [];
-
-        var hasRowFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(rowFilter),
-            hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter),
-            keys = Object.keys(hasColumnFilter ? columnFilter(data[0]) : data[0]);
-
-        // First empty out head and then refresh
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
-        appendRow(_this, head, {
-            filtered: keys,
-            raw: data[0],
-            columnElement: 'th'
-        });
-
-        var dataLength = data.length;
-        var os = offset && offset < dataLength ? offset : 0;
-        var l = typeof limit !== 'undefined' && os + limit < dataLength ? limit : dataLength;
-
-        for (os; os < l; ++os) {
-            var offsetData = data[os];
-            if (hasRowFilter && !rowFilter(offsetData)) continue;
-            appendRow(_this, frag, {
-                filtered: hasColumnFilter ? columnFilter(offsetData) : offsetData,
-                raw: offsetData,
-                index: os,
-                defaultClass: os % 2 == 0 ? evenRowClass : oddRowClass,
-                key: os + 1,
-                rows: props.rows,
-                selectedClass: props.selectedClass,
-                selectedRows: props.selectedRows
-            });
-        }
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
-        body.appendChild(frag);
-    });
-
-    this.appendChild(head);
-    this.appendChild(body);
-}, {
-    classes: [],
-    oddRowClass: '',
-    evenRowClass: '',
-    appendRow: function appendRow(table, parent, props) {
-        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__tableRow__["a" /* default */])(props);
-        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, parent, tr, table.kompo.selector);
-    }
-});
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
-    var defaultClass = _ref.defaultClass;
-    var filtered = _ref.filtered;
-    var columnElement = _ref.columnElement;
-    var key = _ref.key;
-    var rows = _ref.rows;
-    var selectedClass = _ref.selectedClass;
-    var selectedRows = _ref.selectedRows;
-
-    var arr = void 0,
-        isObject = false;
-    if (!Array.isArray(filtered)) {
-        arr = Object.keys(filtered);
-        isObject = true;
-    } else {
-        arr = filtered;
-    }
-
-    if (defaultClass) this.classList.add(defaultClass);
-
-    if (rows) {
-        rows.push(this);
-    }
-
-    if (key) {
-        this.setAttribute('data-key', key);
-
-        if (typeof selectedRows !== 'undefined' && selectedRows.indexOf(key) > -1) {
-            if (selectedClass) this.classList.add(selectedClass);
-        }
-    }
-
-    for (var i = 0, l = arr.length; i < l; ++i) {
-        var c = this.appendChild(document.createElement(columnElement));
-        c.textContent = filtered[isObject ? arr[i] : i];
-    }
-}, {
-    key: '',
-    defaultClass: '',
-    filtered: [],
-    raw: [],
-    columnElement: 'td',
-    index: undefined
-});
-
-/***/ },
-/* 9 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1054,7 +914,7 @@ function create(tagName, attributes) {
         Element = doc.createElement(tagName);
     }
 
-    if (!attributes) {
+    if (attributes) {
         addAttributes(Element, attributes);
     }
 
@@ -1099,7 +959,7 @@ function createText(str) {
 }
 
 /***/ },
-/* 10 */
+/* 8 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1143,7 +1003,7 @@ function isObject(value) {
 }
 
 /***/ },
-/* 11 */
+/* 9 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1174,7 +1034,758 @@ exports.default = function () {
 }();
 
 /***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = dispatch;
+
+var _component = __webpack_require__(1);
+
+function dispatch(Element, cb, noRender) {
+    if (!cb) return;
+
+    var kompo = Element.kompo,
+        state = kompo.selector ? kompo.selector(Element.__kompo__.state) : Element.__kompo__.state;
+
+    if (!state) return;
+
+    cb(state);
+    if (!noRender) (0, _component.render)(Element.__kompo__.root);
+}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isFunction;
+
+/**
+ * Checks if given variable is a function
+ *
+ * @param {*} functionToCheck
+ * @returns {boolean}
+ */
+function isFunction(functionToCheck) {
+  var getType = {};
+  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+/***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = addClasses;
+function addClasses(Element, classes) {
+    for (var i = 0, l = classes.length; i < l; ++i) {
+        Element.classList.add(classes[i]);
+    }
+}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = capitalize;
+
+/**
+ * Capitalizes string
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+function capitalize(str) {
+    if (typeof str === "string") {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = debounce;
+
+/**
+ * Debounces a function call
+ *
+ * @param {Function} fn - function to debounce
+ * @param {Number} delay - timeout for debouncing
+ * @param {Object} scope
+ * @returns {Function}
+ */
+function debounce(fn, delay, scope) {
+    var timer = null;
+    return function () {
+        var context = scope || this,
+            args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            fn.apply(context, args);
+        }, delay);
+    };
+}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = delegate;
+
+__webpack_require__(9);
+
+// Self-executing
+
+function delegate(Element, selector, type, listener) {
+    Element.addEventListener(type, function (e) {
+        for (var target = e.target; target && target != this; target = target.parentNode) {
+            // loop parent nodes from the target to the delegation node
+            if (target.matches(selector)) {
+                listener.bind(target)(e);
+                break;
+            }
+        }
+    }, false);
+}
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = empty;
+function empty(Element) {
+    while (Element.lastChild) {
+        Element.removeChild(Element.lastChild);
+    }
+    return Element;
+}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isFunction;
+
+/**
+ * Checks if given variable is a function
+ *
+ * @param {*} functionToCheck
+ * @returns {boolean}
+ */
+function isFunction(functionToCheck) {
+  var getType = {};
+  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = merge;
+/**
+ * Merges given objects
+ *
+ * @param {...Object} objs - Any given amount of objects
+ * @returns {Object}
+ */
+function merge() {
+    var object = Array.prototype.shift.call(arguments);
+    for (var i = 0; i < arguments.length; i++) {
+        var obj = arguments[i];
+        for (var j in obj) {
+            object[j] = obj[j];
+        }
+    }
+
+    return object;
+}
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (Element) {
+    var parent = Element.parentNode;
+    if (parent) {
+        parent.removeChild(Element);
+    }
+};
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = replace;
+
+var _create = __webpack_require__(7);
+
+var _create2 = _interopRequireDefault(_create);
+
+var _isObject = __webpack_require__(8);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ *  Replaces an Node for another one
+ *
+ * @param {Node} parent - parent element to replace child on
+ * @param {*} child - new child to replace for old child
+ * @param {(boolean|Object)} replaceLastChild - replace first or last child | represents an attribute object
+ * @param {boolean} rLC
+ * @returns {Element} child - child element
+ */
+function replace(parent, child) {
+    var replaceLastChild = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+    var rLC = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+    var arg2isObject = (0, _isObject2.default)(arguments[2]);
+    var replacedChild = void 0;
+    if (arg2isObject) {
+        replacedChild = rLC ? parent.lastChild : parent.firstChild;
+    } else {
+        replacedChild = replaceLastChild ? parent.lastChild : parent.firstChild;
+    }
+
+    if (typeof child === 'string') {
+        child = (0, _create2.default)(child);
+    }
+
+    if (arg2isObject) {
+        (0, _create.addAttributes)(child, replaceLastChild);
+    }
+
+    if (replacedChild) {
+        parent.replaceChild(child, replacedChild);
+    } else {
+        parent.appendChild(child);
+    }
+
+    return child;
+}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = throttle;
+
+/**
+ * Throttle function
+ *
+ * @param {Function} fn - function to throttle
+ * @param {Number} threshold - timeout for throttling
+ * @param {Object} scope
+ * @returns {Function}
+ */
+function throttle(fn, threshold, scope) {
+    threshold || (threshold = 250);
+    var last = void 0,
+        deferTimer = void 0;
+    return function () {
+        var context = scope || this,
+            now = +new Date(),
+            args = arguments;
+        if (last && now < last + threshold) {
+            // hold on to it
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(function () {
+                last = now;
+                fn.apply(context, args);
+            }, threshold);
+        } else {
+            last = now;
+            return fn.apply(context, args);
+        }
+    };
+}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _component = __webpack_require__(1);
+
+var _component2 = _interopRequireDefault(_component);
+
+var _dispatch = __webpack_require__(10);
+
+var _dispatch2 = _interopRequireDefault(_dispatch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = (0, _component2.default)('a', function (_ref) {
+    var _this = this;
+
+    var url = _ref.url;
+    var child = _ref.child;
+    var classNames = _ref.classNames;
+    var data = _ref.data;
+    var title = _ref.title;
+    var defaultEvent = _ref.defaultEvent;
+    var activeClass = _ref.activeClass;
+    var onClick = _ref.onClick;
+
+    // First add classes
+    for (var i = 0, l = classNames.length; i < l; ++i) {
+        this.classList.add(classNames[i]);
+    }
+
+    var router = (0, _component.getRouter)(this);
+
+    (0, _component.react)(this, function () {
+        if (router.isUrl(url)) {
+            _this.classList.add(activeClass);
+        } else {
+            _this.classList.remove(activeClass);
+        }
+    });
+
+    this.setAttribute('href', url);
+
+    if (typeof child === 'string') {
+        this.textContent = child;
+    } else if (child.hasOwnProperty('kompo')) {
+        (0, _component.mount)(this, child);
+    } else if (child instanceof Node) {
+        this.appendChild(child);
+    } else if ((0, _component.hasSlot)(this, 'child')) {
+        (0, _component.slot)(this, 'child');
+    } else {
+        throw new Error('Child should be a string, KompoElement, Node or a slot callback named "child"');
+    }
+
+    this.addEventListener(defaultEvent, function (e) {
+        e.preventDefault();
+        if (onClick) {
+            onClick(e);
+        }
+        router.goTo(url, title, data);
+        (0, _dispatch2.default)(_this, function (state) {
+            state.url = url;
+        });
+    });
+}, {
+    url: '',
+    child: '',
+    classNames: [],
+    data: undefined, // Data to push with pushState()
+    title: '',
+    defaultEvent: 'click',
+    activeClass: 'active',
+    onClick: undefined
+});
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = construct;
+exports.route = route;
+exports.indexRoute = indexRoute;
+exports.swap = swap;
+
+var _merge = __webpack_require__(6);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _component = __webpack_require__(1);
+
+var _isFunction = __webpack_require__(11);
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function construct(props) {
+    props = (0, _merge2.default)({
+        base: '/',
+        url: '/',
+        notFoundCallback: function notFoundCallback(url) {
+            throw new Error('No matching route found for url: ' + url + '. Provide a notFoundCallback callback option or correct the url or route.');
+        }
+    }, props);
+
+    var base = void 0,
+        url = void 0,
+        index = 0,
+        params = [];
+
+    var rawRoutes = {},
+        routes = {};
+
+    setBase(props.base);
+    setUrl(props.url);
+    parseRoute(props.routes);
+
+    function setBase(b) {
+        if (b[0] !== '/') {
+            b = '/' + b;
+        }
+
+        if (b.slice(-1) === '/') {
+            b = b.slice(0, -1);
+        }
+
+        base = b;
+    }
+
+    function setUrl(u) {
+        url = u[0] === '/' ? u : '/' + u;
+    }
+
+    function isUrl(u) {
+        u = u[0] === '/' ? u : '/' + u;
+        return url === u;
+    }
+
+    function parseRoute(Route) {
+        buildPath(Route);
+
+        var rawKeys = Object.keys(rawRoutes);
+        for (var i = 0, l = rawKeys.length; i < l; i++) {
+            var k = rawKeys[i],
+
+            // TODO: Could this be improved?
+            nk = k.replace(/(:([\w-]+))/g, '([\\w-]+)').replace(/\//g, '\\/');
+            routes[nk] = rawRoutes[k];
+        }
+    }
+
+    function buildPath(route) {
+        var ancestors = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+        var hierarchy = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
+        var level = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
+        var children = route.children;
+        var routeComponent = route.component;
+
+        if (routeComponent instanceof Element) {
+            routeComponent.kompo.level = level;
+        } else if (routeComponent instanceof Promise || (0, _isFunction2.default)(routeComponent)) {
+            // Set a level to the promise
+            routeComponent.kompo = { level: level };
+        }
+
+        if (!children) return;
+
+        var basePath = route.path,
+            isRoot = ancestors.length === 0;
+
+        for (var i = 0, l = children.length; i < l; i++) {
+            var childRoute = children[i],
+                componentPath = !isRoot ? ancestors.concat(childRoute.component) : ancestors.concat(routeComponent, childRoute.component),
+                childHierarchy = hierarchy.concat(i);
+
+            var _path = void 0;
+
+            if (childRoute.path[0] === '/') {
+                _path = childRoute.path;
+            } else if (isRoot) {
+                _path = basePath + childRoute.path;
+            } else if (childRoute.path === '') {
+                _path = basePath;
+            } else {
+                _path = basePath + '/' + childRoute.path;
+            }
+
+            childRoute.path = _path;
+            rawRoutes[_path] = {
+                components: componentPath,
+                hierarchy: childHierarchy
+            };
+            buildPath(childRoute, componentPath, childHierarchy, level + 1);
+        }
+    }
+
+    function match(url, against) {
+        var keys = Object.keys(against);
+        for (var i = 0, l = keys.length; i < l; i++) {
+            var regexstr = keys[i],
+                _match = url.match(new RegExp('^' + regexstr + '$'));
+            if (_match !== null) {
+                _match.shift();
+                params = _match;
+                return against[regexstr];
+            }
+        }
+
+        if (props.notFoundCallback) {
+            props.notFoundCallback(url);
+        }
+
+        return []; // Return empty array to keep it all running
+    }
+
+    function getSiblingRoutes(hierarchy) {
+        return scanSiblingsRoutes(hierarchy, props.routes);
+    }
+
+    function scanSiblingsRoutes(hierarchy, parentRoute) {
+        hierarchy = hierarchy.slice(); // Slice in order to prevent editing original array
+        if (hierarchy.length === 1) {
+            return parentRoute.children;
+        }
+
+        return scanSiblingsRoutes(hierarchy, parentRoute.children[hierarchy.shift()]);
+    }
+
+    return {
+        getParams: function getParams() {
+            return params;
+        },
+        isUrl: isUrl,
+        getUrl: function getUrl() {
+            return url;
+        },
+        setTo: function setTo(u) {
+            u = u.replace(base, '');
+            if (isUrl(u)) return false;
+
+            setUrl(u);
+            return true;
+        },
+        goTo: function goTo(u) {
+            var title = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+            var data = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+            if (isUrl(u)) return false;
+
+            setUrl(u);
+
+            history.pushState(data, title, base + url);
+            return true;
+        },
+        get: function get(parent, depth, includeSiblings) {
+            if (parent instanceof Element) {
+                index = parent.kompo.level + 1;
+            }
+
+            var md = match(url, routes),
+                mc = md.components;
+
+            if (depth) {
+                if (includeSiblings) {
+                    mc[index] = {
+                        component: mc[index],
+                        siblings: getSiblingRoutes(md.hierarchy)
+                    };
+                }
+                // For negative values, do + because index-(-depth) will be positive instead of negative
+                if (depth < 0) return mc.slice(index + depth, index + 1);
+                return mc.slice(index, index + depth);
+            } else {
+                return includeSiblings ? {
+                    component: mc[index],
+                    siblings: getSiblingRoutes(md.hierarchy)
+                } : mc[index];
+            }
+        }
+    };
+}
+function route(path, component, children) {
+    return {
+        path: path, component: component, children: children
+    };
+}
+
+function indexRoute(component) {
+    return route('', component);
+}
+
+function swap(component, router, element) {
+    var c = router.get(component),
+        fn = void 0;
+
+    if (c) {
+        if ((0, _isFunction2.default)(c)) {
+            fn = c;
+            c = _toPromise(c);
+        }
+
+        if (c instanceof Element) {
+            _swap(component, c, element);
+        } else if (c instanceof Promise) {
+            if (c.kompo.resolved) {
+                _swap(component, c.kompo.resolved, element);
+            } else {
+                c.then(function (rc) {
+                    rc.kompo.level = c.kompo.level;
+                    _swap(component, rc, element, true);
+                    c.kompo.resolved = rc;
+                    if (fn) fn.kompo.resolved = rc;
+                }).catch(function () {
+                    console.error("Cannot dynamically load module for route");
+                });
+            }
+        }
+    }
+}
+
+function _toPromise(fn) {
+    var pr = fn();
+
+    // Transfer kompo object including level to the promise
+    pr.kompo = fn.kompo;
+
+    return pr;
+}
+
+function _swap(parent, routedComponent, element) {
+    var renderWithRouted = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+    var routed = parent.kompo.routed,
+        el = element ? element : parent;
+
+    if (routed === routedComponent) return;
+
+    if (routed) {
+        if (renderWithRouted) (0, _component.render)(routedComponent);
+        el.replaceChild(routedComponent, routed);
+        parent.kompo.mounts.splice(parent.kompo.mounts.indexOf(routed, 1));
+    } else {
+        (0, _component.render)(routedComponent);
+        el.appendChild(routedComponent);
+    }
+
+    if (parent.kompo.mounts.indexOf(routedComponent) == -1) {
+        parent.kompo.mounts.push(routedComponent);
+    }
+
+    parent.kompo.routed = routedComponent;
+}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = app;
+
+var _observe = __webpack_require__(3);
+
+var _observe2 = _interopRequireDefault(_observe);
+
+var _component = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function app(root, state, router) {
+    state = (0, _observe2.default)(state);
+
+    // Make available for all Elements
+    Object.defineProperty(Element.prototype, '__kompo__', {
+        value: {
+            root: root,
+            state: state,
+            router: router
+        }
+    });
+
+    return {
+        start: function start(selector) {
+            if (selector) {
+                (0, _component.setState)(root, selector);
+            }
+            (0, _component.render)(root);
+            return root;
+        }
+    };
+}
+
+/***/ },
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1182,9 +1793,240 @@ exports.default = function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableRow__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__accordionTableRow__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tableRow__ = __webpack_require__(27);
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return tableActions; });
+
+
+
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('table', function (_ref) {
+    var _this = this;
+
+    var appendRow = _ref.appendRow;
+    var rowFilter = _ref.rowFilter;
+    var columnFilter = _ref.columnFilter;
+    var on = _ref.on;
+    var classes = _ref.classes;
+    var oddRowClass = _ref.oddRowClass;
+    var evenRowClass = _ref.evenRowClass;
+
+    var head = document.createElement('thead'),
+        body = document.createElement('tbody'),
+        frag = document.createDocumentFragment();
+
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(on)) on(this);
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
+
+    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (state) {
+        var data = state.data,
+            offset = state.offset,
+            limit = state.limit,
+            props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(_this),
+            selectedRows = state.selectedRows,
+            minimize = state.minimize;
+
+        if (!Array.isArray(data) || data.length < 1) return;
+
+        props.rows = [];
+
+        var hasRowFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(rowFilter),
+            hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter),
+            keys = Object.keys(hasColumnFilter ? columnFilter(data[0]) : data[0]);
+
+        // First empty out head and then refresh
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
+        appendRow(_this, head, {
+            filtered: keys,
+            raw: data[0],
+            columnElement: 'th',
+            minimize: minimize,
+            minimizeWhitelist: props.minimizeWhitelist
+        });
+
+        var dataLength = data.length;
+        var os = offset && offset <= dataLength ? offset : 0;
+        var l = typeof limit !== 'undefined' && os + limit < dataLength ? limit : dataLength;
+
+        for (os; os < l; ++os) {
+            var offsetData = data[os];
+            if (hasRowFilter && !rowFilter(offsetData)) continue;
+            appendRow(_this, frag, {
+                filtered: hasColumnFilter ? columnFilter(offsetData) : offsetData,
+                raw: offsetData,
+                index: os,
+                defaultClass: os % 2 == 0 ? evenRowClass : oddRowClass,
+                key: os + 1,
+                rows: props.rows,
+                selectedClass: props.selectedClass,
+                selectedRows: selectedRows,
+                minimize: minimize,
+                minimizeWhitelist: props.minimizeWhitelist
+            });
+        }
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
+        body.appendChild(frag);
+    });
+
+    this.appendChild(head);
+    this.appendChild(body);
+}, {
+    classes: [],
+    oddRowClass: '',
+    evenRowClass: '',
+    minimizeWhitelist: undefined,
+    appendRow: function appendRow(table, parent, props) {
+        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__tableRow__["a" /* default */])(props);
+        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, parent, tr, table.kompo.selector);
+    }
+});
+
+var tableActions = {
+    addLimit: function addLimit(Element, add) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.limit = s.limit + add > s.data.length ? s.data.length : s.limit + add;
+        });
+    },
+    subLimit: function subLimit(Element, sub) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.limit = s.limit - sub <= 0 ? 0 : s.limit - sub;
+        });
+    },
+    setLimit: function setLimit(Element, limit) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            if (limit <= 0) {
+                s.limit = 0;
+                return;
+            }
+
+            if (limit > s.data.length) {
+                s.limit = s.data.length;
+                return;
+            }
+
+            s.limit = limit;
+        });
+    },
+    addOffset: function addOffset(Element, add) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.offset = s.offset + add >= s.data.length ? s.data.length : s.offset + add;
+        });
+    },
+    subOffset: function subOffset(Element, sub) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.offset = s.offset - sub <= 0 ? 0 : s.offset - sub;
+        });
+    },
+    setOffset: function setOffset(Element, offset) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            if (offset <= 0) {
+                s.offset = 0;
+                return;
+            }
+
+            if (offset > s.data.length) {
+                s.offset = s.data.length;
+                return;
+            }
+
+            s.offset = offset;
+        });
+    },
+    minimize: function minimize(Element) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.minimize = true;
+        });
+    },
+    maximize: function maximize(Element) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.minimize = false;
+        });
+    }
+};
+
+/***/ },
+/* 26 */,
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
+    var defaultClass = _ref.defaultClass;
+    var filtered = _ref.filtered;
+    var columnElement = _ref.columnElement;
+    var key = _ref.key;
+    var rows = _ref.rows;
+    var selectedClass = _ref.selectedClass;
+    var selectedRows = _ref.selectedRows;
+    var minimize = _ref.minimize;
+    var minimizeWhitelist = _ref.minimizeWhitelist;
+
+    var arr = void 0,
+        isObject = false;
+    if (!Array.isArray(filtered)) {
+        arr = Object.keys(filtered);
+        isObject = true;
+    } else {
+        arr = filtered;
+    }
+
+    if (defaultClass) this.classList.add(defaultClass);
+
+    if (rows) {
+        rows.push(this);
+    }
+
+    if (key) {
+        this.setAttribute('data-key', key);
+
+        if (typeof selectedRows !== 'undefined' && selectedRows.indexOf(key) > -1) {
+            if (selectedClass) this.classList.add(selectedClass);
+        }
+    }
+
+    for (var i = 0, l = arr.length; i < l; ++i) {
+        var k = isObject ? arr[i] : i;
+
+        if (typeof minimizeWhitelist !== 'undefined') {
+            var onWhitelist = isObject ? minimizeWhitelist.indexOf(k) === -1 : minimizeWhitelist.indexOf(filtered[k]) === -1;
+            if (minimize && onWhitelist) {
+                continue;
+            }
+        }
+
+        var c = this.appendChild(document.createElement(columnElement));
+        c.textContent = filtered[k];
+    }
+}, {
+    key: '',
+    defaultClass: '',
+    filtered: [],
+    raw: [],
+    columnElement: 'td',
+    index: undefined
+});
+
+/***/ },
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableRow__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__accordionTableRow__ = __webpack_require__(36);
 
 
 
@@ -1233,7 +2075,55 @@ exports.default = function () {
 });
 
 /***/ },
-/* 13 */
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(25);
+
+
+
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
+    on: function on(table) {
+        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
+            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]';
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(table, function (s) {
+                var selectedRows = s.selectedRows = Array.isArray(s.selectedRows) ? s.selectedRows : [],
+                    key = parseInt(_this.getAttribute('data-key')),
+                    index = selectedRows.indexOf(key);
+
+                if (index === -1) {
+                    selectedRows.push(key);
+                } else {
+                    selectedRows.splice(index, 1);
+                }
+
+                // Force rerender
+                s.selectedRowsLength = selectedRows.length;
+            });
+        });
+    },
+
+    rowClass: '',
+    selectedClass: '',
+    selectOne: false
+});
+
+/***/ },
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1265,560 +2155,17 @@ exports.default = function () {
 });
 
 /***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = addClasses;
-function addClasses(Element, classes) {
-    for (var i = 0, l = classes.length; i < l; ++i) {
-        Element.classList.add(classes[i]);
-    }
-}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = capitalize;
-
-/**
- * Capitalizes string
- *
- * @param {string} str
- * @returns {string}
- */
-function capitalize(str) {
-    if (typeof str === "string") {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-}
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = debounce;
-
-/**
- * Debounces a function call
- *
- * @param {Function} fn - function to debounce
- * @param {Number} delay - timeout for debouncing
- * @param {Object} scope
- * @returns {Function}
- */
-function debounce(fn, delay, scope) {
-    var timer = null;
-    return function () {
-        var context = scope || this,
-            args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            fn.apply(context, args);
-        }, delay);
-    };
-}
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = delegate;
-
-__webpack_require__(11);
-
-// Self-executing
-
-function delegate(Element, selector, type, listener) {
-    Element.addEventListener(type, function (e) {
-        for (var target = e.target; target && target != this; target = target.parentNode) {
-            // loop parent nodes from the target to the delegation node
-            if (target.matches(selector)) {
-                listener.bind(target)(e);
-                break;
-            }
-        }
-    }, false);
-}
-
-/***/ },
-/* 18 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = empty;
-function empty(Element) {
-    while (Element.lastChild) {
-        Element.removeChild(Element.lastChild);
-    }
-    return Element;
-}
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isFunction;
-
-/**
- * Checks if given variable is a function
- *
- * @param {*} functionToCheck
- * @returns {boolean}
- */
-function isFunction(functionToCheck) {
-  var getType = {};
-  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-}
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = merge;
-/**
- * Merges given objects
- *
- * @param {...Object} objs - Any given amount of objects
- * @returns {Object}
- */
-function merge() {
-    var object = Array.prototype.shift.call(arguments);
-    for (var i = 0; i < arguments.length; i++) {
-        var obj = arguments[i];
-        for (var j in obj) {
-            object[j] = obj[j];
-        }
-    }
-
-    return object;
-}
-
-/***/ },
-/* 21 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function (Element) {
-    var parent = Element.parentNode;
-    if (parent) {
-        parent.removeChild(Element);
-    }
-};
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = replace;
-
-var _create = __webpack_require__(9);
-
-var _create2 = _interopRequireDefault(_create);
-
-var _isObject = __webpack_require__(10);
-
-var _isObject2 = _interopRequireDefault(_isObject);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- *  Replaces an Node for another one
- *
- * @param {Node} parent - parent element to replace child on
- * @param {*} child - new child to replace for old child
- * @param {(boolean|Object)} replaceLastChild - replace first or last child | represents an attribute object
- * @param {boolean} rLC
- * @returns {Element} child - child element
- */
-function replace(parent, child) {
-    var replaceLastChild = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-    var rLC = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-
-    var arg2isObject = (0, _isObject2.default)(arguments[2]);
-    var replacedChild = void 0;
-    if (arg2isObject) {
-        replacedChild = rLC ? parent.lastChild : parent.firstChild;
-    } else {
-        replacedChild = replaceLastChild ? parent.lastChild : parent.firstChild;
-    }
-
-    if (typeof child === 'string') {
-        child = (0, _create2.default)(child);
-    }
-
-    if (arg2isObject) {
-        (0, _create.addAttributes)(child, replaceLastChild);
-    }
-
-    if (replacedChild) {
-        parent.replaceChild(child, replacedChild);
-    } else {
-        parent.appendChild(child);
-    }
-
-    return child;
-}
-
-/***/ },
-/* 23 */
-/***/ function(module, exports) {
-
-"use strict";
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = throttle;
-
-/**
- * Throttle function
- *
- * @param {Function} fn - function to throttle
- * @param {Number} threshold - timeout for throttling
- * @param {Object} scope
- * @returns {Function}
- */
-function throttle(fn, threshold, scope) {
-    threshold || (threshold = 250);
-    var last = void 0,
-        deferTimer = void 0;
-    return function () {
-        var context = scope || this,
-            now = +new Date(),
-            args = arguments;
-        if (last && now < last + threshold) {
-            // hold on to it
-            clearTimeout(deferTimer);
-            deferTimer = setTimeout(function () {
-                last = now;
-                fn.apply(context, args);
-            }, threshold);
-        } else {
-            last = now;
-            return fn.apply(context, args);
-        }
-    };
-}
-
-/***/ },
-/* 24 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = construct;
-exports.route = route;
-exports.indexRoute = indexRoute;
-exports.swap = swap;
-
-var _merge = __webpack_require__(6);
-
-var _merge2 = _interopRequireDefault(_merge);
-
-var _component = __webpack_require__(1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function construct(props) {
-    props = (0, _merge2.default)({
-        base: '/',
-        url: '/',
-        notFoundCallback: function notFoundCallback(url) {
-            throw new Error('No matching route found for url: ' + url + '. Provide a notFoundCallback callback option or correct the url or route.');
-        }
-    }, props);
-
-    var base = void 0,
-        url = void 0,
-        index = 0,
-        params = [];
-
-    var rawRoutes = {},
-        routes = {};
-
-    setBase(props.base);
-    setUrl(props.url);
-    parseRoute(props.routes);
-
-    function setBase(b) {
-        if (b[0] !== '/') {
-            base = '/' + b;
-            return;
-        }
-
-        if (b.slice(-1) === '/') {
-            base = b.slice(0, -1);
-        }
-    }
-
-    function setUrl(u) {
-        url = u[0] === '/' ? u : '/' + u;
-    }
-
-    function isUrl(u) {
-        u = u[0] === '/' ? u : '/' + u;
-        return url === u;
-    }
-
-    function parseRoute(Route) {
-        buildPath(Route);
-
-        var rawKeys = Object.keys(rawRoutes);
-        for (var i = 0, l = rawKeys.length; i < l; i++) {
-            var k = rawKeys[i],
-
-            // TODO: Could this be improved?
-            nk = k.replace(/(:([\w-]+))/g, '([\\w-]+)').replace(/\//g, '\\/');
-            routes[nk] = rawRoutes[k];
-        }
-    }
-
-    function buildPath(route) {
-        var ancestors = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
-        var level = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
-
-        var children = route.children,
-            routeComponent = route.component;
-
-        routeComponent.kompo.level = level;
-
-        if (!children) return;
-
-        var basePath = route.path,
-            isRoot = ancestors.length === 0;
-
-        for (var i = 0, l = children.length; i < l; i++) {
-            var childRoute = children[i],
-                componentPath = !isRoot ? ancestors.concat(childRoute.component) : ancestors.concat(routeComponent, childRoute.component);
-            var _path = void 0;
-
-            if (childRoute.path[0] === '/') {
-                _path = childRoute.path;
-            } else if (isRoot) {
-                _path = basePath + childRoute.path;
-            } else if (childRoute.path === '') {
-                _path = basePath;
-            } else {
-                _path = basePath + '/' + childRoute.path;
-            }
-
-            childRoute.path = _path;
-            rawRoutes[_path] = componentPath;
-            buildPath(childRoute, componentPath, level + 1);
-        }
-    }
-
-    function match(url, against) {
-        var keys = Object.keys(against);
-        for (var i = 0, l = keys.length; i < l; i++) {
-            var regexstr = keys[i],
-                _match = url.match(new RegExp('^' + regexstr + '$'));
-            if (_match !== null) {
-                _match.shift();
-                params = _match;
-                return against[regexstr];
-            }
-        }
-
-        if (props.notFoundCallback) {
-            props.notFoundCallback(url);
-        }
-
-        return []; // Return empty array to keep it all running
-    }
-
-    return {
-        getParams: function getParams() {
-            return params;
-        },
-        isUrl: isUrl,
-        goTo: function goTo(u) {
-            var title = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-            var data = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
-
-            if (isUrl(u)) return false;
-
-            setUrl(u);
-
-            history.pushState(data, title, base + url);
-            return true;
-        },
-        get: function get(parent, depth) {
-            if (parent instanceof Element) {
-                index = parent.kompo.level + 1;
-            }
-
-            if (depth) {
-                return match(url, routes).slice(index, index + depth);
-            } else {
-                return match(url, routes)[index];
-            }
-        }
-    };
-}
-
-function route(path, component, children) {
-    return {
-        path: path, component: component, children: children
-    };
-}
-
-function indexRoute(component) {
-    return route('', component);
-}
-
-function swap(component, router, element) {
-    var c = router.get(component),
-        el = element ? element : component;
-    if (c) {
-        var routed = component.kompo.routed;
-        if (routed) {
-            el.replaceChild(c, routed);
-            component.kompo.mounts.splice(component.kompo.mounts.indexOf(routed, 1));
-        } else {
-            el.appendChild(c);
-        }
-
-        (0, _component.render)(c);
-
-        if (component.kompo.mounts.indexOf(c) == -1) {
-            component.kompo.mounts.push(c);
-        }
-
-        component.kompo.routed = c;
-    }
-}
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = app;
-
-var _observe = __webpack_require__(3);
-
-var _observe2 = _interopRequireDefault(_observe);
-
-var _component = __webpack_require__(1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function app(root, state, router) {
-    state = (0, _observe2.default)(state);
-
-    // Make available for all Elements
-    Object.defineProperty(Element.prototype, '__kompo__', {
-        value: {
-            root: root,
-            state: state,
-            router: router
-        }
-    });
-
-    return {
-        start: function start(selector) {
-            if (selector) {
-                (0, _component.setState)(root, selector);
-            }
-            (0, _component.render)(root);
-            return root;
-        }
-    };
-}
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = dispatch;
-
-var _component = __webpack_require__(1);
-
-function dispatch(Element, cb) {
-    if (!cb) return;
-
-    var kompo = Element.kompo,
-        state = kompo.selector ? kompo.selector(Element.__kompo__.state) : Element.__kompo__.state;
-
-    if (!state) return;
-
-    cb(state);
-    (0, _component.render)(Element.__kompo__.root);
-}
-
-/***/ },
-/* 27 */
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1826,9 +2173,9 @@ function dispatch(Element, cb) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__accordionTable__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__selectTable__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__accordionTable__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__selectTable__ = __webpack_require__(32);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
@@ -1848,18 +2195,22 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
 
     _objectDestructuringEmpty(_ref);
 
-    var add = doc.createElement('a'),
-        sub = doc.createElement('a'),
+    var addLimit = doc.createElement('a'),
+        subLimit = doc.createElement('a'),
+        addOffset = doc.createElement('a'),
+        subOffset = doc.createElement('a'),
+        minimize = doc.createElement('a'),
+        maximize = doc.createElement('a'),
         t1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */])({
         classes: ['o-Table', 'u-mtm'],
         oddRowClass: 'o-Table-row--isOdd',
         evenRowClass: 'o-Table-row--isEven',
         on: function on(table) {
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, 'tr', 'click', function (e) {
-                console.log(this);
                 console.log(table.kompo.props.rows);
             });
-        }
+        },
+        minimizeWhitelist: ['firstname']
     }),
         t2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__selectTable__["a" /* default */])({
         columnFilter: function columnFilter(data) {
@@ -1872,6 +2223,7 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
         selectedClass: 'selected'
     }),
         t3 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__accordionTable__["a" /* default */])({
+        showOne: false,
         columnFilter: function columnFilter(data) {
             return {
                 Firstname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.firstname),
@@ -1885,32 +2237,56 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
         }
     });
 
-    add.textContent = 'Add 1 to limit';
-    add.addEventListener('click', function (e) {
+    addLimit.textContent = 'Add 1 to limit';
+    addLimit.addEventListener('click', function (e) {
         e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(_this, function (st) {
-            st.limit = st.limit + 1;
-        });
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addLimit(_this, 1);
     });
 
-    sub.textContent = 'Subtract 1 of limit';
-    sub.addEventListener('click', function (e) {
+    subLimit.textContent = 'Subtract 1 of limit';
+    subLimit.addEventListener('click', function (e) {
         e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(_this, function (st) {
-            st.limit = st.limit - 1;
-        });
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subLimit(_this, 1);
     });
 
-    this.appendChild(add);
-    this.appendChild(sub);
+    addOffset.textContent = 'Add 1 to offset';
+    addOffset.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addOffset(_this, 1);
+    });
+
+    subOffset.textContent = 'Subtract 1 of offset';
+    subOffset.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subOffset(_this, 1);
+    });
+
+    minimize.textContent = 'Minimize';
+    minimize.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].minimize(_this);
+    });
+
+    maximize.textContent = 'Maximize';
+    maximize.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].maximize(_this);
+    });
+
+    this.appendChild(addLimit);
+    this.appendChild(subLimit);
+    this.appendChild(addOffset);
+    this.appendChild(subOffset);
+    this.appendChild(minimize);
+    this.appendChild(maximize);
     __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, [t1, t2, t3]);
 });
 
 // Create instance of root and
 // append table to body
 document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {
-
     limit: 2,
+    minimize: true,
     offset: 0,
     data: [{
         firstname: 'rick',
@@ -1926,54 +2302,6 @@ document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(
         movie: 'rocky'
     }]
 }).start());
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableRow__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__accordionTableRow__ = __webpack_require__(13);
-
-
-
-
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
-    on: function on(table) {
-        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
-            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]',
-            selectedClass = tableProps.selectedClass,
-
-        // Set a new array for maintaining selected rows based on their key
-        selectedRows = tableProps.selectedRows = [];
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
-            e.preventDefault();
-            var key = parseInt(this.getAttribute('data-key')),
-                index = selectedRows.indexOf(key);
-
-            if (index === -1) {
-                selectedRows.push(key);
-                if (selectedClass) this.classList.add(selectedClass);
-            } else {
-                selectedRows.splice(index, 1);
-                if (selectedClass) this.classList.remove(selectedClass);
-            }
-        });
-    },
-
-    rowClass: '',
-    selectedClass: '',
-    selectOne: false
-});
 
 /***/ }
 /******/ ])

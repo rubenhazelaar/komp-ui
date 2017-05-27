@@ -3,7 +3,7 @@ import component, {state} from 'kompo';
 import {capitalize, delegate} from 'kompo-util';
 
 // Example components with self-explanatory name
-import table from './table';
+import table, {tableActions} from './table';
 import accordionTable from './accordionTable'
 import selectTable from './selectTable';
 
@@ -11,18 +11,22 @@ const doc = document;
 
 // Create root component
 const root = component.construct('div', function({}) {
-    const add = doc.createElement('a'),
-        sub = doc.createElement('a'),
+    const addLimit = doc.createElement('a'),
+        subLimit = doc.createElement('a'),
+        addOffset = doc.createElement('a'),
+        subOffset = doc.createElement('a'),
+        minimize = doc.createElement('a'),
+        maximize = doc.createElement('a'),
         t1 = table({
             classes: ['o-Table', 'u-mtm'],
             oddRowClass: 'o-Table-row--isOdd',
             evenRowClass: 'o-Table-row--isEven',
             on: (table) => {
                 delegate(table, 'tr', 'click', function(e) {
-                    console.log(this);
                     console.log(table.kompo.props.rows);
                 });
-            }
+            },
+            minimizeWhitelist: ['firstname']
         }),
         t2 = selectTable({
             columnFilter(data) {
@@ -34,6 +38,7 @@ const root = component.construct('div', function({}) {
             selectedClass: 'selected'
         }),
         t3 = accordionTable({
+            showOne: false,
             columnFilter(data) {
                 return {
                     Firstname: capitalize(data.firstname),
@@ -47,32 +52,56 @@ const root = component.construct('div', function({}) {
             }
         });
 
-    add.textContent = 'Add 1 to limit';
-    add.addEventListener('click', e => {
+    addLimit.textContent = 'Add 1 to limit';
+    addLimit.addEventListener('click', e => {
         e.preventDefault();
-        state.dispatch(this, st => {
-            st.limit = st.limit + 1;
-        })
+        tableActions.addLimit(this, 1);
     });
 
-    sub.textContent = 'Subtract 1 of limit';
-    sub.addEventListener('click', e => {
+    subLimit.textContent = 'Subtract 1 of limit';
+    subLimit.addEventListener('click', e => {
         e.preventDefault();
-        state.dispatch(this, st => {
-            st.limit = st.limit - 1;
-        })
+        tableActions.subLimit(this, 1);
     });
 
-    this.appendChild(add);
-    this.appendChild(sub);
+    addOffset.textContent = 'Add 1 to offset';
+    addOffset.addEventListener('click', e => {
+        e.preventDefault();
+        tableActions.addOffset(this, 1);
+    });
+
+    subOffset.textContent = 'Subtract 1 of offset';
+    subOffset.addEventListener('click', e => {
+        e.preventDefault();
+        tableActions.subOffset(this, 1);
+    });
+
+    minimize.textContent = 'Minimize';
+    minimize.addEventListener('click', e => {
+        e.preventDefault();
+        tableActions.minimize(this);
+    });
+
+    maximize.textContent = 'Maximize';
+    maximize.addEventListener('click', e => {
+        e.preventDefault();
+        tableActions.maximize(this);
+    });
+
+    this.appendChild(addLimit);
+    this.appendChild(subLimit);
+    this.appendChild(addOffset);
+    this.appendChild(subOffset);
+    this.appendChild(minimize);
+    this.appendChild(maximize);
     component.mount(this, [t1, t2, t3]);
 });
 
 // Create instance of root and
 // append table to body
 document.body.appendChild(state.app(root(), {
-
     limit: 2,
+    minimize: true,
     offset: 0,
     data: [
         {

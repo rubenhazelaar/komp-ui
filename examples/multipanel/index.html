@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MultiPanel Component - Kompo UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <style>
+        h1 {
+            margin-top:0;
+        }
+
+        h2 {
+            margin-top:0;
+        }
+
+        div {
+            background-color: rgba(0,0,0,0.1);
+            padding: 1rem;
+        }
+
+        nav {
+            display: flex;
+            margin:0 -0.5rem 1rem;
+        }
+
+        nav > * {
+            flex:1;
+            text-align: center;
+            background: yellow;
+            padding:0.5em;
+            margin:0 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color:black;
+        }
+
+        a:hover {
+            background-color: orange;
+        }
+
+        a.active {
+            background-color: cyan;
+        }
+
+        .o-MultiPanel-panel-overlay  {
+            padding: 0;
+        }
+
+        .o-MultiPanel  {
+            background-color: yellow;
+            padding: 0;
+        }
+
+        .o-MultiPanel > div  {
+            background-color: orange;
+            padding: 0;
+        }
+
+        .o-MultiPanel-panel {
+            border: 1px solid #000;
+            padding: 0;
+        }
+    </style>
+ </head>
+<body>
+<script src="dist/bundle.js"></script>
+</body>
+</html>

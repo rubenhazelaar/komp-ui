@@ -5,7 +5,9 @@ var config = {
     cache: true,
     devtool: 'sourcemap',
     entry: {
-        'components/table/dist/table-bundle': './components/table/src/table-examples.js'
+        'examples/table/dist/table-bundle': './examples/table/src/table-examples.js',
+        'examples/table2/dist/table-bundle': './examples/table2/src/table-examples.js',
+        'examples/multipanel/dist/bundle': './examples/multipanel/src/index.js'
     },
     output: {
         path: './',
@@ -16,7 +18,7 @@ var config = {
     resolve: {
         extensions: ['.js', '.json'],
         modules: [
-            path.resolve('./components'),
+            path.resolve('./examples'),
             'node_modules'
         ]
     },
@@ -26,6 +28,10 @@ var config = {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
                 loader: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
             }
         ]
     },

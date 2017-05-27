@@ -9,7 +9,6 @@ var webpack = require("webpack"),
 
 var config = {
     cache: true,
-    debug: true,
     devtool: 'sourcemap',
     entry: {
     },
@@ -20,8 +19,11 @@ var config = {
         libraryTarget: 'umd'
     },
     resolve: {
-        extensions: ['', '.js', '.json'],
-        modulesDirectories: ["node_modules"]
+        extensions: ['.js', '.json'],
+        modules: [
+            path.resolve('./examples'),
+            'node_modules'
+        ]
     },
     module: {
         loaders: [
@@ -29,6 +31,10 @@ var config = {
                 test: /\.js$/,
                 exclude: /(node_modules)/,
                 loader: 'babel-loader'
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
             }
         ]
     },
