@@ -19,9 +19,9 @@ var config = {
         libraryTarget: 'umd'
     },
     resolve: {
-        extensions: ['.js', '.json'],
+        extensions: ['.js', '.json', '.css'],
         modules: [
-            path.resolve('./examples'),
+            path.resolve('./src'),
             'node_modules'
         ]
     },
