@@ -1,11 +1,11 @@
 {
   "name": "kompo-ui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A collection of interface components (such as filterlists, datepickers and toolbars) created with the Kompo library",
   "main": "./lib/js/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "rmlib" : "rm -rf lib",
+    "rmlib": "rm -rf lib",
     "build": "npm run build:cjs && npm run build:umd && npm run build:min",
     "build:cjs": "npm run rmlib && npm run build:_cjs",
     "build:_cjs": "./node_modules/.bin/babel src/js/ -d lib/js && cp -r src/css lib/css",
