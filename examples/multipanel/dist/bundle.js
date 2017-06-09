@@ -2095,8 +2095,10 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
 
     props.totalWidthPercentage = 100 / props.totalWidth * 100;
 
-    wrapper.style.transition = 'transform ' + transitionDuration + 'ms';
     wrapper.style.width = props.totalWidth + unit;
+    requestAnimationFrame(function () {
+        wrapper.style.transition = 'transform ' + transitionDuration + 'ms';
+    });
 
     props.wrapper = wrapper;
 
@@ -2114,6 +2116,8 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
 /* unused harmony default export */ var _unused_webpack_default_export = multiPanel;
 
 function slideTo(multiPanel, panels, index) {
+    var initial = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
     var translateTo = 0,
         totalPercentage = 0;
 
@@ -2124,6 +2128,10 @@ function slideTo(multiPanel, panels, index) {
 
         if (i < index) {
             translateTo = translateTo + getFlexBasis(panel);
+        }
+
+        if (!initial && !panel.classList.contains('o-MultiPanel-panel--withOverlayTransition')) {
+            panel.classList.add('o-MultiPanel-panel--withOverlayTransition');
         }
 
         if (i === index) {
@@ -2186,13 +2194,15 @@ function slide(component, router, element) {
             var index = panels.indexOf(cc),
                 el = element ? element : component;
 
+            var initial = false;
             if (!routed) {
                 mp = multiPanel();
                 children(mp, panels);
                 mount(component, el, mp);
+                initial = true;
             }
 
-            slideTo(mp, panels, index);
+            slideTo(mp, panels, index, initial);
             component.kompo.routed = cc;
         }
     };
@@ -2219,7 +2229,7 @@ exports = module.exports = __webpack_require__(42)(undefined);
 
 
 // module
-exports.push([module.i, ".o-MultiPanel {\r\n    overflow: hidden;\r\n}\r\n\r\n.o-MultiPanel > div  {\r\n    display: flex;\r\n}\r\n\r\n.o-MultiPanel > div > *  {\r\n    box-sizing: border-box;\r\n    flex: 0 0 auto;\r\n}\r\n\r\n.o-MultiPanel--withOverlay > div > .o-MultiPanel-panel {\r\n    position: relative;\r\n}\r\n\r\n.o-MultiPanel-panel-overlay {\r\n    cursor: pointer;\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    transition: all .5s;\r\n    background-color: rgba(255,255,255,.5);\r\n    z-index: -999;\r\n    opacity: 0;\r\n}\r\n\r\n.o-MultiPanel--withOverlay > div > .o-MultiPanel-panel:not(.o-MultiPanel-panel--selected) .o-MultiPanel-panel-overlay  {\r\n    z-index: 999;\r\n    opacity: 1;\r\n}", ""]);
+exports.push([module.i, ".o-MultiPanel {\r\n    overflow: hidden;\r\n}\r\n\r\n.o-MultiPanel > div  {\r\n    display: flex;\r\n}\r\n\r\n.o-MultiPanel > div > *  {\r\n    box-sizing: border-box;\r\n    flex: 0 0 auto;\r\n}\r\n\r\n.o-MultiPanel--withOverlay > div > .o-MultiPanel-panel {\r\n    position: relative;\r\n}\r\n\r\n.o-MultiPanel-panel-overlay {\r\n    cursor: pointer;\r\n    position: absolute;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(255,255,255,.5);\r\n    z-index: -999;\r\n    opacity: 0;\r\n}\r\n\r\n.o-MultiPanel-panel--withOverlayTransition .o-MultiPanel-panel-overlay {\r\n    transition: all .5s;\r\n}\r\n\r\n.o-MultiPanel--withOverlay > div > .o-MultiPanel-panel:not(.o-MultiPanel-panel--selected) .o-MultiPanel-panel-overlay  {\r\n    z-index: 999;\r\n    opacity: 1;\r\n    transition: all .5s;\r\n}", ""]);
 
 // exports
 

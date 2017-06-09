@@ -96,8 +96,10 @@ const multiPanel = component.construct('div', function({
 
     props.totalWidthPercentage = 100 / props.totalWidth * 100;
 
-    wrapper.style.transition = 'transform ' + transitionDuration + 'ms';
     wrapper.style.width = props.totalWidth + unit;
+    requestAnimationFrame(() => {
+        wrapper.style.transition = 'transform ' + transitionDuration + 'ms';
+    });
 
     props.wrapper = wrapper;
 
@@ -114,7 +116,7 @@ const multiPanel = component.construct('div', function({
 
 export default multiPanel;
 
-export function slideTo(multiPanel, panels, index) {
+export function slideTo(multiPanel, panels, index, initial = false) {
     let translateTo = 0,
         totalPercentage = 0;
 
@@ -125,6 +127,10 @@ export function slideTo(multiPanel, panels, index) {
 
         if (i < index) {
             translateTo = translateTo + getFlexBasis(panel);
+        }
+
+        if(!initial && !panel.classList.contains('o-MultiPanel-panel--withOverlayTransition')) {
+            panel.classList.add('o-MultiPanel-panel--withOverlayTransition');
         }
 
         if(i === index) {
@@ -183,13 +189,15 @@ export function slide(component:KompoElement, router:router, element:Element):vo
             const index = panels.indexOf(cc),
                 el = element? element: component;
 
+            let initial = false;
             if (!routed) {
                 mp = multiPanel();
                 children(mp, panels);
                 mount(component, el, mp);
+                initial = true;
             }
 
-            slideTo(mp, panels, index);
+            slideTo(mp, panels, index, initial);
             component.kompo.routed = cc;
         }
     };

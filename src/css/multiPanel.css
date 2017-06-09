@@ -20,13 +20,17 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: all .5s;
     background-color: rgba(255,255,255,.5);
     z-index: -999;
     opacity: 0;
 }
 
+.o-MultiPanel-panel--withOverlayTransition .o-MultiPanel-panel-overlay {
+    transition: all .5s;
+}
+
 .o-MultiPanel--withOverlay > div > .o-MultiPanel-panel:not(.o-MultiPanel-panel--selected) .o-MultiPanel-panel-overlay  {
     z-index: 999;
     opacity: 1;
+    transition: all .5s;
 }
