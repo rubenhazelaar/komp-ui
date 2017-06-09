@@ -1,5 +1,5 @@
-import component, {state} from 'kompo'; 
-const {getProps, mount, children, getRouter} = component;
+import component from 'kompo';
+const {getProps, mount, children} = component;
 
 import {create, isObject, throttle} from 'kompo-util';
 
@@ -12,13 +12,10 @@ const multiPanel = component.construct('div', function({
 }){
     const wrapper = create('div'),
         children = this.kompo.children,
-        props = getProps(this),
-        router = getRouter(this);
+        props = getProps(this);
 
     window.addEventListener('resize', throttle(e => {
-        const c = router.get(this, undefined, true),
-            cc = c.component,
-            index = children.indexOf(cc);
+        const index = children.indexOf(props.activePanel);
 
         // No component is routed abort all work
         if(index < 0) return;
@@ -132,6 +129,7 @@ export function slideTo(multiPanel, panels, index) {
 
         if(i === index) {
             panel.classList.add('o-MultiPanel-panel--selected');
+            props.activePanel = panel;
         } else {
             panel.classList.remove('o-MultiPanel-panel--selected');
         }

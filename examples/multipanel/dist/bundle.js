@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 47);
+/******/ 	return __webpack_require__(__webpack_require__.s = 46);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -86,7 +86,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.util = exports.state = exports.router = undefined;
 
-var _component = __webpack_require__(2);
+var _component = __webpack_require__(1);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -179,89 +179,6 @@ exports.util = util;
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.addClasses = exports.throttle = exports.replace = exports.remove = exports.merge = exports.matches = exports.isObject = exports.isFunction = exports.empty = exports.delegate = exports.debounce = exports.addAttributes = exports.createText = exports.createFragment = exports.create = exports.capitalize = undefined;
-
-var _capitalize = __webpack_require__(13);
-
-var _capitalize2 = _interopRequireDefault(_capitalize);
-
-var _create = __webpack_require__(7);
-
-var _create2 = _interopRequireDefault(_create);
-
-var _debounce = __webpack_require__(14);
-
-var _debounce2 = _interopRequireDefault(_debounce);
-
-var _delegate = __webpack_require__(15);
-
-var _delegate2 = _interopRequireDefault(_delegate);
-
-var _empty = __webpack_require__(16);
-
-var _empty2 = _interopRequireDefault(_empty);
-
-var _isFunction = __webpack_require__(17);
-
-var _isFunction2 = _interopRequireDefault(_isFunction);
-
-var _isObject = __webpack_require__(8);
-
-var _isObject2 = _interopRequireDefault(_isObject);
-
-var _matches = __webpack_require__(9);
-
-var _matches2 = _interopRequireDefault(_matches);
-
-var _merge = __webpack_require__(18);
-
-var _merge2 = _interopRequireDefault(_merge);
-
-var _remove = __webpack_require__(19);
-
-var _remove2 = _interopRequireDefault(_remove);
-
-var _replace = __webpack_require__(20);
-
-var _replace2 = _interopRequireDefault(_replace);
-
-var _throttle = __webpack_require__(21);
-
-var _throttle2 = _interopRequireDefault(_throttle);
-
-var _addClasses = __webpack_require__(12);
-
-var _addClasses2 = _interopRequireDefault(_addClasses);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.capitalize = _capitalize2.default;
-exports.create = _create2.default;
-exports.createFragment = _create.createFragment;
-exports.createText = _create.createText;
-exports.addAttributes = _create.addAttributes;
-exports.debounce = _debounce2.default;
-exports.delegate = _delegate2.default;
-exports.empty = _empty2.default;
-exports.isFunction = _isFunction2.default;
-exports.isObject = _isObject2.default;
-exports.matches = _matches2.default;
-exports.merge = _merge2.default;
-exports.remove = _remove2.default;
-exports.replace = _replace2.default;
-exports.throttle = _throttle2.default;
-exports.addClasses = _addClasses2.default;
-
-/***/ },
-/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -618,6 +535,89 @@ function appendChildren(Element, useFragment) {
         Element.appendChild(parent);
     }
 }
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.addClasses = exports.throttle = exports.replace = exports.remove = exports.merge = exports.matches = exports.isObject = exports.isFunction = exports.empty = exports.delegate = exports.debounce = exports.addAttributes = exports.createText = exports.createFragment = exports.create = exports.capitalize = undefined;
+
+var _capitalize = __webpack_require__(13);
+
+var _capitalize2 = _interopRequireDefault(_capitalize);
+
+var _create = __webpack_require__(7);
+
+var _create2 = _interopRequireDefault(_create);
+
+var _debounce = __webpack_require__(14);
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+var _delegate = __webpack_require__(15);
+
+var _delegate2 = _interopRequireDefault(_delegate);
+
+var _empty = __webpack_require__(16);
+
+var _empty2 = _interopRequireDefault(_empty);
+
+var _isFunction = __webpack_require__(17);
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
+var _isObject = __webpack_require__(8);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+var _matches = __webpack_require__(9);
+
+var _matches2 = _interopRequireDefault(_matches);
+
+var _merge = __webpack_require__(18);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _remove = __webpack_require__(19);
+
+var _remove2 = _interopRequireDefault(_remove);
+
+var _replace = __webpack_require__(20);
+
+var _replace2 = _interopRequireDefault(_replace);
+
+var _throttle = __webpack_require__(21);
+
+var _throttle2 = _interopRequireDefault(_throttle);
+
+var _addClasses = __webpack_require__(12);
+
+var _addClasses2 = _interopRequireDefault(_addClasses);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.capitalize = _capitalize2.default;
+exports.create = _create2.default;
+exports.createFragment = _create.createFragment;
+exports.createText = _create.createText;
+exports.addAttributes = _create.addAttributes;
+exports.debounce = _debounce2.default;
+exports.delegate = _delegate2.default;
+exports.empty = _empty2.default;
+exports.isFunction = _isFunction2.default;
+exports.isObject = _isObject2.default;
+exports.matches = _matches2.default;
+exports.merge = _merge2.default;
+exports.remove = _remove2.default;
+exports.replace = _replace2.default;
+exports.throttle = _throttle2.default;
+exports.addClasses = _addClasses2.default;
 
 /***/ },
 /* 3 */
@@ -1045,7 +1045,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = dispatch;
 
-var _component = __webpack_require__(2);
+var _component = __webpack_require__(1);
 
 function dispatch(Element, cb, noRender) {
     if (!cb) return;
@@ -1384,7 +1384,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _component = __webpack_require__(2);
+var _component = __webpack_require__(1);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -1475,7 +1475,7 @@ var _merge = __webpack_require__(6);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _component = __webpack_require__(2);
+var _component = __webpack_require__(1);
 
 var _isFunction = __webpack_require__(11);
 
@@ -1757,7 +1757,7 @@ var _observe = __webpack_require__(3);
 
 var _observe2 = _interopRequireDefault(_observe);
 
-var _component = __webpack_require__(2);
+var _component = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1909,7 +1909,7 @@ var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(29);
 
@@ -1983,10 +1983,10 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__);
 /* unused harmony export slideTo */
 /* harmony export (immutable) */ exports["a"] = slide;
@@ -1994,7 +1994,6 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 var getProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
-var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 
 
 
@@ -2014,13 +2013,10 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
 
     var wrapper = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div'),
         children = this.kompo.children,
-        props = getProps(this),
-        router = getRouter(this);
+        props = getProps(this);
 
     window.addEventListener('resize', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["throttle"])(function (e) {
-        var c = router.get(__WEBPACK_IMPORTED_MODULE_0_kompo___default.a, undefined, true),
-            cc = c.component,
-            index = children.indexOf(cc);
+        var index = children.indexOf(props.activePanel);
 
         // No component is routed abort all work
         if (index < 0) return;
@@ -2132,6 +2128,7 @@ function slideTo(multiPanel, panels, index) {
 
         if (i === index) {
             panel.classList.add('o-MultiPanel-panel--selected');
+            props.activePanel = panel;
         } else {
             panel.classList.remove('o-MultiPanel-panel--selected');
         }
@@ -2214,11 +2211,10 @@ function getFlexBasis(el) {
 /***/ },
 /* 39 */,
 /* 40 */,
-/* 41 */,
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(43)(undefined);
+exports = module.exports = __webpack_require__(42)(undefined);
 // imports
 
 
@@ -2229,7 +2225,7 @@ exports.push([module.i, ".o-MultiPanel {\r\n    overflow: hidden;\r\n}\r\n\r\n.o
 
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports) {
 
 /*
@@ -2311,13 +2307,13 @@ function toComment(sourceMap) {
 
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(42);
+var content = __webpack_require__(41);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -2325,7 +2321,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(45)(content, options);
+var update = __webpack_require__(44)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2342,7 +2338,7 @@ if(false) {
 }
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 /*
@@ -2388,7 +2384,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(46);
+var	fixUrls = __webpack_require__(45);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -2701,7 +2697,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports) {
 
 
@@ -2796,7 +2792,7 @@ module.exports = function (css) {
 
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
