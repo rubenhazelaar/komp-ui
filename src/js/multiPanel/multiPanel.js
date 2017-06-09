@@ -16,7 +16,7 @@ const multiPanel = component.construct('div', function({
         router = getRouter(this);
 
     window.addEventListener('resize', throttle(e => {
-        const c = router.get(component, undefined, true),
+        const c = router.get(this, undefined, true),
             cc = c.component,
             index = children.indexOf(cc);
 
