@@ -76,6 +76,7 @@ const routes = route('/', root(), [
                     })
                 }))
             , route('simple', panel({
+                slideBack: true,
                 component: leaf({
                         heading: 'Nested simple construct'
                     })
@@ -113,3 +114,12 @@ document.body.appendChild(ro);
 
 // Set the state (including the router) to the root construct
 state.app(ro, st, r).start();
+
+window.addEventListener('popstate', ()=>{
+    // Just update the whole tree from the root up.
+    if(r.setTo(window.location.pathname)) {
+        dispatch(ro, state => {
+            state.url = r.getUrl()
+        })
+    }
+});

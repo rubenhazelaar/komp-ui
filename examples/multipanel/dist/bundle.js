@@ -1914,8 +1914,8 @@ var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(29);
 
 var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
-var getProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
+var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 
 
 
@@ -1934,6 +1934,7 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
     var index = _ref.index;
     var slideTo = _ref.slideTo;
     var slideToUrl = _ref.slideToUrl;
+    var slideBack = _ref.slideBack;
     var multiPanelProps = _ref.multiPanelProps;
 
     var percentage = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isObject"])(basis) ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__["a" /* default */])(basis) / 100 * multiPanelProps.totalWidthPercentage : basis / 100 * multiPanelProps.totalWidthPercentage;
@@ -1946,8 +1947,9 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
         var o = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': 'o-MultiPanel-panel-overlay' });
         this.appendChild(o);
         o.addEventListener('click', function (e) {
-            // TODO Does not work as expected?
-            if (slideToUrl) {
+            if (slideBack) {
+                history.back();
+            } else if (slideToUrl) {
                 dispatch(_this, function (state) {
                     state.url = slideToUrl();
                 });
@@ -1970,7 +1972,8 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
     index: undefined,
     slideTo: undefined,
     slideToUrl: undefined,
-    multiPanelProps: undefined
+    multiPanelProps: undefined,
+    slideBack: false
 });
 
 /***/ },
@@ -2173,7 +2176,10 @@ function slide(component, router, element) {
                 var route = routes[i],
                     co = route.component;
 
-                // TODO this does not work as expected
+                // TODO This does not work as expected
+                // when the component of this panel
+                // contains child routes. Only goes back to
+                // original path, not the child routes
                 co.kompo.props.slideToUrl = function () {
                     router.goTo(route.path);
                     return route.path;
@@ -2889,6 +2895,7 @@ indexRoute(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__components_leaf__[
         heading: 'Nested'
     })
 })), route('simple', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__src_js_multiPanel_panel__["a" /* default */])({
+    slideBack: true,
     component: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__components_leaf__["a" /* default */])({
         heading: 'Nested simple construct'
     })
@@ -2924,6 +2931,15 @@ document.body.appendChild(ro);
 
 // Set the state (including the router) to the root construct
 __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(ro, st, r).start();
+
+window.addEventListener('popstate', function () {
+    // Just update the whole tree from the root up.
+    if (r.setTo(window.location.pathname)) {
+        dispatch(ro, function (state) {
+            state.url = r.getUrl();
+        });
+    }
+});
 
 /***/ }
 /******/ ])

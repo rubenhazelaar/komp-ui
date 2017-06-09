@@ -1,13 +1,13 @@
 import component, {state} from 'kompo';
 const {dispatch} = state;
-const {getProps, mount} = component;
+const {mount, getRouter} = component;
 
 import {create, isObject} from 'kompo-util';
 
 import getDynamicWidth from '../utils/getDynamicWidth';
 
 export default component.construct('div', function({
-    classNames, basis, unit, component, overlay, index, slideTo, slideToUrl, multiPanelProps
+    classNames, basis, unit, component, overlay, index, slideTo, slideToUrl, slideBack, multiPanelProps
 }){
     const percentage = isObject(basis)?
         getDynamicWidth(basis)/100*multiPanelProps.totalWidthPercentage:
@@ -21,8 +21,9 @@ export default component.construct('div', function({
         const o = create('div', {'class': 'o-MultiPanel-panel-overlay'});
         this.appendChild(o);
         o.addEventListener('click', e => {
-            // TODO Does not work as expected?
-            if(slideToUrl) {
+            if(slideBack) {
+                history.back();
+            } else if(slideToUrl) {
                 dispatch(this, state => {
                     state.url = slideToUrl()
                 })
@@ -45,5 +46,6 @@ export default component.construct('div', function({
     index: undefined,
     slideTo: undefined,
     slideToUrl: undefined,
-    multiPanelProps: undefined
+    multiPanelProps: undefined,
+    slideBack: false
 });

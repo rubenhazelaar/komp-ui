@@ -172,7 +172,10 @@ export function slide(component:KompoElement, router:router, element:Element):vo
                 const route = routes[i],
                     co = route.component;
 
-                // TODO this does not work as expected
+                // TODO This does not work as expected
+                // when the component of this panel
+                // contains child routes. Only goes back to
+                // original path, not the child routes
                 co.kompo.props.slideToUrl = () => {
                     router.goTo(route.path);
                     return route.path;
