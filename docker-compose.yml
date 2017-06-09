@@ -5,4 +5,4 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - "./components:/usr/src/app/components"
+      - "./examples:/usr/src/app/examples"

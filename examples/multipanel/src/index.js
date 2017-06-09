@@ -67,10 +67,12 @@ const routes = route('/', root(), [
     , route('branch', branch()
         , [
             indexRoute(panel({
-                basis: 60,
+                basis: {
+                    default: 60,
+                    600: 90
+                },
                 component: leaf({
-                        heading: 'Nested index construct',
-                        input: true
+                        heading: 'Nested'
                     })
                 }))
             , route('simple', panel({

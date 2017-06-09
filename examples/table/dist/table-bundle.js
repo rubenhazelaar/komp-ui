@@ -1,2 +1,2312 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.kompo=t():e.kompo=t()}(this,function(){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,t,n){Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=47)}([function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0}),t.util=t.state=t.router=void 0;var r=n(1),i=o(r),a=n(22),u=o(a),l=n(23),s=o(l),c=n(24),d=o(c),f=n(10),p=o(f),m=n(3),h=o(m),v=n(4),_=o(v),y=n(5),k=o(y),b=n(6),g=o(b),O=n(11),C=o(O),w={construct:s.default,route:l.route,indexRoute:l.indexRoute,swap:l.swap,link:u.default},P={app:d.default,dispatch:p.default,observe:h.default,inheritObserved:m.inheritObserved,markClean:m.markClean,markDirty:m.markDirty},j={hasProxy:_.default,isObject:k.default,merge:g.default,isFunction:C.default};t.default={construct:i.default,render:r.render,update:r.update,kompo:r.kompo,setState:r.setState,mount:r.mount,react:r.react,slot:r.slot,getRouter:r.getRouter,unmount:r.unmount,unmountAll:r.unmountAll,mountIndex:r.mountIndex,getState:r.getState,compose:r.compose,append:r.append,getProps:r.getProps,constructClass:r.constructClass,children:r.children,appendChildren:r.appendChildren},t.router=w,t.state=P,t.util=j},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}function r(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2];return function(){var o=arguments.length<=0||void 0===arguments[0]?{}:arguments[0],r=l(document.createElement(e));return r.kompo.props=(0,M.default)(x({},n),o),r.construct=t,r}}function i(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],o=w(t.prototype);return function(){var t=arguments.length<=0||void 0===arguments[0]?{}:arguments[0],r=l(document.createElement(e));return r.kompo.props=(0,M.default)(x({},n),t),(0,M.default)(r,o),r}}function a(e){var t=e.kompo;t.initial?(e.construct(t.props),t.initial=!1):u(e)}function u(e){var t=e.kompo,n=t.mounts,o=t.selector,r=o?o(e.__kompo__.state):e.__kompo__.state,i=e===e.__kompo__.root;if(r){var u=S.default?(0,F.default)(r)||Array.isArray(r):(0,F.default)(r)&&!Array.isArray(r);if(!u||!r.hasOwnProperty("__kompo_dirty__")||0!==r.__kompo_dirty__.length)for(var l=t.statefulls,s=0,c=l.length;s<c;++s)l[s](r,e)}for(var d=0,f=n.length;d<f;++d)a(n[d]);i&&(0,R.markClean)(r)}function l(e){return e.kompo={initial:!0,props:{},defaultProps:{},mounts:[],statefulls:[],slots:{},routed:void 0,selector:void 0,state:void 0,unmount:void 0,children:void 0},e}function s(e,t){var n=e.kompo;n.state=t(e.__kompo__.state),n.selector=t}function c(e){var t=e.kompo.selector;return t?t(e.__kompo__.state):e.__kompo__.state}function d(e,t,n,o){var r=void 0;arguments.length>=3&&(Array.isArray(n)||n instanceof Element)?(r=t,t=n,n=o):r=e,Array.isArray(t)?p(e,r,t,n):f(e,r,t,n)}function f(e,t,n,o){o&&s(n,o),a(n),t.appendChild(n);var r=e.kompo.mounts;r.indexOf(n)===-1&&(n.kompo.unmount=function(e){r.splice(r.indexOf(e),1)},r.push(n))}function p(e,t,n,o){for(var r=document.createDocumentFragment(),i=0,a=n.length;i<a;++i)f(e,r,n[i],o?o(i):void 0);t.appendChild(r)}function m(e){var t=e.kompo.unmount;t&&t(e)}function h(e){e.kompo.mounts=[]}function v(e,t){return e.kompo.mounts.indexOf(t)}function _(e,t){var n=e.kompo,o=n.selector;n.statefulls.push(t),t(o?o(e.__kompo__.state):e.__kompo__.state,e)}function y(e,t,n){2===arguments.length?e.kompo.slots[t](e):e.kompo.slots[t]=n}function k(e,t){return!!e.kompo.slots[t]}function b(e){return e.__kompo__.router}function g(e,t){return function(){var n=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];return e((0,M.default)(t,n))}}function O(e,t){a(t),e.appendChild(t)}function C(e){return e.kompo.props}function w(e){var t=[],n={},o=e;do{for(var r=Object.getOwnPropertyNames(o),i=[],a=0,u=r.length;a<u;++a){var l=r[a];"function"!=typeof o[l]||"constructor"==l||0!=a&&l===r[a-1]||t.indexOf(l)!==-1||(i.push(l),n[l]=e[l])}t.push.apply(t,i)}while((o=Object.getPrototypeOf(o))&&Object.getPrototypeOf(o));return n}function P(e,t){return e.kompo.children=t,e}function j(e,t){for(var n=e.kompo.children,o=t?document.createDocumentFragment():e,r=0,i=n.length;r<i;++r){var u=n[r];u.hasOwnProperty("kompo")&&a(u),o.appendChild(u)}t&&e.appendChild(o)}Object.defineProperty(t,"__esModule",{value:!0});var x=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e};t.default=r,t.constructClass=i,t.render=a,t.update=u,t.kompo=l,t.setState=s,t.getState=c,t.mount=d,t.unmount=m,t.unmountAll=h,t.mountIndex=v,t.react=_,t.slot=y,t.hasSlot=k,t.getRouter=b,t.compose=g,t.append=O,t.getProps=C,t.getMethods=w,t.children=P,t.appendChildren=j;var E=n(6),M=o(E),A=n(4),S=o(A),z=n(5),F=o(z),R=n(3);Object.defineProperty(Element.prototype,"construct",{writable:!0,value:function(){throw new Error("Must override the construct method")}})},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0}),t.addClasses=t.throttle=t.replace=t.remove=t.merge=t.matches=t.isObject=t.isFunction=t.empty=t.delegate=t.debounce=t.addAttributes=t.createText=t.createFragment=t.create=t.capitalize=void 0;var r=n(13),i=o(r),a=n(7),u=o(a),l=n(14),s=o(l),c=n(15),d=o(c),f=n(16),p=o(f),m=n(17),h=o(m),v=n(8),_=o(v),y=n(9),k=o(y),b=n(18),g=o(b),O=n(19),C=o(O),w=n(20),P=o(w),j=n(21),x=o(j),E=n(12),M=o(E);t.capitalize=i.default,t.create=u.default,t.createFragment=a.createFragment,t.createText=a.createText,t.addAttributes=a.addAttributes,t.debounce=s.default,t.delegate=d.default,t.empty=p.default,t.isFunction=h.default,t.isObject=_.default,t.matches=k.default,t.merge=g.default,t.remove=C.default,t.replace=P.default,t.throttle=x.default,t.addClasses=M.default},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}function r(e){var t=(0,f.default)(e),n=Array.isArray(e);if(!t&&!n)return e;if(Object.defineProperty(e,"__kompo_dirty__",{writable:!0,value:[]}),c.default){for(var o=Object.keys(e),a=0,u=o.length;a<u;++a){var l=o[a];p.indexOf(l)===-1&&(e[l]=r(e[l]))}e=n?new Proxy(e,{apply:function(e,t,n){return e.__kompo_dirty__.push(!0),t[e].apply(this,n)},deleteProperty:function(e){return e.__kompo_dirty__.push(!0),!0},set:function(e,t,n){return"__kompo_dirty__"!==t&&n!=e[t]&&e.__kompo_dirty__.indexOf(t)===-1&&e.__kompo_dirty__.push(t),e[t]=r(n),!0}}):new Proxy(e,{get:function(e,t){return e[t]},set:function(e,t,n){return"__kompo_dirty__"!==t&&n!=e[t]&&e.__kompo_dirty__.indexOf(t)===-1&&e.__kompo_dirty__.push(t),e[t]=r(n),!0}})}else e=i(e);return e}function i(e){for(var t=Object.keys(e),n=function(n,o){var i=t[n],a="__"+i,u=e[i];Object.defineProperty(e,a,{writable:!0,value:u}),Object.defineProperty(e,i,{get:function(){return this[a]},set:function(t){(0,f.default)(t)&&r(t),t!=this[i]&&e.__kompo_dirty__.indexOf(i)===-1&&e.__kompo_dirty__.push(i),this[a]=t}}),e[i]=u},o=0,i=t.length;o<i;++o)n(o,i);return e}function a(e){var t=arguments.length<=1||void 0===arguments[1]?[]:arguments[1];Object.defineProperty(e,"__kompo_dirty__",{writable:!0,value:[]});for(var n=Object.keys(e),o=0,r=n.length;o<r;++o){var i=n[o],a=e[i];if(!(t.indexOf(i)>-1)){if("undefined"==typeof a)return;a&&a.hasOwnProperty("__kompo_dirty__")&&a.__kompo_dirty__.length>0&&e.__kompo_dirty__.push(!0)}}return e}function u(e){var t=(0,f.default)(e),n=Array.isArray(e);if(!t&&!n)return e;if(e.__kompo_dirty__=[],n)for(var o=0,r=e.length;o<r;++o)u(e[o]);else for(var i=Object.keys(e),a=0,l=i.length;a<l;++a)u(e[i[a]])}function l(e){e.__kompo_dirty__.push(!0)}Object.defineProperty(t,"__esModule",{value:!0}),t.default=r,t.inheritObserved=a,t.markClean=u,t.markDirty=l;var s=n(4),c=o(s),d=n(5),f=o(d),p=["length","__kompo_dirty__"]},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default="Proxy"in window},function(e,t){"use strict";function n(e){var t="undefined"==typeof e?"undefined":o(e);return"function"==t||e&&"object"==t||!1}Object.defineProperty(t,"__esModule",{value:!0});var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};t.default=n},function(e,t){"use strict";function n(){for(var e=Array.prototype.shift.call(arguments),t=0;t<arguments.length;t++){var n=arguments[t];for(var o in n)e[o]=n[o]}return e}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t){"use strict";function n(e,t){var n=void 0;return n=e?a.createElement(e):a.createElement("div"),t&&o(n,t),n}function o(e,t){for(var n=Object.keys(t),o=0,r=n.length;o<r;o++){var i=n[o],a=t[i];e.setAttribute(i,a)}return e}function r(){return a.createDocumentFragment()}function i(e){return a.createTextNode(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n,t.addAttributes=o,t.createFragment=r,t.createText=i;var a=document},function(e,t){"use strict";function n(e){var t="undefined"==typeof e?"undefined":o(e);return"function"==t||e&&"object"==t||!1}Object.defineProperty(t,"__esModule",{value:!0});var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol?"symbol":typeof e};t.default=n},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=function(){if(!Element.prototype.matches){var e=Element.prototype;e.webkitMatchesSelector&&(e.matches=e.webkitMatchesSelector),e.msMatchesSelector&&(e.matches=e.msMatchesSelector),e.mozMatchesSelector&&(e.matches=e.mozMatchesSelector)}}()},function(e,t,n){"use strict";function o(e,t,n){if(t){var o=e.kompo,i=o.selector?o.selector(e.__kompo__.state):e.__kompo__.state;i&&(t(i),n||(0,r.render)(e.__kompo__.root))}}Object.defineProperty(t,"__esModule",{value:!0}),t.default=o;var r=n(1)},function(e,t){"use strict";function n(e){var t={};return e&&"[object Function]"===t.toString.call(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t){"use strict";function n(e,t){for(var n=0,o=t.length;n<o;++n)e.classList.add(t[n])}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t){"use strict";function n(e){if("string"==typeof e)return e.charAt(0).toUpperCase()+e.slice(1)}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t){"use strict";function n(e,t,n){var o=null;return function(){var r=n||this,i=arguments;clearTimeout(o),o=setTimeout(function(){e.apply(r,i)},t)}}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t,n){"use strict";function o(e,t,n,o){e.addEventListener(n,function(e){for(var n=e.target;n&&n!=this;n=n.parentNode)if(n.matches(t)){o.bind(n)(e);break}},!1)}Object.defineProperty(t,"__esModule",{value:!0}),t.default=o,n(9)},function(e,t){"use strict";function n(e){for(;e.lastChild;)e.removeChild(e.lastChild);return e}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t){"use strict";function n(e){var t={};return e&&"[object Function]"===t.toString.call(e)}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t){"use strict";function n(){for(var e=Array.prototype.shift.call(arguments),t=0;t<arguments.length;t++){var n=arguments[t];for(var o in n)e[o]=n[o]}return e}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=function(e){var t=e.parentNode;t&&t.removeChild(e)}},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}function r(e,t){var n=!(arguments.length<=2||void 0===arguments[2])&&arguments[2],o=!(arguments.length<=3||void 0===arguments[3])&&arguments[3],r=(0,l.default)(arguments[2]),u=void 0;return u=r?o?e.lastChild:e.firstChild:n?e.lastChild:e.firstChild,"string"==typeof t&&(t=(0,a.default)(t)),r&&(0,i.addAttributes)(t,n),u?e.replaceChild(t,u):e.appendChild(t),t}Object.defineProperty(t,"__esModule",{value:!0}),t.default=r;var i=n(7),a=o(i),u=n(8),l=o(u)},function(e,t){"use strict";function n(e,t,n){t||(t=250);var o=void 0,r=void 0;return function(){var i=n||this,a=+new Date,u=arguments;return o&&a<o+t?(clearTimeout(r),void(r=setTimeout(function(){o=a,e.apply(i,u)},t))):(o=a,e.apply(i,u))}}Object.defineProperty(t,"__esModule",{value:!0}),t.default=n},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),i=o(r),a=n(10),u=o(a);t.default=(0,i.default)("a",function(e){for(var t=this,n=e.url,o=e.child,i=e.classNames,a=e.data,l=e.title,s=e.defaultEvent,c=e.activeClass,d=e.onClick,f=0,p=i.length;f<p;++f)this.classList.add(i[f]);var m=(0,r.getRouter)(this);if((0,r.react)(this,function(){m.isUrl(n)?t.classList.add(c):t.classList.remove(c)}),this.setAttribute("href",n),"string"==typeof o)this.textContent=o;else if(o.hasOwnProperty("kompo"))(0,r.mount)(this,o);else if(o instanceof Node)this.appendChild(o);else{if(!(0,r.hasSlot)(this,"child"))throw new Error('Child should be a string, KompoElement, Node or a slot callback named "child"');(0,r.slot)(this,"child")}this.addEventListener(s,function(e){e.preventDefault(),d&&d(e),m.goTo(n,l,a),(0,u.default)(t,function(e){e.url=n})})},{url:"",child:"",classNames:[],data:void 0,title:"",defaultEvent:"click",activeClass:"active",onClick:void 0})},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}function r(e){function t(e){"/"!==e[0]&&(e="/"+e),"/"===e.slice(-1)&&(e=e.slice(0,-1)),s=e}function n(e){c="/"===e[0]?e:"/"+e}function o(e){return e="/"===e[0]?e:"/"+e,c===e}function r(e){i(e);for(var t=Object.keys(h),n=0,o=t.length;n<o;n++){var r=t[n],a=r.replace(/(:([\w-]+))/g,"([\\w-]+)").replace(/\//g,"\\/");v[a]=h[r]}}function i(e){var t=arguments.length<=1||void 0===arguments[1]?[]:arguments[1],n=arguments.length<=2||void 0===arguments[2]?[]:arguments[2],o=arguments.length<=3||void 0===arguments[3]?0:arguments[3],r=e.children,a=e.component;if(a instanceof Element?a.kompo.level=o:(a instanceof Promise||(0,m.default)(a))&&(a.kompo={level:o}),r)for(var u=e.path,l=0===t.length,s=0,c=r.length;s<c;s++){var d=r[s],f=l?t.concat(a,d.component):t.concat(d.component),p=n.concat(s),v=void 0;v="/"===d.path[0]?d.path:l?u+d.path:""===d.path?u:u+"/"+d.path,d.path=v,h[v]={components:f,hierarchy:p},i(d,f,p,o+1)}}function a(t,n){for(var o=Object.keys(n),r=0,i=o.length;r<i;r++){var a=o[r],u=t.match(new RegExp("^"+a+"$"));if(null!==u)return u.shift(),p=u,n[a]}return e.notFoundCallback&&e.notFoundCallback(t),[]}function u(t){return l(t,e.routes)}function l(e,t){return e=e.slice(),1===e.length?t.children:l(e,t.children[e.shift()])}e=(0,d.default)({base:"/",url:"/",notFoundCallback:function(e){throw new Error("No matching route found for url: "+e+". Provide a notFoundCallback callback option or correct the url or route.")}},e);var s=void 0,c=void 0,f=0,p=[],h={},v={};return t(e.base),n(e.url),r(e.routes),{getParams:function(){return p},isUrl:o,getUrl:function(){return c},setTo:function(e){return e=e.replace(s,""),!o(e)&&(n(e),!0)},goTo:function(e){var t=arguments.length<=1||void 0===arguments[1]?"":arguments[1],r=arguments.length<=2||void 0===arguments[2]?null:arguments[2];return!o(e)&&(n(e),history.pushState(r,t,s+c),!0)},get:function(e,t,n){e instanceof Element&&(f=e.kompo.level+1);var o=a(c,v),r=o.components;return t?(n&&(r[f]={component:r[f],siblings:u(o.hierarchy)}),t<0?r.slice(f+t,f+1):r.slice(f,f+t)):n?{component:r[f],siblings:u(o.hierarchy)}:r[f]}}}function i(e,t,n){return{path:e,component:t,children:n}}function a(e){return i("",e)}function u(e,t,n){var o=t.get(e),r=void 0;o&&((0,m.default)(o)&&(r=o,o=l(o)),o instanceof Element?s(e,o,n):o instanceof Promise&&(o.kompo.resolved?s(e,o.kompo.resolved,n):o.then(function(t){t.kompo.level=o.kompo.level,s(e,t,n,!0),o.kompo.resolved=t,r&&(r.kompo.resolved=t)}).catch(function(){console.error("Cannot dynamically load module for route")})))}function l(e){var t=e();return t.kompo=e.kompo,t}function s(e,t,n){var o=!(arguments.length<=3||void 0===arguments[3])&&arguments[3],r=e.kompo.routed,i=n?n:e;r!==t&&(r?(o&&(0,f.render)(t),i.replaceChild(t,r),e.kompo.mounts.splice(e.kompo.mounts.indexOf(r,1))):((0,f.render)(t),i.appendChild(t)),e.kompo.mounts.indexOf(t)==-1&&e.kompo.mounts.push(t),e.kompo.routed=t)}Object.defineProperty(t,"__esModule",{value:!0}),t.default=r,t.route=i,t.indexRoute=a,t.swap=u;var c=n(6),d=o(c),f=n(1),p=n(11),m=o(p)},function(e,t,n){"use strict";function o(e){return e&&e.__esModule?e:{default:e}}function r(e,t,n){return t=(0,a.default)(t),Object.defineProperty(Element.prototype,"__kompo__",{value:{root:e,state:t,router:n}}),{start:function(t){return t&&(0,u.setState)(e,t),(0,u.render)(e),e}}}Object.defineProperty(t,"__esModule",{value:!0}),t.default=r;var i=n(3),a=o(i),u=n(1)},function(e,t,n){"use strict";var o=n(0),r=n.n(o),i=n(2),a=(n.n(i),n(27));n.d(t,"b",function(){return u}),t.a=r.a.construct("table",function(e){var t=this,o=e.appendRow,a=e.rowFilter,u=e.columnFilter,l=e.on,s=e.classes,c=e.oddRowClass,d=e.evenRowClass,f=document.createElement("thead"),p=document.createElement("tbody"),m=document.createDocumentFragment();n.i(i.isFunction)(l)&&l(this),n.i(i.addClasses)(this,s),r.a.react(this,function(e){var l=e.data,s=e.offset,h=e.limit,v=r.a.getProps(t),_=e.selectedRows,y=e.minimize;if(Array.isArray(l)&&!(l.length<1)){v.rows=[];var k=n.i(i.isFunction)(a),b=n.i(i.isFunction)(u),g=Object.keys(b?u(l[0]):l[0]);n.i(i.empty)(f),o(t,f,{filtered:g,raw:l[0],columnElement:"th",minimize:y,minimizeWhitelist:v.minimizeWhitelist});var O=l.length,C=s&&s<=O?s:0,w="undefined"!=typeof h&&C+h<O?h:O;for(C;C<w;++C){var P=l[C];k&&!a(P)||o(t,m,{filtered:b?u(P):P,raw:P,index:C,defaultClass:C%2==0?d:c,key:C+1,rows:v.rows,selectedClass:v.selectedClass,selectedRows:_,minimize:y,minimizeWhitelist:v.minimizeWhitelist})}n.i(i.empty)(p),p.appendChild(m)}}),this.appendChild(f),this.appendChild(p)},{classes:[],oddRowClass:"",evenRowClass:"",minimizeWhitelist:void 0,appendRow:function(e,t,o){var i=n.i(a.a)(o);r.a.mount(e,t,i,e.kompo.selector)}});var u={addLimit:function(e,t){o.state.dispatch(e,function(e){e.limit=e.limit+t>e.data.length?e.data.length:e.limit+t})},subLimit:function(e,t){o.state.dispatch(e,function(e){e.limit=e.limit-t<=0?0:e.limit-t})},setLimit:function(e,t){o.state.dispatch(e,function(e){return t<=0?void(e.limit=0):t>e.data.length?void(e.limit=e.data.length):void(e.limit=t)})},addOffset:function(e,t){o.state.dispatch(e,function(e){e.offset=e.offset+t>=e.data.length?e.data.length:e.offset+t})},subOffset:function(e,t){o.state.dispatch(e,function(e){e.offset=e.offset-t<=0?0:e.offset-t})},setOffset:function(e,t){o.state.dispatch(e,function(e){return t<=0?void(e.offset=0):t>e.data.length?void(e.offset=e.data.length):void(e.offset=t)})},minimize:function(e){o.state.dispatch(e,function(e){e.minimize=!0})},maximize:function(e){o.state.dispatch(e,function(e){e.minimize=!1})}}},,function(e,t,n){"use strict";var o=n(0),r=n.n(o);t.a=r.a.construct("tr",function(e){var t=e.defaultClass,n=e.filtered,o=e.columnElement,r=e.key,i=e.rows,a=e.selectedClass,u=e.selectedRows,l=e.minimize,s=e.minimizeWhitelist,c=void 0,d=!1;Array.isArray(n)?c=n:(c=Object.keys(n),d=!0),t&&this.classList.add(t),i&&i.push(this),r&&(this.setAttribute("data-key",r),"undefined"!=typeof u&&u.indexOf(r)>-1&&a&&this.classList.add(a));for(var f=0,p=c.length;f<p;++f){var m=d?c[f]:f;if("undefined"!=typeof s){var h=d?s.indexOf(m)===-1:s.indexOf(n[m])===-1;if(l&&h)continue}var v=this.appendChild(document.createElement(o));v.textContent=n[m]}},{key:"",defaultClass:"",filtered:[],raw:[],columnElement:"td",index:void 0})},,,,function(e,t,n){"use strict";var o=n(0),r=n.n(o),i=n(2),a=(n.n(i),n(25)),u=n(27),l=n(36);t.a=r.a.compose(a.a,{rowSlot:function(e,t,n){},appendRow:function(e,t,o){var a=r.a.getProps(e);o.defaultClass=a.rowClass,r.a.append(t,n.i(u.a)(o)),"undefined"!=typeof o.index&&r.a.append(t,n.i(l.a)(n.i(i.merge)(o,a)))},on:function(e){var t=r.a.getProps(e),o=t.rowClass?"."+t.rowClass:"tr[data-key]";n.i(i.delegate)(e,o,"click",function(t){t.preventDefault();var n=this.nextSibling,o=r.a.getProps(e),i=this.getAttribute("data-key");if(n&&(n.style.display="none"===n.style.display?null:"none"),o.showOne&&o.key&&o.key!==i){var a=o.rows[o.key-1].nextSibling;a.style.display="none"}o.key=i})},rowClass:"",showOne:!0})},function(e,t,n){"use strict";var o=n(0),r=n.n(o),i=n(2),a=(n.n(i),n(25));t.a=r.a.compose(a.a,{on:function(e){var t=r.a.getProps(e),a=t.rowClass?"."+t.rowClass:"tr[data-key]";n.i(i.delegate)(e,a,"click",function(t){var n=this;o.state.dispatch(e,function(e){var t=e.selectedRows=Array.isArray(e.selectedRows)?e.selectedRows:[],o=parseInt(n.getAttribute("data-key")),r=t.indexOf(o);r===-1?t.push(o):t.splice(r,1),e.selectedRowsLength=t.length})})},rowClass:"",selectedClass:"",selectOne:!1})},,,,function(e,t,n){"use strict";var o=n(0),r=n.n(o);t.a=r.a.construct("tr",function(e){var t=e.display,n=e.filtered,o=e.raw,r=e.columnElement,i=e.rowSlot,a=Array.isArray(n)?n.length:Object.keys(n).length,u=this.appendChild(document.createElement(r));u.setAttribute("colspan",a),i(u,n,o),this.style.display=t},{display:"none",filtered:[],raw:[],columnElement:"td",index:void 0,rowSlot:function(e,t,n){}})},,,,,,,,,,,function(e,t,n){"use strict";function o(e){if(null==e)throw new TypeError("Cannot destructure undefined")}var r=n(0),i=n.n(r),a=n(2),u=(n.n(a),n(25)),l=n(31),s=n(32),c=document,d=i.a.construct("div",function(e){var t=this;o(e);var r=c.createElement("a"),d=c.createElement("a"),f=c.createElement("a"),p=c.createElement("a"),m=c.createElement("a"),h=c.createElement("a"),v=n.i(u.a)({classes:["o-Table","u-mtm"],oddRowClass:"o-Table-row--isOdd",evenRowClass:"o-Table-row--isEven",on:function(e){n.i(a.delegate)(e,"tr","click",function(t){console.log(e.kompo.props.rows)})},minimizeWhitelist:["firstname"]}),_=n.i(s.a)({columnFilter:function(e){return{Firstname:n.i(a.capitalize)(e.firstname),Lastname:n.i(a.capitalize)(e.lastname)}},selectedClass:"selected"}),y=n.i(l.a)({showOne:!1,columnFilter:function(e){return{Firstname:n.i(a.capitalize)(e.firstname),Lastname:n.i(a.capitalize)(e.lastname)}},rowSlot:function(e,t,o){var r=c.createElement("h1");r.textContent=n.i(a.capitalize)(o.movie),e.appendChild(r)}});r.textContent="Add 1 to limit",r.addEventListener("click",function(e){e.preventDefault(),u.b.addLimit(t,1)}),d.textContent="Subtract 1 of limit",d.addEventListener("click",function(e){e.preventDefault(),u.b.subLimit(t,1)}),f.textContent="Add 1 to offset",f.addEventListener("click",function(e){e.preventDefault(),u.b.addOffset(t,1)}),p.textContent="Subtract 1 of offset",p.addEventListener("click",function(e){e.preventDefault(),u.b.subOffset(t,1)}),m.textContent="Minimize",m.addEventListener("click",function(e){e.preventDefault(),u.b.minimize(t)}),h.textContent="Maximize",h.addEventListener("click",function(e){e.preventDefault(),u.b.maximize(t)}),this.appendChild(r),this.appendChild(d),this.appendChild(f),this.appendChild(p),this.appendChild(m),this.appendChild(h),i.a.mount(this,[v,_,y])});document.body.appendChild(r.state.app(d(),{limit:2,minimize:!0,offset:0,data:[{firstname:"rick",lastname:"deckard",movie:"blade runner"},{firstname:"mia",lastname:"wallace",movie:"pulp fiction"},{firstname:"rocky",lastname:"balboa",movie:"rocky"}]}).start())}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["kompo"] = factory();
+	else
+		root["kompo"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmory exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		Object.defineProperty(exports, name, {
+/******/ 			configurable: false,
+/******/ 			enumerable: true,
+/******/ 			get: getter
+/******/ 		});
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.util = exports.state = exports.router = undefined;
+
+var _component = __webpack_require__(2);
+
+var _component2 = _interopRequireDefault(_component);
+
+var _link = __webpack_require__(22);
+
+var _link2 = _interopRequireDefault(_link);
+
+var _router = __webpack_require__(23);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _app = __webpack_require__(24);
+
+var _app2 = _interopRequireDefault(_app);
+
+var _dispatch = __webpack_require__(10);
+
+var _dispatch2 = _interopRequireDefault(_dispatch);
+
+var _observe = __webpack_require__(3);
+
+var _observe2 = _interopRequireDefault(_observe);
+
+var _hasProxy = __webpack_require__(4);
+
+var _hasProxy2 = _interopRequireDefault(_hasProxy);
+
+var _isObject = __webpack_require__(5);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+var _merge = __webpack_require__(6);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _isFunction = __webpack_require__(11);
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = {
+    construct: _router2.default,
+    route: _router.route,
+    indexRoute: _router.indexRoute,
+    swap: _router.swap,
+    link: _link2.default
+};
+
+var state = {
+    app: _app2.default,
+    dispatch: _dispatch2.default,
+    observe: _observe2.default,
+    inheritObserved: _observe.inheritObserved,
+    markClean: _observe.markClean,
+    markDirty: _observe.markDirty
+};
+
+var util = {
+    hasProxy: _hasProxy2.default,
+    isObject: _isObject2.default,
+    merge: _merge2.default,
+    isFunction: _isFunction2.default
+};
+
+exports.default = {
+    construct: _component2.default,
+    render: _component.render,
+    update: _component.update,
+    kompo: _component.kompo,
+    setState: _component.setState,
+    mount: _component.mount,
+    react: _component.react,
+    slot: _component.slot,
+    getRouter: _component.getRouter,
+    unmount: _component.unmount,
+    unmountAll: _component.unmountAll,
+    mountIndex: _component.mountIndex,
+    getState: _component.getState,
+    compose: _component.compose,
+    append: _component.append,
+    getProps: _component.getProps,
+    constructClass: _component.constructClass,
+    children: _component.children,
+    appendChildren: _component.appendChildren
+};
+exports.router = router;
+exports.state = state;
+exports.util = util;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.addClasses = exports.throttle = exports.replace = exports.remove = exports.merge = exports.matches = exports.isObject = exports.isFunction = exports.empty = exports.delegate = exports.debounce = exports.addAttributes = exports.createText = exports.createFragment = exports.create = exports.capitalize = undefined;
+
+var _capitalize = __webpack_require__(13);
+
+var _capitalize2 = _interopRequireDefault(_capitalize);
+
+var _create = __webpack_require__(7);
+
+var _create2 = _interopRequireDefault(_create);
+
+var _debounce = __webpack_require__(14);
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+var _delegate = __webpack_require__(15);
+
+var _delegate2 = _interopRequireDefault(_delegate);
+
+var _empty = __webpack_require__(16);
+
+var _empty2 = _interopRequireDefault(_empty);
+
+var _isFunction = __webpack_require__(17);
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
+var _isObject = __webpack_require__(8);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+var _matches = __webpack_require__(9);
+
+var _matches2 = _interopRequireDefault(_matches);
+
+var _merge = __webpack_require__(18);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _remove = __webpack_require__(19);
+
+var _remove2 = _interopRequireDefault(_remove);
+
+var _replace = __webpack_require__(20);
+
+var _replace2 = _interopRequireDefault(_replace);
+
+var _throttle = __webpack_require__(21);
+
+var _throttle2 = _interopRequireDefault(_throttle);
+
+var _addClasses = __webpack_require__(12);
+
+var _addClasses2 = _interopRequireDefault(_addClasses);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.capitalize = _capitalize2.default;
+exports.create = _create2.default;
+exports.createFragment = _create.createFragment;
+exports.createText = _create.createText;
+exports.addAttributes = _create.addAttributes;
+exports.debounce = _debounce2.default;
+exports.delegate = _delegate2.default;
+exports.empty = _empty2.default;
+exports.isFunction = _isFunction2.default;
+exports.isObject = _isObject2.default;
+exports.matches = _matches2.default;
+exports.merge = _merge2.default;
+exports.remove = _remove2.default;
+exports.replace = _replace2.default;
+exports.throttle = _throttle2.default;
+exports.addClasses = _addClasses2.default;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = construct;
+exports.constructClass = constructClass;
+exports.render = render;
+exports.update = update;
+exports.kompo = kompo;
+exports.setState = setState;
+exports.getState = getState;
+exports.mount = mount;
+exports.unmount = unmount;
+exports.unmountAll = unmountAll;
+exports.mountIndex = mountIndex;
+exports.react = react;
+exports.slot = slot;
+exports.hasSlot = hasSlot;
+exports.getRouter = getRouter;
+exports.compose = compose;
+exports.append = append;
+exports.getProps = getProps;
+exports.getMethods = getMethods;
+exports.children = children;
+exports.appendChildren = appendChildren;
+
+var _merge = __webpack_require__(6);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _hasProxy = __webpack_require__(4);
+
+var _hasProxy2 = _interopRequireDefault(_hasProxy);
+
+var _isObject = __webpack_require__(5);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+var _observe = __webpack_require__(3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Adds construct function to Element prototype
+ */
+Object.defineProperty(Element.prototype, 'construct', {
+    writable: true,
+    value: function value() {
+        throw new Error('Must override the construct method');
+    }
+});
+
+/**
+ * Creates a compnent from an Element
+ *
+ * @param tag
+ * @param constructFn
+ * @param defaultProps
+ * @returns {function()}
+ */
+function construct(tag, constructFn) {
+    var defaultProps = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+    return function () {
+        var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        var c = kompo(document.createElement(tag));
+        c.kompo.props = (0, _merge2.default)(_extends({}, defaultProps), props);
+        c.construct = constructFn;
+        return c;
+    };
+}
+
+function constructClass(tag, constructClass) {
+    var defaultProps = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+    var methods = getMethods(constructClass.prototype);
+    return function () {
+        var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        var c = kompo(document.createElement(tag));
+        c.kompo.props = (0, _merge2.default)(_extends({}, defaultProps), props);
+        (0, _merge2.default)(c, methods);
+        return c;
+    };
+}
+
+/**
+ * Renders given component
+ *
+ * @param Element
+ */
+function render(Element) {
+    var kompo = Element.kompo;
+    if (kompo.initial) {
+        Element.construct(kompo.props);
+        kompo.initial = false;
+    } else {
+        update(Element);
+    }
+}
+
+function update(Element) {
+    var kompo = Element.kompo,
+        mounts = kompo.mounts,
+        selector = kompo.selector,
+        state = selector ? selector(Element.__kompo__.state) : Element.__kompo__.state,
+        isRoot = Element === Element.__kompo__.root;
+
+    // State is false, do not run statefulls
+    if (state) {
+        // If is object and flagged dirty or not at all than do not update
+        var checkIfDirty = _hasProxy2.default ? (0, _isObject2.default)(state) || Array.isArray(state) : (0, _isObject2.default)(state) && !Array.isArray(state);
+
+        if (!(checkIfDirty && state.hasOwnProperty('__kompo_dirty__') && state.__kompo_dirty__.length === 0)) {
+            var statefulls = kompo.statefulls;
+            for (var i = 0, l = statefulls.length; i < l; ++i) {
+                statefulls[i](state, Element);
+            }
+        }
+    }
+
+    for (var _i = 0, _l = mounts.length; _i < _l; ++_i) {
+        render(mounts[_i]);
+    }
+
+    if (isRoot) {
+        (0, _observe.markClean)(state);
+    }
+}
+
+function kompo(Element) {
+    Element.kompo = {
+        initial: true,
+        props: {},
+        defaultProps: {},
+        mounts: [],
+        statefulls: [],
+        slots: {},
+        routed: undefined,
+        selector: undefined,
+        state: undefined,
+        unmount: undefined,
+        children: undefined
+    };
+
+    return Element;
+}
+
+function setState(Element, selector) {
+    var kompo = Element.kompo;
+    kompo.state = selector(Element.__kompo__.state);
+    kompo.selector = selector;
+}
+
+function getState(Element) {
+    var selector = Element.kompo.selector;
+    return selector ? selector(Element.__kompo__.state) : Element.__kompo__.state;
+}
+
+function mount(parent, child, selector, sel) {
+    var el = void 0;
+    if (arguments.length >= 3 && (Array.isArray(selector) || selector instanceof Element)) {
+        el = child;
+        child = selector;
+        selector: selector = sel;
+    } else {
+        el = parent;
+    }
+
+    if (Array.isArray(child)) {
+        _mountAll(parent, el, child, selector);
+    } else {
+        _mount(parent, el, child, selector);
+    }
+}
+
+function _mount(parent, Element, child, selector) {
+    if (selector) {
+        setState(child, selector);
+    }
+
+    render(child);
+
+    Element.appendChild(child);
+
+    // Protection if same element is appended multiple times
+    var mounts = parent.kompo.mounts;
+    if (mounts.indexOf(child) === -1) {
+        child.kompo.unmount = function (Element) {
+            mounts.splice(mounts.indexOf(Element), 1);
+        };
+        mounts.push(child);
+    }
+}
+
+function _mountAll(parent, Element, children, selector) {
+    var frag = document.createDocumentFragment();
+
+    // Mount all children ...
+    for (var i = 0, l = children.length; i < l; ++i) {
+        _mount(parent, frag, children[i], selector ? selector(i) : undefined);
+    }
+
+    // ... append to DOM in one go
+    Element.appendChild(frag);
+}
+
+function unmount(Element) {
+    var unm = Element.kompo.unmount;
+    if (unm) {
+        unm(Element);
+    }
+}
+
+function unmountAll(Element) {
+    Element.kompo.mounts = [];
+}
+
+function mountIndex(parent, child) {
+    return parent.kompo.mounts.indexOf(child);
+}
+
+function react(Element, statefull) {
+    var kompo = Element.kompo,
+        selector = kompo.selector;
+
+    kompo.statefulls.push(statefull);
+    statefull(selector ? selector(Element.__kompo__.state) : Element.__kompo__.state, Element);
+}
+
+/**
+ * Mimics the slot functionality of
+ * Web Components
+ *
+ * Slots are named, their name & location is
+ * predefined in the component.
+ *
+ * @param Element
+ * @param name
+ * @param cb
+ */
+function slot(Element, name, cb) {
+    if (arguments.length === 2) {
+        Element.kompo.slots[name](Element);
+    } else {
+        Element.kompo.slots[name] = cb;
+    }
+}
+
+/**
+ * Checks whether a slot with the given name exists
+ *
+ * @param Element
+ * @param name
+ * @returns {boolean}
+ */
+function hasSlot(Element, name) {
+    return Element.kompo.slots[name] ? true : false;
+}
+
+/**
+ * Gets the router from an Element. The router is
+ * add globally to the Element prototype
+ *
+ * @param Element
+ * @returns {router}
+ */
+function getRouter(Element) {
+    return Element.__kompo__.router;
+}
+
+/**
+ * Adds properties to an existing component,
+ * making it possible to compose a component with
+ * different behavior.
+ *
+ * @param constructComponent
+ * @param composeProps
+ * @returns {function()}
+ */
+function compose(constructComponent, composeProps) {
+    return function () {
+        var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        return constructComponent((0, _merge2.default)(composeProps, props));
+    };
+}
+
+function append(parent, child) {
+    render(child);
+    parent.appendChild(child);
+}
+
+function getProps(Element) {
+    return Element.kompo.props;
+}
+
+function getMethods(clss) {
+    var props = [],
+        methods = {};
+
+    var obj = clss;
+
+    do {
+        var ps = Object.getOwnPropertyNames(obj);
+
+        var fps = [];
+        for (var i = 0, l = ps.length; i < l; ++i) {
+            var p = ps[i];
+            if (typeof obj[p] === 'function' //only the methods
+            && p != 'constructor' //not the constructor
+            && (i == 0 || p !== ps[i - 1]) //not overriding in this prototype
+            && props.indexOf(p) === -1 //not overridden in a child
+            ) {
+                    fps.push(p);
+                    methods[p] = clss[p];
+                }
+        }
+
+        props.push.apply(props, fps);
+    } while ((obj = Object.getPrototypeOf(obj)) && //walk-up the prototype chain
+    Object.getPrototypeOf(obj) //not the the Object prototype methods (hasOwnProperty, etc...)
+    );
+
+    return methods;
+}
+
+function children(Element, children) {
+    Element.kompo.children = children;
+    return Element;
+}
+
+function appendChildren(Element, useFragment) {
+    var children = Element.kompo.children,
+        parent = useFragment ? document.createDocumentFragment() : Element;
+
+    for (var i = 0, l = children.length; i < l; ++i) {
+        var child = children[i];
+        if (child.hasOwnProperty('kompo')) {
+            render(child);
+        }
+        parent.appendChild(child);
+    }
+
+    if (useFragment) {
+        Element.appendChild(parent);
+    }
+}
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = observe;
+exports.inheritObserved = inheritObserved;
+exports.markClean = markClean;
+exports.markDirty = markDirty;
+
+var _hasProxy = __webpack_require__(4);
+
+var _hasProxy2 = _interopRequireDefault(_hasProxy);
+
+var _isObject = __webpack_require__(5);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var reservedKeys = ['length', '__kompo_dirty__'];
+
+function observe(obj) {
+    var isObj = (0, _isObject2.default)(obj),
+        isArray = Array.isArray(obj);
+
+    if (!isObj && !isArray) return obj;
+
+    Object.defineProperty(obj, '__kompo_dirty__', {
+        writable: true,
+        value: []
+    });
+
+    if (!_hasProxy2.default) {
+        obj = observeObjectFallback(obj);
+    } else {
+        var keys = Object.keys(obj);
+        for (var i = 0, l = keys.length; i < l; ++i) {
+            var key = keys[i];
+            if (reservedKeys.indexOf(key) === -1) {
+                obj[key] = observe(obj[key]);
+            }
+        }
+
+        if (isArray) {
+            obj = new Proxy(obj, {
+                apply: function apply(target, thisArg, argumentList) {
+                    target.__kompo_dirty__.push(true);
+                    return thisArg[target].apply(this, argumentList);
+                },
+                deleteProperty: function deleteProperty(target) {
+                    target.__kompo_dirty__.push(true);
+                    return true;
+                },
+                set: function set(target, prop, val) {
+                    if (prop !== '__kompo_dirty__' && val != target[prop] && target.__kompo_dirty__.indexOf(prop) === -1) {
+                        target.__kompo_dirty__.push(prop);
+                    }
+
+                    target[prop] = observe(val);
+                    return true;
+                }
+            });
+        } else {
+            obj = new Proxy(obj, {
+                get: function get(target, prop) {
+                    return target[prop];
+                },
+                set: function set(target, prop, val) {
+                    if (prop !== '__kompo_dirty__' && val != target[prop] && target.__kompo_dirty__.indexOf(prop) === -1) {
+                        target.__kompo_dirty__.push(prop);
+                    }
+
+                    target[prop] = observe(val);
+                    return true;
+                }
+            });
+        }
+    }
+
+    return obj;
+}
+
+function observeObjectFallback(obj) {
+    var keys = Object.keys(obj);
+
+    var _loop = function _loop(i, l) {
+        var key = keys[i],
+            newKey = '__' + key,
+            v = obj[key];
+
+        Object.defineProperty(obj, newKey, {
+            writable: true,
+            value: v
+        });
+
+        Object.defineProperty(obj, key, {
+            get: function get() {
+                return this[newKey];
+            },
+            set: function set(val) {
+                if ((0, _isObject2.default)(val)) {
+                    observe(val);
+                }
+
+                if (val != this[key] && obj.__kompo_dirty__.indexOf(key) === -1) {
+                    obj.__kompo_dirty__.push(key);
+                }
+                this[newKey] = val;
+            }
+        });
+
+        obj[key] = v;
+    };
+
+    for (var i = 0, l = keys.length; i < l; ++i) {
+        _loop(i, l);
+    }
+
+    return obj;
+}
+
+function inheritObserved(obj) {
+    var ignored = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+
+    Object.defineProperty(obj, '__kompo_dirty__', {
+        writable: true,
+        value: []
+    });
+
+    var keys = Object.keys(obj);
+
+    for (var i = 0, l = keys.length; i < l; ++i) {
+        var _key = keys[i],
+            value = obj[_key];
+
+        if (ignored.indexOf(_key) > -1) continue;
+
+        if (typeof value === 'undefined') return;
+
+        if (value && value.hasOwnProperty('__kompo_dirty__') && value.__kompo_dirty__.length > 0) {
+            obj.__kompo_dirty__.push(true);
+        }
+    }
+
+    return obj;
+}
+
+function markClean(obj) {
+    var isObj = (0, _isObject2.default)(obj),
+        isArray = Array.isArray(obj);
+
+    if (!isObj && !isArray) return obj;
+
+    obj.__kompo_dirty__ = [];
+
+    if (isArray) {
+        for (var i = 0, l = obj.length; i < l; ++i) {
+            markClean(obj[i]);
+        }
+    } else {
+        var keys = Object.keys(obj);
+        for (var _i = 0, _l = keys.length; _i < _l; ++_i) {
+            markClean(obj[keys[_i]]);
+        }
+    }
+}
+
+function markDirty(obj) {
+    obj.__kompo_dirty__.push(true);
+}
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = 'Proxy' in window;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.default = isObject;
+
+/**
+ * Checks if `value` is the language type of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * **Note:** See the [ES5 spec](https://es5.github.io/#x8) for more details.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+  return type == 'function' || value && type == 'object' || false;
+}
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = merge;
+
+/**
+ * Merges given objects
+ *
+ * @param {...Object} objs - Any given amount of objects
+ * @returns {Object}
+ */
+function merge() {
+    var object = Array.prototype.shift.call(arguments);
+    for (var i = 0; i < arguments.length; i++) {
+        var obj = arguments[i];
+        for (var j in obj) {
+            object[j] = obj[j];
+        }
+    }
+
+    return object;
+}
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = create;
+exports.addAttributes = addAttributes;
+exports.createFragment = createFragment;
+exports.createText = createText;
+var doc = document;
+
+/**
+ * Creates an Element, when no tagName
+ * is given it create an empty div to serve
+ * as root.
+ *
+ * @param {string|undefined} tagName
+ * @returns {Element}
+ */
+function create(tagName, attributes) {
+    var Element = void 0;
+    if (!tagName) {
+        Element = doc.createElement('div');
+    } else {
+        Element = doc.createElement(tagName);
+    }
+
+    if (attributes) {
+        addAttributes(Element, attributes);
+    }
+
+    return Element;
+}
+
+/**
+ * Adds attributes to an Element
+ * through iterating through an object
+ *
+ * @param {Element} Element
+ * @param {Object} obj
+ * @returns {Element}
+ */
+function addAttributes(Element, obj) {
+    var keys = Object.keys(obj);
+    for (var i = 0, l = keys.length; i < l; i++) {
+        var key = keys[i],
+            value = obj[key];
+        Element.setAttribute(key, value);
+    }
+    return Element;
+}
+
+/**
+ * Syntactic sugar for creating a DocumentFragment
+ *
+ * @returns {DocumentFragment}
+ */
+function createFragment() {
+    return doc.createDocumentFragment();
+}
+
+/**
+ * Syntactic sugar for creating a TextNode
+ *
+ * @param {string} str
+ * @returns {Text}
+ */
+function createText(str) {
+    return doc.createTextNode(str);
+}
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+exports.default = isObject;
+
+/**
+ * Checks if `value` is the language type of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * **Note:** See the [ES5 spec](https://es5.github.io/#x8) for more details.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+  return type == 'function' || value && type == 'object' || false;
+}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+/**
+ * Polyfills the matches function on Elements
+ *
+ * Used with event delegation in Components class
+ */
+exports.default = function () {
+    if (!Element.prototype.matches) {
+        var ep = Element.prototype;
+
+        if (ep.webkitMatchesSelector) // Chrome <34, SF<7.1, iOS<8
+            ep.matches = ep.webkitMatchesSelector;
+
+        if (ep.msMatchesSelector) // IE9/10/11 & Edge
+            ep.matches = ep.msMatchesSelector;
+
+        if (ep.mozMatchesSelector) // FF<34
+            ep.matches = ep.mozMatchesSelector;
+    }
+}();
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = dispatch;
+
+var _component = __webpack_require__(2);
+
+function dispatch(Element, cb, noRender) {
+    if (!cb) return;
+
+    var kompo = Element.kompo,
+        state = kompo.selector ? kompo.selector(Element.__kompo__.state) : Element.__kompo__.state;
+
+    if (!state) return;
+
+    cb(state);
+    if (!noRender) (0, _component.render)(Element.__kompo__.root);
+}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isFunction;
+
+/**
+ * Checks if given variable is a function
+ *
+ * @param {*} functionToCheck
+ * @returns {boolean}
+ */
+function isFunction(functionToCheck) {
+  var getType = {};
+  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = addClasses;
+function addClasses(Element, classes) {
+    for (var i = 0, l = classes.length; i < l; ++i) {
+        Element.classList.add(classes[i]);
+    }
+}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = capitalize;
+
+/**
+ * Capitalizes string
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+function capitalize(str) {
+    if (typeof str === "string") {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = debounce;
+
+/**
+ * Debounces a function call
+ *
+ * @param {Function} fn - function to debounce
+ * @param {Number} delay - timeout for debouncing
+ * @param {Object} scope
+ * @returns {Function}
+ */
+function debounce(fn, delay, scope) {
+    var timer = null;
+    return function () {
+        var context = scope || this,
+            args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            fn.apply(context, args);
+        }, delay);
+    };
+}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = delegate;
+
+__webpack_require__(9);
+
+// Self-executing
+
+function delegate(Element, selector, type, listener) {
+    Element.addEventListener(type, function (e) {
+        for (var target = e.target; target && target != this; target = target.parentNode) {
+            // loop parent nodes from the target to the delegation node
+            if (target.matches(selector)) {
+                listener.bind(target)(e);
+                break;
+            }
+        }
+    }, false);
+}
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = empty;
+function empty(Element) {
+    while (Element.lastChild) {
+        Element.removeChild(Element.lastChild);
+    }
+    return Element;
+}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isFunction;
+
+/**
+ * Checks if given variable is a function
+ *
+ * @param {*} functionToCheck
+ * @returns {boolean}
+ */
+function isFunction(functionToCheck) {
+  var getType = {};
+  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = merge;
+/**
+ * Merges given objects
+ *
+ * @param {...Object} objs - Any given amount of objects
+ * @returns {Object}
+ */
+function merge() {
+    var object = Array.prototype.shift.call(arguments);
+    for (var i = 0; i < arguments.length; i++) {
+        var obj = arguments[i];
+        for (var j in obj) {
+            object[j] = obj[j];
+        }
+    }
+
+    return object;
+}
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (Element) {
+    var parent = Element.parentNode;
+    if (parent) {
+        parent.removeChild(Element);
+    }
+};
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = replace;
+
+var _create = __webpack_require__(7);
+
+var _create2 = _interopRequireDefault(_create);
+
+var _isObject = __webpack_require__(8);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ *  Replaces an Node for another one
+ *
+ * @param {Node} parent - parent element to replace child on
+ * @param {*} child - new child to replace for old child
+ * @param {(boolean|Object)} replaceLastChild - replace first or last child | represents an attribute object
+ * @param {boolean} rLC
+ * @returns {Element} child - child element
+ */
+function replace(parent, child) {
+    var replaceLastChild = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+    var rLC = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+    var arg2isObject = (0, _isObject2.default)(arguments[2]);
+    var replacedChild = void 0;
+    if (arg2isObject) {
+        replacedChild = rLC ? parent.lastChild : parent.firstChild;
+    } else {
+        replacedChild = replaceLastChild ? parent.lastChild : parent.firstChild;
+    }
+
+    if (typeof child === 'string') {
+        child = (0, _create2.default)(child);
+    }
+
+    if (arg2isObject) {
+        (0, _create.addAttributes)(child, replaceLastChild);
+    }
+
+    if (replacedChild) {
+        parent.replaceChild(child, replacedChild);
+    } else {
+        parent.appendChild(child);
+    }
+
+    return child;
+}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+"use strict";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = throttle;
+
+/**
+ * Throttle function
+ *
+ * @param {Function} fn - function to throttle
+ * @param {Number} threshold - timeout for throttling
+ * @param {Object} scope
+ * @returns {Function}
+ */
+function throttle(fn, threshold, scope) {
+    threshold || (threshold = 250);
+    var last = void 0,
+        deferTimer = void 0;
+    return function () {
+        var context = scope || this,
+            now = +new Date(),
+            args = arguments;
+        if (last && now < last + threshold) {
+            // hold on to it
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(function () {
+                last = now;
+                fn.apply(context, args);
+            }, threshold);
+        } else {
+            last = now;
+            return fn.apply(context, args);
+        }
+    };
+}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _component = __webpack_require__(2);
+
+var _component2 = _interopRequireDefault(_component);
+
+var _dispatch = __webpack_require__(10);
+
+var _dispatch2 = _interopRequireDefault(_dispatch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = (0, _component2.default)('a', function (_ref) {
+    var _this = this;
+
+    var url = _ref.url;
+    var child = _ref.child;
+    var classNames = _ref.classNames;
+    var data = _ref.data;
+    var title = _ref.title;
+    var defaultEvent = _ref.defaultEvent;
+    var activeClass = _ref.activeClass;
+    var onClick = _ref.onClick;
+
+    // First add classes
+    for (var i = 0, l = classNames.length; i < l; ++i) {
+        this.classList.add(classNames[i]);
+    }
+
+    var router = (0, _component.getRouter)(this);
+
+    (0, _component.react)(this, function () {
+        if (router.isUrl(url)) {
+            _this.classList.add(activeClass);
+        } else {
+            _this.classList.remove(activeClass);
+        }
+    });
+
+    this.setAttribute('href', url);
+
+    if (typeof child === 'string') {
+        this.textContent = child;
+    } else if (child.hasOwnProperty('kompo')) {
+        (0, _component.mount)(this, child);
+    } else if (child instanceof Node) {
+        this.appendChild(child);
+    } else if ((0, _component.hasSlot)(this, 'child')) {
+        (0, _component.slot)(this, 'child');
+    } else {
+        throw new Error('Child should be a string, KompoElement, Node or a slot callback named "child"');
+    }
+
+    this.addEventListener(defaultEvent, function (e) {
+        e.preventDefault();
+        if (onClick) {
+            onClick(e);
+        }
+        router.goTo(url, title, data);
+        (0, _dispatch2.default)(_this, function (state) {
+            state.url = url;
+        });
+    });
+}, {
+    url: '',
+    child: '',
+    classNames: [],
+    data: undefined, // Data to push with pushState()
+    title: '',
+    defaultEvent: 'click',
+    activeClass: 'active',
+    onClick: undefined
+});
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = construct;
+exports.route = route;
+exports.indexRoute = indexRoute;
+exports.swap = swap;
+
+var _merge = __webpack_require__(6);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _component = __webpack_require__(2);
+
+var _isFunction = __webpack_require__(11);
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function construct(props) {
+    props = (0, _merge2.default)({
+        base: '/',
+        url: '/',
+        notFoundCallback: function notFoundCallback(url) {
+            throw new Error('No matching route found for url: ' + url + '. Provide a notFoundCallback callback option or correct the url or route.');
+        }
+    }, props);
+
+    var base = void 0,
+        url = void 0,
+        index = 0,
+        params = [];
+
+    var rawRoutes = {},
+        routes = {};
+
+    setBase(props.base);
+    setUrl(props.url);
+    parseRoute(props.routes);
+
+    function setBase(b) {
+        if (b[0] !== '/') {
+            b = '/' + b;
+        }
+
+        if (b.slice(-1) === '/') {
+            b = b.slice(0, -1);
+        }
+
+        base = b;
+    }
+
+    function setUrl(u) {
+        url = u[0] === '/' ? u : '/' + u;
+    }
+
+    function isUrl(u) {
+        u = u[0] === '/' ? u : '/' + u;
+        return url === u;
+    }
+
+    function parseRoute(Route) {
+        buildPath(Route);
+
+        var rawKeys = Object.keys(rawRoutes);
+        for (var i = 0, l = rawKeys.length; i < l; i++) {
+            var k = rawKeys[i],
+
+            // TODO: Could this be improved?
+            nk = k.replace(/(:([\w-]+))/g, '([\\w-]+)').replace(/\//g, '\\/');
+            routes[nk] = rawRoutes[k];
+        }
+    }
+
+    function buildPath(route) {
+        var ancestors = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+        var hierarchy = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
+        var level = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
+        var children = route.children;
+        var routeComponent = route.component;
+
+        if (routeComponent instanceof Element) {
+            routeComponent.kompo.level = level;
+        } else if (routeComponent instanceof Promise || (0, _isFunction2.default)(routeComponent)) {
+            // Set a level to the promise
+            routeComponent.kompo = { level: level };
+        }
+
+        if (!children) return;
+
+        var basePath = route.path,
+            isRoot = ancestors.length === 0;
+
+        for (var i = 0, l = children.length; i < l; i++) {
+            var childRoute = children[i],
+                componentPath = !isRoot ? ancestors.concat(childRoute.component) : ancestors.concat(routeComponent, childRoute.component),
+                childHierarchy = hierarchy.concat(i);
+
+            var _path = void 0;
+
+            if (childRoute.path[0] === '/') {
+                _path = childRoute.path;
+            } else if (isRoot) {
+                _path = basePath + childRoute.path;
+            } else if (childRoute.path === '') {
+                _path = basePath;
+            } else {
+                _path = basePath + '/' + childRoute.path;
+            }
+
+            childRoute.path = _path;
+            rawRoutes[_path] = {
+                components: componentPath,
+                hierarchy: childHierarchy
+            };
+            buildPath(childRoute, componentPath, childHierarchy, level + 1);
+        }
+    }
+
+    function match(url, against) {
+        var keys = Object.keys(against);
+        for (var i = 0, l = keys.length; i < l; i++) {
+            var regexstr = keys[i],
+                _match = url.match(new RegExp('^' + regexstr + '$'));
+            if (_match !== null) {
+                _match.shift();
+                params = _match;
+                return against[regexstr];
+            }
+        }
+
+        if (props.notFoundCallback) {
+            props.notFoundCallback(url);
+        }
+
+        return []; // Return empty array to keep it all running
+    }
+
+    function getSiblingRoutes(hierarchy) {
+        return scanSiblingsRoutes(hierarchy, props.routes);
+    }
+
+    function scanSiblingsRoutes(hierarchy, parentRoute) {
+        hierarchy = hierarchy.slice(); // Slice in order to prevent editing original array
+        if (hierarchy.length === 1) {
+            return parentRoute.children;
+        }
+
+        return scanSiblingsRoutes(hierarchy, parentRoute.children[hierarchy.shift()]);
+    }
+
+    return {
+        getParams: function getParams() {
+            return params;
+        },
+        isUrl: isUrl,
+        getUrl: function getUrl() {
+            return url;
+        },
+        setTo: function setTo(u) {
+            u = u.replace(base, '');
+            if (isUrl(u)) return false;
+
+            setUrl(u);
+            return true;
+        },
+        goTo: function goTo(u) {
+            var title = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+            var data = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+            if (isUrl(u)) return false;
+
+            setUrl(u);
+
+            history.pushState(data, title, base + url);
+            return true;
+        },
+        get: function get(parent, depth, includeSiblings) {
+            if (parent instanceof Element) {
+                index = parent.kompo.level + 1;
+            }
+
+            var md = match(url, routes),
+                mc = md.components;
+
+            if (depth) {
+                if (includeSiblings) {
+                    mc[index] = {
+                        component: mc[index],
+                        siblings: getSiblingRoutes(md.hierarchy)
+                    };
+                }
+                // For negative values, do + because index-(-depth) will be positive instead of negative
+                if (depth < 0) return mc.slice(index + depth, index + 1);
+                return mc.slice(index, index + depth);
+            } else {
+                return includeSiblings ? {
+                    component: mc[index],
+                    siblings: getSiblingRoutes(md.hierarchy)
+                } : mc[index];
+            }
+        }
+    };
+}
+function route(path, component, children) {
+    return {
+        path: path, component: component, children: children
+    };
+}
+
+function indexRoute(component) {
+    return route('', component);
+}
+
+function swap(component, router, element) {
+    var c = router.get(component),
+        fn = void 0;
+
+    if (c) {
+        if ((0, _isFunction2.default)(c)) {
+            fn = c;
+            c = _toPromise(c);
+        }
+
+        if (c instanceof Element) {
+            _swap(component, c, element);
+        } else if (c instanceof Promise) {
+            if (c.kompo.resolved) {
+                _swap(component, c.kompo.resolved, element);
+            } else {
+                c.then(function (rc) {
+                    rc.kompo.level = c.kompo.level;
+                    _swap(component, rc, element, true);
+                    c.kompo.resolved = rc;
+                    if (fn) fn.kompo.resolved = rc;
+                }).catch(function () {
+                    console.error("Cannot dynamically load module for route");
+                });
+            }
+        }
+    }
+}
+
+function _toPromise(fn) {
+    var pr = fn();
+
+    // Transfer kompo object including level to the promise
+    pr.kompo = fn.kompo;
+
+    return pr;
+}
+
+function _swap(parent, routedComponent, element) {
+    var renderWithRouted = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+    var routed = parent.kompo.routed,
+        el = element ? element : parent;
+
+    if (routed === routedComponent) return;
+
+    if (routed) {
+        if (renderWithRouted) (0, _component.render)(routedComponent);
+        el.replaceChild(routedComponent, routed);
+        parent.kompo.mounts.splice(parent.kompo.mounts.indexOf(routed, 1));
+    } else {
+        (0, _component.render)(routedComponent);
+        el.appendChild(routedComponent);
+    }
+
+    if (parent.kompo.mounts.indexOf(routedComponent) == -1) {
+        parent.kompo.mounts.push(routedComponent);
+    }
+
+    parent.kompo.routed = routedComponent;
+}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = app;
+
+var _observe = __webpack_require__(3);
+
+var _observe2 = _interopRequireDefault(_observe);
+
+var _component = __webpack_require__(2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function app(root, state, router) {
+    state = (0, _observe2.default)(state);
+
+    // Make available for all Elements
+    Object.defineProperty(Element.prototype, '__kompo__', {
+        value: {
+            root: root,
+            state: state,
+            router: router
+        }
+    });
+
+    return {
+        start: function start(selector) {
+            if (selector) {
+                (0, _component.setState)(root, selector);
+            }
+            (0, _component.render)(root);
+            return root;
+        }
+    };
+}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tableRow__ = __webpack_require__(27);
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return tableActions; });
+
+
+
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('table', function (_ref) {
+    var _this = this;
+
+    var appendRow = _ref.appendRow;
+    var rowFilter = _ref.rowFilter;
+    var columnFilter = _ref.columnFilter;
+    var on = _ref.on;
+    var classes = _ref.classes;
+    var oddRowClass = _ref.oddRowClass;
+    var evenRowClass = _ref.evenRowClass;
+
+    var head = document.createElement('thead'),
+        body = document.createElement('tbody'),
+        frag = document.createDocumentFragment();
+
+    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(on)) on(this);
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
+
+    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (state) {
+        var data = state.data,
+            offset = state.offset,
+            limit = state.limit,
+            props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(_this),
+            selectedRows = state.selectedRows,
+            minimize = state.minimize;
+
+        if (!Array.isArray(data) || data.length < 1) return;
+
+        props.rows = [];
+
+        var hasRowFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(rowFilter),
+            hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter),
+            keys = Object.keys(hasColumnFilter ? columnFilter(data[0]) : data[0]);
+
+        // First empty out head and then refresh
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
+        appendRow(_this, head, {
+            filtered: keys,
+            raw: data[0],
+            columnElement: 'th',
+            minimize: minimize,
+            minimizeWhitelist: props.minimizeWhitelist
+        });
+
+        var dataLength = data.length;
+        var os = offset && offset <= dataLength ? offset : 0;
+        var l = typeof limit !== 'undefined' && os + limit < dataLength ? limit : dataLength;
+
+        for (os; os < l; ++os) {
+            var offsetData = data[os];
+            if (hasRowFilter && !rowFilter(offsetData)) continue;
+            appendRow(_this, frag, {
+                filtered: hasColumnFilter ? columnFilter(offsetData) : offsetData,
+                raw: offsetData,
+                index: os,
+                defaultClass: os % 2 == 0 ? evenRowClass : oddRowClass,
+                key: os + 1,
+                rows: props.rows,
+                selectedClass: props.selectedClass,
+                selectedRows: selectedRows,
+                minimize: minimize,
+                minimizeWhitelist: props.minimizeWhitelist
+            });
+        }
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
+        body.appendChild(frag);
+    });
+
+    this.appendChild(head);
+    this.appendChild(body);
+}, {
+    classes: [],
+    oddRowClass: '',
+    evenRowClass: '',
+    minimizeWhitelist: undefined,
+    appendRow: function appendRow(table, parent, props) {
+        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__tableRow__["a" /* default */])(props);
+        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, parent, tr, table.kompo.selector);
+    }
+});
+
+var tableActions = {
+    addLimit: function addLimit(Element, add) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.limit = s.limit + add > s.data.length ? s.data.length : s.limit + add;
+        });
+    },
+    subLimit: function subLimit(Element, sub) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.limit = s.limit - sub <= 0 ? 0 : s.limit - sub;
+        });
+    },
+    setLimit: function setLimit(Element, limit) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            if (limit <= 0) {
+                s.limit = 0;
+                return;
+            }
+
+            if (limit > s.data.length) {
+                s.limit = s.data.length;
+                return;
+            }
+
+            s.limit = limit;
+        });
+    },
+    addOffset: function addOffset(Element, add) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.offset = s.offset + add >= s.data.length ? s.data.length : s.offset + add;
+        });
+    },
+    subOffset: function subOffset(Element, sub) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.offset = s.offset - sub <= 0 ? 0 : s.offset - sub;
+        });
+    },
+    setOffset: function setOffset(Element, offset) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            if (offset <= 0) {
+                s.offset = 0;
+                return;
+            }
+
+            if (offset > s.data.length) {
+                s.offset = s.data.length;
+                return;
+            }
+
+            s.offset = offset;
+        });
+    },
+    minimize: function minimize(Element) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.minimize = true;
+        });
+    },
+    maximize: function maximize(Element) {
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
+            s.minimize = false;
+        });
+    }
+};
+
+/***/ },
+/* 26 */,
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
+    var defaultClass = _ref.defaultClass;
+    var filtered = _ref.filtered;
+    var columnElement = _ref.columnElement;
+    var key = _ref.key;
+    var rows = _ref.rows;
+    var selectedClass = _ref.selectedClass;
+    var selectedRows = _ref.selectedRows;
+    var minimize = _ref.minimize;
+    var minimizeWhitelist = _ref.minimizeWhitelist;
+
+    var arr = void 0,
+        isObject = false;
+    if (!Array.isArray(filtered)) {
+        arr = Object.keys(filtered);
+        isObject = true;
+    } else {
+        arr = filtered;
+    }
+
+    if (defaultClass) this.classList.add(defaultClass);
+
+    if (rows) {
+        rows.push(this);
+    }
+
+    if (key) {
+        this.setAttribute('data-key', key);
+
+        if (typeof selectedRows !== 'undefined' && selectedRows.indexOf(key) > -1) {
+            if (selectedClass) this.classList.add(selectedClass);
+        }
+    }
+
+    for (var i = 0, l = arr.length; i < l; ++i) {
+        var k = isObject ? arr[i] : i;
+
+        if (typeof minimizeWhitelist !== 'undefined') {
+            var onWhitelist = isObject ? minimizeWhitelist.indexOf(k) === -1 : minimizeWhitelist.indexOf(filtered[k]) === -1;
+            if (minimize && onWhitelist) {
+                continue;
+            }
+        }
+
+        var c = this.appendChild(document.createElement(columnElement));
+        c.textContent = filtered[k];
+    }
+}, {
+    key: '',
+    defaultClass: '',
+    filtered: [],
+    raw: [],
+    columnElement: 'td',
+    index: undefined
+});
+
+/***/ },
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableRow__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__accordionTableRow__ = __webpack_require__(37);
+
+
+
+
+
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
+    rowSlot: function rowSlot(c, filtered, raw) {},
+    appendRow: function appendRow(table, parent, props) {
+        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table);
+
+        props.defaultClass = tableProps.rowClass;
+
+        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.append(parent, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__tableRow__["a" /* default */])(props));
+
+        if (typeof props.index !== 'undefined') {
+            __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.append(parent, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__accordionTableRow__["a" /* default */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["merge"])(props, tableProps)));
+        }
+    },
+    on: function on(table) {
+        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
+            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]';
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
+            e.preventDefault();
+            var next = this.nextSibling,
+                props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
+                currentKey = this.getAttribute('data-key');
+
+            if (next) {
+                next.style.display = next.style.display === 'none' ? null : 'none';
+            }
+
+            if (props.showOne && props.key && props.key !== currentKey) {
+                var tr = props.rows[props.key - 1].nextSibling;
+                tr.style.display = 'none';
+            }
+
+            props.key = currentKey;
+        });
+    },
+
+    rowClass: '',
+    showOne: true
+});
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(25);
+
+
+
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
+    on: function on(table) {
+        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
+            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]';
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
+            var _this = this;
+
+            __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(table, function (s) {
+                var selectedRows = s.selectedRows = Array.isArray(s.selectedRows) ? s.selectedRows : [],
+                    key = parseInt(_this.getAttribute('data-key')),
+                    index = selectedRows.indexOf(key);
+
+                if (index === -1) {
+                    selectedRows.push(key);
+                } else {
+                    selectedRows.splice(index, 1);
+                }
+
+                // Force rerender
+                s.selectedRowsLength = selectedRows.length;
+            });
+        });
+    },
+
+    rowClass: '',
+    selectedClass: '',
+    selectOne: false
+});
+
+/***/ },
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
+    var display = _ref.display;
+    var filtered = _ref.filtered;
+    var raw = _ref.raw;
+    var columnElement = _ref.columnElement;
+    var rowSlot = _ref.rowSlot;
+
+    var length = Array.isArray(filtered) ? filtered.length : Object.keys(filtered).length,
+        c = this.appendChild(document.createElement(columnElement));
+
+    c.setAttribute('colspan', length);
+    rowSlot(c, filtered, raw);
+
+    this.style.display = display;
+}, {
+    display: 'none',
+    filtered: [],
+    raw: [],
+    columnElement: 'td',
+    index: undefined,
+    rowSlot: function rowSlot(c, filtered, raw) {}
+});
+
+/***/ },
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__accordionTable__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__selectTable__ = __webpack_require__(33);
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+// Component and content creation classes and functions
+
+
+
+// Example components with self-explanatory name
+
+
+
+
+var doc = document;
+
+// Create root component
+var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', function (_ref) {
+    var _this = this;
+
+    _objectDestructuringEmpty(_ref);
+
+    var addLimit = doc.createElement('a'),
+        subLimit = doc.createElement('a'),
+        addOffset = doc.createElement('a'),
+        subOffset = doc.createElement('a'),
+        minimize = doc.createElement('a'),
+        maximize = doc.createElement('a'),
+        t1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */])({
+        classes: ['o-Table', 'u-mtm'],
+        oddRowClass: 'o-Table-row--isOdd',
+        evenRowClass: 'o-Table-row--isEven',
+        on: function on(table) {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, 'tr', 'click', function (e) {
+                console.log(table.kompo.props.rows);
+            });
+        },
+        minimizeWhitelist: ['firstname']
+    }),
+        t2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__selectTable__["a" /* default */])({
+        columnFilter: function columnFilter(data) {
+            return {
+                Firstname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.firstname),
+                Lastname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.lastname)
+            };
+        },
+
+        selectedClass: 'selected'
+    }),
+        t3 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__accordionTable__["a" /* default */])({
+        showOne: false,
+        columnFilter: function columnFilter(data) {
+            return {
+                Firstname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.firstname),
+                Lastname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.lastname)
+            };
+        },
+        rowSlot: function rowSlot(columnElement, filtered, raw) {
+            var h1 = doc.createElement('h1');
+            h1.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(raw.movie);
+            columnElement.appendChild(h1);
+        }
+    });
+
+    addLimit.textContent = 'Add 1 to limit';
+    addLimit.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addLimit(_this, 1);
+    });
+
+    subLimit.textContent = 'Subtract 1 of limit';
+    subLimit.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subLimit(_this, 1);
+    });
+
+    addOffset.textContent = 'Add 1 to offset';
+    addOffset.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addOffset(_this, 1);
+    });
+
+    subOffset.textContent = 'Subtract 1 of offset';
+    subOffset.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subOffset(_this, 1);
+    });
+
+    minimize.textContent = 'Minimize';
+    minimize.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].minimize(_this);
+    });
+
+    maximize.textContent = 'Maximize';
+    maximize.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].maximize(_this);
+    });
+
+    this.appendChild(addLimit);
+    this.appendChild(subLimit);
+    this.appendChild(addOffset);
+    this.appendChild(subOffset);
+    this.appendChild(minimize);
+    this.appendChild(maximize);
+    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, [t1, t2, t3]);
+});
+
+// Create instance of root and
+// append table to body
+document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {
+    limit: 2,
+    minimize: true,
+    offset: 0,
+    data: [{
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }]
+}).start());
+
+/***/ }
+/******/ ])
+});
+;
 //# sourceMappingURL=table-bundle.js.map

@@ -8,7 +8,7 @@
 
 .o-MultiPanel > div > *  {
     box-sizing: border-box;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
 }
 
 .o-MultiPanel--withOverlay > div > .o-MultiPanel-panel {

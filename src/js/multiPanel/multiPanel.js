@@ -1,42 +1,113 @@
 import component, {state} from 'kompo'; 
-const {getProps,mount, children} = component;
+const {getProps, mount, children, getRouter} = component;
 
-import {create} from 'kompo-util';
+import {create, isObject, throttle} from 'kompo-util';
+
+import getDynamicWidth from '../utils/getDynamicWidth';
 
 import '../../css/multiPanel.css';
 
-// TODO defaultPanel behavior
 const multiPanel = component.construct('div', function({
-    classNames, overlay, defaultPanel, unit, transitionDuration
+    classNames, overlay, unit, transitionDuration
 }){
+    const wrapper = create('div'),
+        children = this.kompo.children,
+        props = getProps(this),
+        router = getRouter(this);
+
+    window.addEventListener('resize', throttle(e => {
+        const c = router.get(component, undefined, true),
+            cc = c.component,
+            index = children.indexOf(cc);
+
+        // No component is routed abort all work
+        if(index < 0) return;
+
+        // Reset totalWidth
+        const changedChildren = [];
+        props.totalWidth = 0;
+
+        for(let i = 0, l = children.length; i < l; ++i) {
+            const child = children[i],
+                childProps = getProps(child),
+                basis = childProps.basis;
+            
+            if(isObject(basis)) {
+                const changedTo = getDynamicWidth(basis);
+                if(changedTo === childProps.activeWidth) {
+                    props.totalWidth = props.totalWidth + childProps.activeWidth;
+                } else {
+                    props.totalWidth = props.totalWidth + changedTo;
+                    childProps.activeWidth = changedTo;
+                    changedChildren.push(true);
+                }
+            } else {
+                props.totalWidth = props.totalWidth + childProps.basis;
+            }
+        }
+
+        // If no children have changed don't change anything
+        if (changedChildren.length === 0) return;
+
+        props.totalWidthPercentage = 100 / props.totalWidth * 100;
+
+        for(let i = 0, l = children.length; i < l; ++i) {
+            const child = children[i],
+                childProps = getProps(child),
+                basis = childProps.basis,
+                percentage = isObject(basis)?
+                    childProps.activeWidth/100*props.totalWidthPercentage:
+                    basis/100*props.totalWidthPercentage;
+
+            child.style.flexBasis = percentage + unit;
+        }
+
+        // Use double request animation frames to make sure
+        // the panels do not animate on resize
+        wrapper.style.transition = 'none';
+        requestAnimationFrame(() => {
+            slideTo(this, children, index);
+            requestAnimationFrame(() => {
+                wrapper.style.transition = 'transform ' + transitionDuration + 'ms';
+            });
+        });
+    }, 200));
+
     classNames.push('o-MultiPanel');
     if (overlay) classNames.push('o-MultiPanel--withOverlay');
     this.classList.add(...classNames);
 
-    const wrapper = create('div'),
-        children = this.kompo.children;
-        
     for(let i = 0, l = children.length; i < l; ++i) {
         const child = children[i],
-            props = getProps(child);
-        
-        props.index = i;
-        props.slideTo = (index) => {
+            childProps = getProps(child);
+
+        childProps.index = i;
+        childProps.slideTo = (index) => {
             return slideTo(this, children, index);
         };
-        
-        this.kompo.props.totalWidth = this.kompo.props.totalWidth + props.basis;
+
+        if(isObject(childProps.basis)) {
+            const dw = getDynamicWidth(childProps.basis);
+            props.totalWidth = props.totalWidth + dw;
+            childProps.activeWidth = dw
+        } else {
+            props.totalWidth = props.totalWidth + childProps.basis;
+        }
+
+        childProps.multiPanelProps = props;
     }
 
+    props.totalWidthPercentage = 100 / props.totalWidth * 100;
+
     wrapper.style.transition = 'transform ' + transitionDuration + 'ms';
-    wrapper.style.width = this.kompo.props.totalWidth + unit;
-    this.kompo.props.wrapper = wrapper;
+    wrapper.style.width = props.totalWidth + unit;
+
+    props.wrapper = wrapper;
 
     mount(this, wrapper, children);
     this.appendChild(wrapper);
 }, {
     classNames: [],
-    defaultPanel: 0,
     unit: '%',
     transitionDuration: 500,
     totalWidth: 0,
@@ -47,36 +118,38 @@ const multiPanel = component.construct('div', function({
 export default multiPanel;
 
 export function slideTo(multiPanel, panels, index) {
-    let translateToAbsolute = 0;
+    let translateTo = 0,
+        totalPercentage = 0;
 
-    const mpProps = getProps(multiPanel);
-
-    for(let i = 0, l = index; i < l  ;++i) {
-        const panel = panels[i],
-            next = panels[i+1],
-            props = getProps(panel);
-
-        if(next) {
-            const nProps = getProps(next);
-            if (nProps.basis < 100) {
-                translateToAbsolute = translateToAbsolute - (100 - nProps.basis);
-            }
-        }
-
-        translateToAbsolute = translateToAbsolute + props.basis
-    }
+    const props = getProps(multiPanel);
 
     for(let i = 0, l = panels.length; i < l  ;++i) {
-        if(i === index) {
-            panels[i].classList.add('o-MultiPanel-panel--selected');
-        } else {
-            panels[i].classList.remove('o-MultiPanel-panel--selected');
+        const panel = panels[i];
+
+        if (i < index) {
+            translateTo = translateTo + getFlexBasis(panel);
         }
+
+        if(i === index) {
+            panel.classList.add('o-MultiPanel-panel--selected');
+        } else {
+            panel.classList.remove('o-MultiPanel-panel--selected');
+        }
+
+        totalPercentage = totalPercentage + getFlexBasis(panel);
     }
 
-    // Factor into percentages
-    const translateTo = translateToAbsolute / mpProps.totalWidth * 100;
-    mpProps.wrapper.style.transform = 'translateX(-' + translateTo + mpProps.unit + ')';
+    if(index == panels.length-1) {
+        const lastPanel = panels[panels.length-1],
+            basis = lastPanel.kompo.props.basis,
+            lastBasis = isObject(basis)? basis.active : basis;
+
+          translateTo = translateTo - (100 - lastBasis)/100*props.totalWidthPercentage;
+    }
+
+    const unit = props.unit;
+    props.wrapper.style.width = props.totalWidth + unit;
+    props.wrapper.style.transform = 'translateX(-' + translateTo + unit + ')';
 }
 
 
@@ -95,6 +168,7 @@ export function slide(component:KompoElement, router:router, element:Element):vo
                 const route = routes[i],
                     co = route.component;
 
+                // TODO this does not work as expected
                 co.kompo.props.slideToUrl = () => {
                     router.goTo(route.path);
                     return route.path;
@@ -121,4 +195,14 @@ export function slide(component:KompoElement, router:router, element:Element):vo
             component.kompo.routed = cc;
         }
     };
+}
+
+function getFlexBasis(el) {
+    let fb = parseFloat(window.getComputedStyle(el).flexBasis);
+
+    if(isNaN(fb)) {
+       fb = parseFloat(el.style.flexBasis);
+    }
+
+    return fb;
 }
