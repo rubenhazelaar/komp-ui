@@ -103,7 +103,8 @@ const multiPanel = component.construct('div', function({
 
     props.wrapper = wrapper;
 
-    mount(this, wrapper, children);
+    // Pass on selector
+    mount(this, wrapper, children, this.kompo.selector);
     this.appendChild(wrapper);
 }, {
     classNames: [],
