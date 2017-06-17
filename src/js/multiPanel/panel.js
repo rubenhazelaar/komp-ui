@@ -36,7 +36,7 @@ export default component.construct('div', function({
     // Pass on level to component for further routing
     component.kompo.level = this.kompo.level;
 
-    mount(this, component, this.kompo.selector)
+    mount(this, component, this.kompo.selector, false)
 }, {
     classNames: [],
     basis: 100,
