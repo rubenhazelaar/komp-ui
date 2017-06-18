@@ -23,7 +23,9 @@ export default component.compose(table, {
         const tr = tableRow(props),
             contentTr = accordionTableRow(props),
             selector = s => {
-                return s.data[key];
+                return table.kompo.selector?
+                    table.kompo.selector(s).data[key]:
+                    s.data[key];
             };
         
         rows[key] = [
@@ -42,7 +44,6 @@ export default component.compose(table, {
             e.preventDefault();
             const next = this.nextSibling,
                 props = component.getProps(table);
-            console.log(123);
         });
     },
     rowClass: '',

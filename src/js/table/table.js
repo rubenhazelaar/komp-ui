@@ -97,7 +97,9 @@ export default component.construct('table', function({
         const tr = tableRow(props);
         rows[key] = tr;
         component.mount(table, frag, tr, s => {
-            return s.data[key];
+            return table.kompo.selector?
+                table.kompo.selector(s).data[key]:
+                s.data[key];
         });
     },
     appendHead(
@@ -111,7 +113,9 @@ export default component.construct('table', function({
         const tr = tableHead(props);
         tableProps.headRow = tr;
         component.mount(table, head, tr, s => {
-            return s.data[0];
+            return table.kompo.selector?
+                table.kompo.selector(s).data[0]:
+                s.data[0];
         });
     }
 });
