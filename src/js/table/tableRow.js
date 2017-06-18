@@ -36,10 +36,10 @@ export default component.construct('tr', function({
             // }
 
             const c = this.appendChild(document.createElement('td'));
-            if(typeof v === 'string') {
-                c.textContent = v;    
+            if(v instanceof Node) {
+                c.appendChild(v);    
             } else {
-                c.appendChild(v);
+                c.textContent = v;
             }
         }
     });
