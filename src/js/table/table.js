@@ -31,7 +31,9 @@ export default component.construct('table', function({
         const data = state.data,
             offset = state.offset,
             limit = state.limit,
-            minimize = state.minimize;
+            minimize = state.minimize,
+            rowFilter = props.rowFilter,
+            columnFilter = props.columnFilter;
 
         if(!Array.isArray(data) || data.length < 1) return;
 
