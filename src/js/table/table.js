@@ -5,7 +5,6 @@ import tableRow from './tableRow';
 import tableHead from './tableHead';
 
 export default component.construct('table', function({
-    getUniqueIdentifier,
     appendRow,
     on,
     classes,
@@ -24,8 +23,6 @@ export default component.construct('table', function({
 
     addClasses(this, classes);
 
-    props.rows = [];
-
     component.react(this, state => {
         const data = state.data,
             offset = state.offset,
@@ -42,7 +39,6 @@ export default component.construct('table', function({
         appendHead(
             this,
             head,
-            props,
             {
                 defaultClass: headRowClass,
                 minimizeWhitelist: props.minimizeWhitelist,
@@ -53,16 +49,14 @@ export default component.construct('table', function({
 
         const dataLength = data.length;
         let os = offset && offset <= dataLength? offset: 0;
-        const l = typeof limit !== 'undefined' && os+limit < dataLength? limit: dataLength,
-            hasKeyFunction = isFunction(getUniqueIdentifier);
+        const l = typeof limit !== 'undefined' && os+limit < dataLength? limit: dataLength;
 
         for(os; os < l; ++os) {
             if (hasRowFilter && !rowFilter(data[os])) continue;
             appendRow(
                 this,
                 frag,
-                props.rows,
-                hasKeyFunction? getUniqueIdentifier(): os,
+                os,
                 {
                     defaultClass: os % 2 == 0? evenRowClass: oddRowClass,
                     selectedClass: selectedClass,
@@ -84,21 +78,13 @@ export default component.construct('table', function({
     evenRowClass: '',
     headRowClass: '',
     minimizeWhitelist: undefined,
-    getUniqueIdentifier: undefined,
     appendRow(
         table,
         frag,
-        rows,
         key,
         props
     ) {
-        if(rows[key]) {
-            frag.appendChild(rows[key]);
-            return;
-        }
-
         const tr = tableRow(props);
-        rows[key] = tr;
         component.mount(table, frag, tr, s => {
             return table.kompo.selector?
                 table.kompo.selector(s).data[key]:
@@ -108,13 +94,9 @@ export default component.construct('table', function({
     appendHead(
         table,
         head,
-        tableProps,
         props
     ) {
-        if(tableProps.headRow) return;
-
         const tr = tableHead(props);
-        tableProps.headRow = tr;
         component.mount(table, head, tr, s => {
             return table.kompo.selector?
                 table.kompo.selector(s).data[0]:
