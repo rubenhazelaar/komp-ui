@@ -17,6 +17,7 @@ const root = component.construct('div', function({}) {
         subOffset = doc.createElement('a'),
         minimize = doc.createElement('a'),
         maximize = doc.createElement('a'),
+        addState = doc.createElement('a'),
         t1 = table({
             classes: ['o-Table', 'u-mtm'],
             oddRowClass: 'o-Table-row--isOdd',
@@ -96,12 +97,35 @@ const root = component.construct('div', function({}) {
         tableActions.maximize(this);
     });
 
+    addState.textContent = 'addState';
+    addState.addEventListener('click', e => {
+        e.preventDefault();
+        state.dispatch(this, state => {
+            state.data = [
+                {
+                    firstname: 'rick',
+                    lastname: 'deckard',
+                    movie: 'blade runner'
+                }, {
+                    firstname: 'mia',
+                    lastname: 'wallace',
+                    movie: 'pulp fiction'
+                },{
+                    firstname: 'rocky',
+                    lastname: 'balboa',
+                    movie: 'rocky'
+                }
+            ];
+        })
+    });
+
     this.appendChild(addLimit);
     this.appendChild(subLimit);
     this.appendChild(addOffset);
     this.appendChild(subOffset);
     this.appendChild(minimize);
     this.appendChild(maximize);
+    this.appendChild(addState);
     component.mount(this, [t1, t2, t3]);
 });
 
@@ -112,19 +136,19 @@ document.body.appendChild(state.app(root(), {
     minimize: true,
     offset: 0,
     data: [
-        {
-            firstname: 'rick',
-            lastname: 'deckard',
-            movie: 'blade runner'
-        }, {
-            firstname: 'mia',
-            lastname: 'wallace',
-            movie: 'pulp fiction'
-        },{
-            firstname: 'rocky',
-            lastname: 'balboa',
-            movie: 'rocky'
-        }
+        // {
+        //     firstname: 'rick',
+        //     lastname: 'deckard',
+        //     movie: 'blade runner'
+        // }, {
+        //     firstname: 'mia',
+        //     lastname: 'wallace',
+        //     movie: 'pulp fiction'
+        // },{
+        //     firstname: 'rocky',
+        //     lastname: 'balboa',
+        //     movie: 'rocky'
+        // }
     ]
 }).start());
 

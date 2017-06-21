@@ -12,7 +12,9 @@ export default component.construct('table', function({
     evenRowClass,
     selectedClass,
     appendHead,
-    headRowClass
+    headRowClass,
+    emptyNotice,
+    emptyClass,
 }) {
     const head = document.createElement('thead'),
         body = document.createElement('tbody'),
@@ -23,6 +25,8 @@ export default component.construct('table', function({
 
     addClasses(this, classes);
 
+    let wasEmpty = false;
+
     component.react(this, state => {
         const data = state.data,
             offset = state.offset,
@@ -31,7 +35,26 @@ export default component.construct('table', function({
             rowFilter = props.rowFilter,
             columnFilter = props.columnFilter;
 
-        if(!Array.isArray(data) || data.length < 1) return;
+        if(!Array.isArray(data)) return;
+
+        // When empty...
+        if(data.length == 0) {
+            // ... render empty notice
+            const tr = document.createElement('tr'),
+                td = document.createElement('td');
+
+            td.textContent = emptyNotice;
+            tr.appendChild(td);
+            this.appendChild(tr);
+            this.classList.add(emptyClass);
+            wasEmpty = true;
+            return;
+        } else if(wasEmpty)  {
+            // Remove empty notice
+            empty(this);
+            this.classList.remove(emptyClass);
+            wasEmpty = false;
+        }
 
         const hasRowFilter = isFunction(rowFilter),
             hasColumnFilter = isFunction(columnFilter);
@@ -81,6 +104,8 @@ export default component.construct('table', function({
     evenRowClass: '',
     headRowClass: '',
     minimizeWhitelist: undefined,
+    emptyNotice: 'No data found',
+    emptyClass: 'empty',
     appendRow(
         table,
         frag,
