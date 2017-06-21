@@ -36,6 +36,9 @@ export default component.construct('table', function({
         const hasRowFilter = isFunction(rowFilter),
             hasColumnFilter = isFunction(columnFilter);
 
+        // Empty out before append
+        empty(head);
+
         appendHead(
             this,
             head,
