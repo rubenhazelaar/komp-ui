@@ -5,9 +5,8 @@ import tableRow from './tableRow';
 import tableHead from './tableHead';
 
 export default component.construct('table', function({
+    getUniqueIdentifier,
     appendRow,
-    rowFilter,
-    columnFilter,
     on,
     classes,
     oddRowClass,
@@ -54,7 +53,8 @@ export default component.construct('table', function({
 
         const dataLength = data.length;
         let os = offset && offset <= dataLength? offset: 0;
-        const l = typeof limit !== 'undefined' && os+limit < dataLength? limit: dataLength;
+        const l = typeof limit !== 'undefined' && os+limit < dataLength? limit: dataLength,
+            hasKeyFunction = isFunction(getUniqueIdentifier);
 
         for(os; os < l; ++os) {
             if (hasRowFilter && !rowFilter(data[os])) continue;
@@ -62,7 +62,7 @@ export default component.construct('table', function({
                 this,
                 frag,
                 props.rows,
-                os,
+                hasKeyFunction? getUniqueIdentifier(): os,
                 {
                     defaultClass: os % 2 == 0? evenRowClass: oddRowClass,
                     selectedClass: selectedClass,
@@ -84,6 +84,7 @@ export default component.construct('table', function({
     evenRowClass: '',
     headRowClass: '',
     minimizeWhitelist: undefined,
+    getUniqueIdentifier: undefined,
     appendRow(
         table,
         frag,
