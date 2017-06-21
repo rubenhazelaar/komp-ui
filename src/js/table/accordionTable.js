@@ -10,16 +10,9 @@ export default component.compose(table, {
     appendRow(
         table,
         frag,
-        rows,
         key,
         props
     ) {
-        if(rows[key]) {
-            frag.appendChild(rows[key][0]);
-            frag.appendChild(rows[key][1]);
-            return;
-        }
-
         const tr = tableRow(props),
             contentTr = accordionTableRow(props),
             selector = s => {
@@ -27,11 +20,7 @@ export default component.compose(table, {
                     table.kompo.selector(s).data[key]:
                     s.data[key];
             };
-        
-        rows[key] = [
-            tr,
-            contentTr
-        ];
+
         
         component.mount(table, frag, tr, selector);
         component.mount(table, frag, contentTr, selector);

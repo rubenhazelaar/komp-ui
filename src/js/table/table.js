@@ -37,6 +37,10 @@ export default component.construct('table', function({
 
         if(!Array.isArray(data)) return;
 
+        // Empty out before append
+        empty(head);
+
+
         // When empty...
         if(data.length == 0) {
             // ... render empty notice
@@ -45,22 +49,19 @@ export default component.construct('table', function({
 
             td.textContent = emptyNotice;
             tr.appendChild(td);
-            this.appendChild(tr);
+            head.appendChild(tr);
             this.classList.add(emptyClass);
             wasEmpty = true;
+            empty(body);
             return;
         } else if(wasEmpty)  {
             // Remove empty notice
-            empty(this);
             this.classList.remove(emptyClass);
             wasEmpty = false;
         }
 
         const hasRowFilter = isFunction(rowFilter),
             hasColumnFilter = isFunction(columnFilter);
-
-        // Empty out before append
-        empty(head);
 
         appendHead(
             this,

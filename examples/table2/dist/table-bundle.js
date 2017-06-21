@@ -1865,6 +1865,9 @@ function app(root, state, router) {
 
         if (!Array.isArray(data)) return;
 
+        // Empty out before append
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
+
         // When empty...
         if (data.length == 0) {
             // ... render empty notice
@@ -1873,22 +1876,19 @@ function app(root, state, router) {
 
             td.textContent = emptyNotice;
             tr.appendChild(td);
-            _this.appendChild(tr);
+            head.appendChild(tr);
             _this.classList.add(emptyClass);
             wasEmpty = true;
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
             return;
         } else if (wasEmpty) {
             // Remove empty notice
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(_this);
             _this.classList.remove(emptyClass);
             wasEmpty = false;
         }
 
         var hasRowFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(rowFilter),
             hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter);
-
-        // Empty out before append
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
 
         appendHead(_this, head, {
             defaultClass: headRowClass,
@@ -2090,20 +2090,12 @@ var tableActions = {
 
 /* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
     rowSlot: function rowSlot(c, filtered, raw) {},
-    appendRow: function appendRow(table, frag, rows, key, props) {
-        if (rows[key]) {
-            frag.appendChild(rows[key][0]);
-            frag.appendChild(rows[key][1]);
-            return;
-        }
-
+    appendRow: function appendRow(table, frag, key, props) {
         var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__tableRow__["a" /* default */])(props),
             contentTr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__accordionTableRow__["a" /* default */])(props),
             selector = function selector(s) {
             return table.kompo.selector ? table.kompo.selector(s).data[key] : s.data[key];
         };
-
-        rows[key] = [tr, contentTr];
 
         __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, frag, tr, selector);
         __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, frag, contentTr, selector);
@@ -2284,6 +2276,7 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
         minimize = doc.createElement('a'),
         maximize = doc.createElement('a'),
         addState = doc.createElement('a'),
+        removeState = doc.createElement('a'),
         t1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_table_table__["a" /* default */])({
         classes: ['o-Table', 'u-mtm'],
         oddRowClass: 'o-Table-row--isOdd',
@@ -2383,6 +2376,14 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
         });
     });
 
+    removeState.textContent = 'removeState';
+    removeState.addEventListener('click', function (e) {
+        e.preventDefault();
+        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(_this, function (state) {
+            state.data = [];
+        });
+    });
+
     this.appendChild(addLimit);
     this.appendChild(subLimit);
     this.appendChild(addOffset);
@@ -2390,6 +2391,7 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
     this.appendChild(minimize);
     this.appendChild(maximize);
     this.appendChild(addState);
+    this.appendChild(removeState);
     __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, [t1, t2, t3]);
 });
 

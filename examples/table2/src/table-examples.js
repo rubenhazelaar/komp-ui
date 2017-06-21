@@ -18,6 +18,7 @@ const root = component.construct('div', function({}) {
         minimize = doc.createElement('a'),
         maximize = doc.createElement('a'),
         addState = doc.createElement('a'),
+        removeState = doc.createElement('a'),
         t1 = table({
             classes: ['o-Table', 'u-mtm'],
             oddRowClass: 'o-Table-row--isOdd',
@@ -119,6 +120,14 @@ const root = component.construct('div', function({}) {
         })
     });
 
+    removeState.textContent = 'removeState';
+    removeState.addEventListener('click', e => {
+        e.preventDefault();
+        state.dispatch(this, state => {
+            state.data = [];
+        })
+    });
+
     this.appendChild(addLimit);
     this.appendChild(subLimit);
     this.appendChild(addOffset);
@@ -126,6 +135,7 @@ const root = component.construct('div', function({}) {
     this.appendChild(minimize);
     this.appendChild(maximize);
     this.appendChild(addState);
+    this.appendChild(removeState);
     component.mount(this, [t1, t2, t3]);
 });
 
