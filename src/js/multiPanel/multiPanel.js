@@ -8,7 +8,7 @@ import getDynamicWidth from '../utils/getDynamicWidth';
 import '../../css/multiPanel.css';
 
 const multiPanel = component.construct('div', function({
-    classNames, overlay, unit, transitionDuration
+    classNames, overlay, unit, transitionDuration, easingFunction
 }){
     const wrapper = create('div'),
         children = this.kompo.children,
@@ -98,7 +98,7 @@ const multiPanel = component.construct('div', function({
 
     wrapper.style.width = props.totalWidth + unit;
     requestAnimationFrame(() => {
-        wrapper.style.transition = 'transform ' + transitionDuration + 'ms';
+        wrapper.style.transition = 'transform ' + transitionDuration + 'ms ' + easingFunction;
     });
 
     props.wrapper = wrapper;
@@ -112,7 +112,8 @@ const multiPanel = component.construct('div', function({
     transitionDuration: 500,
     totalWidth: 0,
     wrapper: undefined,
-    overlay: true
+    overlay: true,
+    easingFunction: 'ease'
 });
 
 export default multiPanel;

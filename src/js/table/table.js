@@ -40,7 +40,6 @@ export default component.construct('table', function({
         // Empty out before append
         empty(head);
 
-
         // When empty...
         if(data.length == 0) {
             // ... render empty notice
