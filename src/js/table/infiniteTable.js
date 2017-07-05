@@ -176,73 +176,8 @@ export default component.construct('table', function({
     scrollThrottle: 10
 });
 
-export const tableActions = {
-    addLimit(Element, add) {
-        state.dispatch(Element, s => {
-            s.limit = s.limit + add > s.data.length?
-                s.data.length:
-                s.limit + add;
-        });
-    },
-    subLimit(Element, sub) {
-        state.dispatch(Element, s => {
-            s.limit = s.limit - sub <= 0?
-                0:
-                s.limit - sub;
-        });
-    },
-    setLimit(Element, limit) {
-        state.dispatch(Element, s => {
-            if(limit <= 0) {
-                s.limit = 0;
-                return
-            }
-
-            if(limit > s.data.length) {
-                s.limit = s.data.length;
-                return
-            }
-            
-            s.limit = limit;
-        });
-    },
-    addOffset(Element, add) {
-        state.dispatch(Element, s => {
-            s.offset = s.offset + add >= s.data.length?
-                s.data.length:
-                s.offset + add;
-        });
-    },
-    subOffset(Element, sub) {
-        state.dispatch(Element, s => {
-            s.offset = s.offset - sub <= 0?
-                0:
-                s.offset - sub;
-        });
-    },
-    setOffset(Element, offset) {
-        state.dispatch(Element, s => {
-            if(offset <= 0) {
-                s.offset = 0;
-                return
-            }
-
-            if(offset > s.data.length) {
-                s.offset = s.data.length;
-                return
-            }
-
-            s.offset = offset;
-        });
-    },
-    minimize(Element) {
-        state.dispatch(Element, s => {
-            s.minimize = true;  
-        });
-    },
-    maximize(Element) {
-        state.dispatch(Element, s => {
-            s.minimize = false;
-        });
-    }
-};
+export function resetSpacers(infiniteTable) {
+    const props = infiniteTable.kompo.props;
+    props.topSpacer.style.height = 0;
+    props.bottomSpacer.style.height = 0;
+}
