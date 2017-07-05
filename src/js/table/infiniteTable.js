@@ -34,6 +34,8 @@ export default component.construct('table', function({
 
     let wasEmpty = false;
 
+    scrollableElement = isFunction(scrollableElement)? scrollableElement(): scrollableElement;
+
     if(scrollableElement) {
         scrollableElement.style.overflowAnchor = 'none'; // Prevent weird Chrome 56+ behavior
         scrollableElement.addEventListener('scroll', throttle(e => {
