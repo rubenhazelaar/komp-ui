@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Table Component - Kompo UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <style>
+        a {
+            display: inline-block;
+            padding: 1em;
+            margin: 1em;
+            border: 1px solid #000;
+        }
+
+        a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        tr {
+            height:20px;
+            box-sizing: border-box;
+        }
+
+        td {
+            border-top: 1px solid #000;
+        }
+
+        tr:first-child td {
+            border-top:none;
+        }
+
+        th {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .u-mbn {
+            margin-bottom: 0 !important;
+        }
+
+        .notVisible td {
+            background-color: orange;
+            display: none;
+        }
+
+        .selected td {
+            background-color: yellow;
+        }
+
+        .o-Scrollable {
+            box-sizing: border-box;
+            border: 1px solid #000;
+            height: 200px;
+            overflow: auto;
+        }
+    </style>
+ </head>
+<body>
+<script src="dist/table-bundle.js"></script>
+</body>
+</html>

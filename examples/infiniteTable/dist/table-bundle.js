@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 48);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1813,11 +1813,7 @@ function app(root, state, router) {
 
 /***/ },
 /* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1825,8 +1821,125 @@ function app(root, state, router) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tableRow__ = __webpack_require__(32);
-/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return tableActions; });
+
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
+    var _this = this;
+
+    var defaultClass = _ref.defaultClass;
+    var selectedClass = _ref.selectedClass;
+    var hasColumnFilter = _ref.hasColumnFilter;
+    var columnFilter = _ref.columnFilter;
+
+
+    if (defaultClass) this.classList.add(defaultClass);
+
+    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (s) {
+        if (selectedClass) {
+            if (s.selected) {
+                _this.classList.add(selectedClass);
+            } else {
+                _this.classList.remove(selectedClass);
+            }
+        }
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(_this);
+        var data = hasColumnFilter ? columnFilter(s) : s,
+            keys = Object.keys(data);
+        for (var i = 0, l = keys.length; i < l; ++i) {
+            var k = keys[i],
+                v = data[k];
+
+            // if(typeof minimizeWhitelist !== 'undefined') {
+            //     const onWhitelist = isObject?
+            //     minimizeWhitelist.indexOf(k) === -1:
+            //     minimizeWhitelist.indexOf(filtered[k]) === -1;
+            //     if(minimize && onWhitelist) {
+            //         continue;
+            //     }
+            // }
+
+            var c = _this.appendChild(document.createElement('td'));
+            if (v instanceof Node) {
+                c.appendChild(v);
+            } else {
+                c.textContent = v;
+            }
+        }
+    });
+}, {
+    defaultClass: ''
+});
+
+/***/ },
+/* 27 */,
+/* 28 */,
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+
+
+
+/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
+    var _this = this;
+
+    var defaultClass = _ref.defaultClass;
+    var hasColumnFilter = _ref.hasColumnFilter;
+    var columnFilter = _ref.columnFilter;
+
+
+    if (defaultClass) this.classList.add(defaultClass);
+
+    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (s) {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(_this);
+        var data = hasColumnFilter ? columnFilter(s) : s,
+            keys = Object.keys(data);
+        for (var i = 0, l = keys.length; i < l; ++i) {
+            // if(typeof minimizeWhitelist !== 'undefined') {
+            //     const onWhitelist = isObject?
+            //     minimizeWhitelist.indexOf(k) === -1:
+            //     minimizeWhitelist.indexOf(filtered[k]) === -1;
+            //     if(minimize && onWhitelist) {
+            //         continue;
+            //     }
+            // }
+
+            var c = _this.appendChild(document.createElement('th'));
+            c.textContent = keys[i];
+        }
+    });
+}, {
+    defaultClass: ''
+});
+
+/***/ },
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tableRow__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableHead__ = __webpack_require__(29);
+/* unused harmony export tableActions */
+
 
 
 
@@ -1836,71 +1949,119 @@ function app(root, state, router) {
     var _this = this;
 
     var appendRow = _ref.appendRow;
-    var rowFilter = _ref.rowFilter;
-    var columnFilter = _ref.columnFilter;
     var on = _ref.on;
     var classes = _ref.classes;
     var oddRowClass = _ref.oddRowClass;
     var evenRowClass = _ref.evenRowClass;
+    var selectedClass = _ref.selectedClass;
+    var appendHead = _ref.appendHead;
+    var headRowClass = _ref.headRowClass;
+    var emptyNotice = _ref.emptyNotice;
+    var emptyClass = _ref.emptyClass;
+    var scrollableElement = _ref.scrollableElement;
+    var topSpacer = _ref.topSpacer;
+    var bottomSpacer = _ref.bottomSpacer;
+    var rowHeight = _ref.rowHeight;
+    var blockSize = _ref.blockSize;
+    var scrollThrottle = _ref.scrollThrottle;
 
     var head = document.createElement('thead'),
         body = document.createElement('tbody'),
+        props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(this),
         frag = document.createDocumentFragment();
 
     if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(on)) on(this);
 
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
 
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (state) {
+    var wasEmpty = false;
+
+    if (scrollableElement) {
+        scrollableElement.style.overflowAnchor = 'none'; // Prevent weird Chrome 56+ behavior
+        scrollableElement.addEventListener('scroll', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["throttle"])(function (e) {
+            var state = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState(_this),
+                dataLength = state.data.length,
+                scrollPosition = scrollableElement.scrollTop,
+
+            // TODO clientHeight could be troublesome
+            reqPerBody = (Math.ceil(scrollableElement.clientHeight / rowHeight / blockSize) + 2) * blockSize,
+                visibleStart = Math.floor(scrollPosition / rowHeight),
+                renderStart = Math.max((Math.floor(visibleStart / blockSize) - 1) * blockSize, 0),
+                visibleEnd = Math.min(renderStart + reqPerBody, dataLength);
+
+            if (state.offset !== renderStart || state.limit !== visibleEnd - renderStart) {
+                state.offset = renderStart;
+                state.limit = visibleEnd - renderStart;
+                reactFn(state);
+            }
+        }, scrollThrottle));
+    }
+
+    var reactFn = function reactFn(state) {
         var data = state.data,
             offset = state.offset,
             limit = state.limit,
-            props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(_this),
-            selectedRows = state.selectedRows,
-            minimize = state.minimize;
+            minimize = state.minimize,
+            rowFilter = props.rowFilter,
+            columnFilter = props.columnFilter;
 
-        if (!Array.isArray(data) || data.length < 1) return;
+        if (!Array.isArray(data)) return;
 
-        props.rows = [];
+        // Empty out before append
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
+
+        // When empty...
+        if (data.length == 0) {
+            // ... render empty notice
+            var tr = document.createElement('tr'),
+                td = document.createElement('td');
+
+            td.textContent = emptyNotice;
+            tr.appendChild(td);
+            head.appendChild(tr);
+            _this.classList.add(emptyClass);
+            wasEmpty = true;
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
+            return;
+        } else if (wasEmpty) {
+            // Remove empty notice
+            _this.classList.remove(emptyClass);
+            wasEmpty = false;
+        }
 
         var hasRowFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(rowFilter),
-            hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter),
-            keys = Object.keys(hasColumnFilter ? columnFilter(data[0]) : data[0]);
+            hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter);
 
-        // First empty out head and then refresh
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
-        appendRow(_this, head, {
-            filtered: keys,
-            raw: data[0],
-            columnElement: 'th',
-            minimize: minimize,
-            minimizeWhitelist: props.minimizeWhitelist
+        appendHead(_this, head, {
+            defaultClass: headRowClass,
+            minimizeWhitelist: props.minimizeWhitelist,
+            hasColumnFilter: hasColumnFilter,
+            columnFilter: columnFilter
         });
 
         var dataLength = data.length;
         var os = offset && offset <= dataLength ? offset : 0;
-        var l = typeof limit !== 'undefined' && os + limit < dataLength ? limit : dataLength;
+        var l = typeof limit !== 'undefined' && os + limit < dataLength ? os + limit : dataLength;
+
+        // Set spacer heights
+        bottomSpacer.style.height = rowHeight * (dataLength - (offset + limit)) + 'px';
+        topSpacer.style.height = rowHeight * offset + 'px';
 
         for (os; os < l; ++os) {
-            var offsetData = data[os];
-            if (hasRowFilter && !rowFilter(offsetData)) continue;
-            appendRow(_this, frag, {
-                filtered: hasColumnFilter ? columnFilter(offsetData) : offsetData,
-                raw: offsetData,
-                index: os,
+            if (hasRowFilter && !rowFilter(data[os])) continue;
+            appendRow(_this, frag, os, {
                 defaultClass: os % 2 == 0 ? evenRowClass : oddRowClass,
-                key: os + 1,
-                rows: props.rows,
-                selectedClass: props.selectedClass,
-                selectedRows: selectedRows,
-                minimize: minimize,
-                minimizeWhitelist: props.minimizeWhitelist
+                selectedClass: selectedClass,
+                hasColumnFilter: hasColumnFilter,
+                columnFilter: columnFilter
             });
         }
 
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
         body.appendChild(frag);
-    });
+    };
+
+    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, reactFn);
 
     this.appendChild(head);
     this.appendChild(body);
@@ -1908,11 +2069,29 @@ function app(root, state, router) {
     classes: [],
     oddRowClass: '',
     evenRowClass: '',
+    headRowClass: '',
     minimizeWhitelist: undefined,
-    appendRow: function appendRow(table, parent, props) {
+    emptyNotice: 'No data found',
+    emptyClass: 'empty',
+    appendRow: function appendRow(table, frag, key, props) {
         var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__tableRow__["a" /* default */])(props);
-        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, parent, tr, table.kompo.selector);
-    }
+        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, frag, tr, function (s) {
+            return table.kompo.selector ? table.kompo.selector(s).data[key] : s.data[key];
+        });
+    },
+    appendHead: function appendHead(table, head, props) {
+        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__tableHead__["a" /* default */])(props);
+        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, head, tr, function (s) {
+            return table.kompo.selector ? table.kompo.selector(s).data[0] : s.data[0];
+        });
+    },
+
+    scrollableElement: undefined,
+    topSpacer: undefined,
+    bottomSpacer: undefined,
+    rowHeight: 20,
+    blockSize: 5,
+    scrollThrottle: 10
 });
 
 var tableActions = {
@@ -1979,213 +2158,7 @@ var tableActions = {
 };
 
 /***/ },
-/* 31 */,
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
-    var defaultClass = _ref.defaultClass;
-    var filtered = _ref.filtered;
-    var columnElement = _ref.columnElement;
-    var key = _ref.key;
-    var rows = _ref.rows;
-    var selectedClass = _ref.selectedClass;
-    var selectedRows = _ref.selectedRows;
-    var minimize = _ref.minimize;
-    var minimizeWhitelist = _ref.minimizeWhitelist;
-
-    var arr = void 0,
-        isObject = false;
-    if (!Array.isArray(filtered)) {
-        arr = Object.keys(filtered);
-        isObject = true;
-    } else {
-        arr = filtered;
-    }
-
-    if (defaultClass) this.classList.add(defaultClass);
-
-    if (rows) {
-        rows.push(this);
-    }
-
-    if (key) {
-        this.setAttribute('data-key', key);
-
-        if (typeof selectedRows !== 'undefined' && selectedRows.indexOf(key) > -1) {
-            if (selectedClass) this.classList.add(selectedClass);
-        }
-    }
-
-    for (var i = 0, l = arr.length; i < l; ++i) {
-        var k = isObject ? arr[i] : i;
-
-        if (typeof minimizeWhitelist !== 'undefined') {
-            var onWhitelist = isObject ? minimizeWhitelist.indexOf(k) === -1 : minimizeWhitelist.indexOf(filtered[k]) === -1;
-            if (minimize && onWhitelist) {
-                continue;
-            }
-        }
-
-        var c = this.appendChild(document.createElement(columnElement));
-        c.textContent = filtered[k];
-    }
-}, {
-    key: '',
-    defaultClass: '',
-    filtered: [],
-    raw: [],
-    columnElement: 'td',
-    index: undefined
-});
-
-/***/ },
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableRow__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__accordionTableRow__ = __webpack_require__(40);
-
-
-
-
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
-    rowSlot: function rowSlot(c, filtered, raw) {},
-    appendRow: function appendRow(table, parent, props) {
-        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table);
-
-        props.defaultClass = tableProps.rowClass;
-
-        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.append(parent, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__tableRow__["a" /* default */])(props));
-
-        if (typeof props.index !== 'undefined') {
-            __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.append(parent, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__accordionTableRow__["a" /* default */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["merge"])(props, tableProps)));
-        }
-    },
-    on: function on(table) {
-        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
-            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]';
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
-            e.preventDefault();
-            var next = this.nextSibling,
-                props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
-                currentKey = this.getAttribute('data-key');
-
-            if (next) {
-                next.style.display = next.style.display === 'none' ? null : 'none';
-            }
-
-            if (props.showOne && props.key && props.key !== currentKey) {
-                var tr = props.rows[props.key - 1].nextSibling;
-                tr.style.display = 'none';
-            }
-
-            props.key = currentKey;
-        });
-    },
-
-    rowClass: '',
-    showOne: true
-});
-
-/***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(30);
-
-
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
-    on: function on(table) {
-        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
-            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]';
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
-            var _this = this;
-
-            __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(table, function (s) {
-                var selectedRows = s.selectedRows = Array.isArray(s.selectedRows) ? s.selectedRows : [],
-                    key = parseInt(_this.getAttribute('data-key')),
-                    index = selectedRows.indexOf(key);
-
-                if (index === -1) {
-                    selectedRows.push(key);
-                } else {
-                    selectedRows.splice(index, 1);
-                }
-
-                // Force rerender
-                s.selectedRowsLength = selectedRows.length;
-            });
-        });
-    },
-
-    rowClass: '',
-    selectedClass: '',
-    selectOne: false
-});
-
-/***/ },
-/* 38 */,
-/* 39 */,
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
-    var display = _ref.display;
-    var filtered = _ref.filtered;
-    var raw = _ref.raw;
-    var columnElement = _ref.columnElement;
-    var rowSlot = _ref.rowSlot;
-
-    var length = Array.isArray(filtered) ? filtered.length : Object.keys(filtered).length,
-        c = this.appendChild(document.createElement(columnElement));
-
-    c.setAttribute('colspan', length);
-    rowSlot(c, filtered, raw);
-
-    this.style.display = display;
-}, {
-    display: 'none',
-    filtered: [],
-    raw: [],
-    columnElement: 'td',
-    index: undefined,
-    rowSlot: function rowSlot(c, filtered, raw) {}
-});
-
-/***/ },
+/* 40 */,
 /* 41 */,
 /* 42 */,
 /* 43 */,
@@ -2193,10 +2166,7 @@ var tableActions = {
 /* 45 */,
 /* 46 */,
 /* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2204,9 +2174,7 @@ var tableActions = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__accordionTable__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__selectTable__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_table_infiniteTable__ = __webpack_require__(39);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
@@ -2216,118 +2184,217 @@ function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("
 // Example components with self-explanatory name
 
 
-
-
-var doc = document;
-
 // Create root component
 var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', function (_ref) {
-    var _this = this;
-
     _objectDestructuringEmpty(_ref);
 
-    var addLimit = doc.createElement('a'),
-        subLimit = doc.createElement('a'),
-        addOffset = doc.createElement('a'),
-        subOffset = doc.createElement('a'),
-        minimize = doc.createElement('a'),
-        maximize = doc.createElement('a'),
-        t1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */])({
-        classes: ['o-Table', 'u-mtm'],
+    var scrollable = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': 'o-Scrollable' }),
+        topSpacer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'style': 'height: 0' }),
+        bottomSpacer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'style': 'height: 0' }),
+        t1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_table_infiniteTable__["a" /* default */])({
+        classes: ['o-Table', 'u-mbn'],
         oddRowClass: 'o-Table-row--isOdd',
         evenRowClass: 'o-Table-row--isEven',
         on: function on(table) {
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, 'tr', 'click', function (e) {
-                console.log(table.kompo.props.rows);
+                console.log(table.kompo.props);
             });
         },
-        minimizeWhitelist: ['firstname']
-    }),
-        t2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__selectTable__["a" /* default */])({
-        columnFilter: function columnFilter(data) {
-            return {
-                Firstname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.firstname),
-                Lastname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.lastname)
-            };
-        },
-
-        selectedClass: 'selected'
-    }),
-        t3 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__accordionTable__["a" /* default */])({
-        showOne: false,
-        columnFilter: function columnFilter(data) {
-            return {
-                Firstname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.firstname),
-                Lastname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.lastname)
-            };
-        },
-        rowSlot: function rowSlot(columnElement, filtered, raw) {
-            var h1 = doc.createElement('h1');
-            h1.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(raw.movie);
-            columnElement.appendChild(h1);
-        }
+        minimizeWhitelist: ['firstname'],
+        scrollableElement: scrollable,
+        topSpacer: topSpacer,
+        bottomSpacer: bottomSpacer
     });
 
-    addLimit.textContent = 'Add 1 to limit';
-    addLimit.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addLimit(_this, 1);
-    });
-
-    subLimit.textContent = 'Subtract 1 of limit';
-    subLimit.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subLimit(_this, 1);
-    });
-
-    addOffset.textContent = 'Add 1 to offset';
-    addOffset.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addOffset(_this, 1);
-    });
-
-    subOffset.textContent = 'Subtract 1 of offset';
-    subOffset.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subOffset(_this, 1);
-    });
-
-    minimize.textContent = 'Minimize';
-    minimize.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].minimize(_this);
-    });
-
-    maximize.textContent = 'Maximize';
-    maximize.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].maximize(_this);
-    });
-
-    this.appendChild(addLimit);
-    this.appendChild(subLimit);
-    this.appendChild(addOffset);
-    this.appendChild(subOffset);
-    this.appendChild(minimize);
-    this.appendChild(maximize);
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, [t1, t2, t3]);
+    this.appendChild(scrollable);
+    scrollable.appendChild(topSpacer);
+    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, scrollable, t1);
+    scrollable.appendChild(bottomSpacer);
 });
 
 // Create instance of root and
 // append table to body
 document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {
-    limit: 2,
+    limit: 10,
     minimize: true,
     offset: 0,
     data: [{
+        id: 1,
         firstname: 'rick',
         lastname: 'deckard',
         movie: 'blade runner'
     }, {
+        id: 2,
         firstname: 'mia',
         lastname: 'wallace',
         movie: 'pulp fiction'
     }, {
+        id: 3,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 4,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 5,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 6,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 7,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 8,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 9,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 10,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 11,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 12,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 13,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 14,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 15,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 16,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 17,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 18,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 19,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 20,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 21,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 22,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 23,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 24,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 25,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 26,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 27,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 28,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 29,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 30,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 31,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 32,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 33,
+        firstname: 'rocky',
+        lastname: 'balboa',
+        movie: 'rocky'
+    }, {
+        id: 34,
+        firstname: 'rick',
+        lastname: 'deckard',
+        movie: 'blade runner'
+    }, {
+        id: 35,
+        firstname: 'mia',
+        lastname: 'wallace',
+        movie: 'pulp fiction'
+    }, {
+        id: 36,
         firstname: 'rocky',
         lastname: 'balboa',
         movie: 'rocky'
