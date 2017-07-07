@@ -1,7 +1,7 @@
 import component from 'kompo';
 const {construct, mount, children} = component;
 
-import {create} from 'kompo-util';
+import {create, addClasses} from 'kompo-util';
 
 import datePicker, {outputSelectedDate, isolatedReact} from './datePicker';
 import multiPanel, {slideTo} from  '../multiPanel/multiPanel';
@@ -10,10 +10,13 @@ import panel from '../multiPanel/panel';
 import {compare} from '../utils/dateUtils';
 
 export default construct('div', function ({
-    defaultClass, selectedClass, navClass, fromClass, toClass, applyContainerClass, applyClass,
-    applyFormat, applyCallback
+    defaultClass, classes, multiPanelClass, selectedClass, navClass, fromClass, toClass, applyContainerClass, applyClass,
+    applyFormat, applyCallback,
+    overlay
 }) {
     this.classList.add(defaultClass);
+    
+    addClasses(this, classes);
 
     const nav = create('nav', {'class': navClass}),
         from = create('a', {'class': fromClass, href: '#from'}),
@@ -48,7 +51,7 @@ export default construct('div', function ({
             },
             outputFormat: applyFormat
         }),
-        mp = multiPanel(),
+        mp = multiPanel({ classNames: [multiPanelClass],overlay}),
         fromPanel = panel({component: fromDatePicker}),
         toPanel = panel({component: toDatePicker}),
         panels = [fromPanel, toPanel],
@@ -105,14 +108,17 @@ export default construct('div', function ({
     })
 }, {
     defaultClass: 'o-DateRange',
+    classes: [],
     selectedClass: 'o-DateRange-nav--selected',
+    multiPanelClass: 'o-DateRange-multiPanel',
     navClass: 'o-DateRange-nav',
     fromClass: 'o-DateRange-from',
     toClass: 'o-DateRange-to',
     applyContainerClass: 'o-DateRange-applyContainer',
     applyClass: 'o-DateRange-apply',
     applyFormat: 'YYYY-MM-DD',
-    applyCallback: undefined
+    applyCallback: undefined,
+    overlay: false
 });
 
 function toggleToFrom(from, to, clss) {

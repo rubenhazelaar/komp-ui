@@ -2,13 +2,13 @@ import component, {state} from 'kompo';
 const {construct, react, getState} = component;
 const {dispatch, markDirty} = state;
 
-import {create, delegate, empty} from 'kompo-util';
+import {create, delegate, empty, addClasses} from 'kompo-util';
 
 import fecha from 'fecha';
 import {compare} from '../utils/dateUtils';
 
 export default construct('table', function ({
-    dayNames, defaultClass,
+    dayNames, defaultClass, classes,
     previousClass, nextClass, previousText, nextText,
     selectedClass,
     notCurrentMonthClass,
@@ -21,6 +21,8 @@ export default construct('table', function ({
     selectCallback
 }) {
     this.classList.add(defaultClass);
+
+    addClasses(this, classes);
 
     const previous = create('a', {
             'class': previousClass,
@@ -80,10 +82,8 @@ export default construct('table', function ({
 
         if (hasNoPast) return;
 
-        dispatch(this, state => {
-            markDirty(state);
-            workingDate.setMonth(workingDate.getMonth() - 1);
-        })
+        workingDate.setMonth(workingDate.getMonth() - 1);
+        isolatedReact(this);
     });
 
     next.addEventListener('click', e => {
@@ -91,10 +91,8 @@ export default construct('table', function ({
 
         if (hasNoFuture) return;
 
-        dispatch(this, state => {
-            markDirty(state);
-            workingDate.setMonth(workingDate.getMonth() + 1);
-        })
+        workingDate.setMonth(workingDate.getMonth() + 1);
+        isolatedReact(this);
     });
 
     delegate(tbody, 'a', 'click', e => {
@@ -230,6 +228,7 @@ export default construct('table', function ({
 }, {
     dayNames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
     defaultClass: 'o-DatePicker',
+    classes: [],
     workingFormat: 'DD/MM/YYYY',
     outputFormat: 'YYYY-MM-DD HH:mm:ss',
     labelFormat: 'MMM YYYY',
