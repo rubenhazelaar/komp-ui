@@ -159,7 +159,7 @@ export function slideTo(multiPanel, panels, index, initial = false) {
 }
 
 
-export function slide(component:KompoElement, router:router, element:Element):void {
+export function slide(component:KompoElement, router:router, element:Element, multiPanelProps = {}):void {
     let mp;
 
     return {
@@ -196,7 +196,7 @@ export function slide(component:KompoElement, router:router, element:Element):vo
 
             let initial = false;
             if (!routed) {
-                mp = multiPanel();
+                mp = multiPanel(multiPanelProps);
                 children(mp, panels);
                 mount(component, el, mp);
                 initial = true;
