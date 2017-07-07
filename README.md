@@ -42,5 +42,10 @@
 - accordion
     - all possibly open & only one
     
-#NO
+# NO
 - Get selected rows >>> tableHelper > based on keys in state get data
+
+# DONE
+- DatePicker
+    - No future, no past, custom < or >
+- DateRange

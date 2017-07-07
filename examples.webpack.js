@@ -8,7 +8,8 @@ var config = {
         'examples/table/dist/table-bundle': './examples/table/src/table-examples.js',
         'examples/table2/dist/table-bundle': './examples/table2/src/table-examples.js',
         'examples/infiniteTable/dist/table-bundle': './examples/infiniteTable/src/table-examples.js',
-        'examples/multipanel/dist/bundle': './examples/multipanel/src/index.js'
+        'examples/multipanel/dist/bundle': './examples/multipanel/src/index.js',
+        'examples/datePicker/dist/bundle': './examples/datePicker/src/index.js'
     },
     output: {
         path: './',

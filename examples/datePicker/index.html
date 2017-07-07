@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DatePicker Component - Kompo UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <style>
+        body {
+            padding:2rem;
+        }
+
+        a, tbody span {
+            width: 100%;
+            display: block;
+            padding: 1rem 0;
+            text-decoration: none;
+            text-align: center;
+            box-sizing: border-box;
+            color:black;
+        }
+
+        a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        tbody span {
+            background-color: grey;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        td {
+            border-top: 1px solid #000;
+        }
+
+        tr:first-child td {
+            border-top:none;
+        }
+
+        th {
+            background-color: #000;
+            color: #fff;
+            padding: 1rem 0;
+        }
+
+        td, th {
+            text-align: center;
+        }
+
+        tbody a {
+            color: black;
+        }
+
+        .o-DatePicker-d--isNotCurrentMonth {
+            color: lightgray;
+        }
+
+        .o-DatePicker-d--isCurrent {
+            background-color: green;
+            color:white;
+        }
+
+        .o-DatePicker-d--isSelected {
+            background-color: blue !important;
+            color:white !important;
+        }
+
+        .o-DateRange-nav {
+            display: flex;
+        }
+
+        .o-DateRange-nav--selected {
+            background-color: black;
+            color:white;
+        }
+
+        .o-DateRange-apply {
+            display: flex;
+            justify-content: center;
+        }
+
+        .o-DateRange-apply span:first-child {
+            margin-right: 1rem;
+        }
+
+        nav > a, .o-DateRange-apply {
+            background-color: yellow;
+        }
+    </style>
+ </head>
+<body>
+<script src="dist/bundle.js"></script>
+</body>
+</html>
