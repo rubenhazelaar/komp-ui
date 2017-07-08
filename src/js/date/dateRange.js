@@ -77,7 +77,7 @@ export default construct('div', function ({
     this.appendChild(nav);
 
     children(mp, [fromPanel, toPanel]);
-    mount(this, mp);
+    mount(this, mp, this.kompo.selector);
 
     apply.appendChild(applyText);
     apply.appendChild(applyTextDate);
