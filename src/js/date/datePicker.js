@@ -1,8 +1,8 @@
 import component, {state} from 'kompo';
 const {construct, react, getState} = component;
-const {dispatch, markDirty} = state;
+const {dispatch} = state;
 
-import {create, delegate, empty, addClasses} from 'kompo-util';
+import {create, delegate, empty, addClasses, isFunction} from 'kompo-util';
 
 import fecha from 'fecha';
 import {compare} from '../utils/dateUtils';
@@ -17,6 +17,8 @@ export default construct('table', function ({
     labelFormat,
     outputFormat,
     key,
+    setDate,
+    getDate,
     dispatchOnSelect,
     selectCallback
 }) {
@@ -114,14 +116,18 @@ export default construct('table', function ({
 
         if (dispatchOnSelect) {
             dispatch(this, state => {
-                state[key] = fecha.format(props.selectedDate, outputFormat);
+                if (isFunction(setDate)) {
+                    setDate(state, key, fecha.format(props.selectedDate, outputFormat));
+                } else {
+                    state[key] = fecha.format(props.selectedDate, outputFormat);
+                }
             });
         }
     });
 
     props.reactFn = state => {
         if (!props.selectedDate) {
-            props.selectedDate = state[key] || new Date(currentDate.getTime());
+            props.selectedDate = isFunction(getDate)? getDate(state, key): state[key] || new Date(currentDate.getTime());
 
             if (typeof props.selectedDate === 'string') {
                 props.selectedDate = new Date(props.selectedDate);
@@ -247,6 +253,8 @@ export default construct('table', function ({
     currentClass: 'o-DatePicker-d--isCurrent',
     selectedDate: undefined,
     key: 'date',
+    setDate: undefined,
+    getDate: undefined,
     dispatchOnSelect: false,
     noPast: false,
     noFuture: false,

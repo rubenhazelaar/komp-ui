@@ -2832,6 +2832,10 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     var applyFormat = _ref.applyFormat;
     var applyCallback = _ref.applyCallback;
     var overlay = _ref.overlay;
+    var fromKey = _ref.fromKey;
+    var toKey = _ref.toKey;
+    var setDate = _ref.setDate;
+    var getDate = _ref.getDate;
 
     this.classList.add(defaultClass);
 
@@ -2841,7 +2845,9 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
         from = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': fromClass, href: '#from' }),
         to = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': toClass, href: '#to' }),
         fromDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
-        key: 'from',
+        key: fromKey,
+        setDate: setDate,
+        getDate: getDate,
         selectCallback: function selectCallback(e) {
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
             toggleToTo(from, to, selectedClass);
@@ -2864,7 +2870,9 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
         outputFormat: applyFormat
     }),
         toDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
-        key: 'to',
+        key: toKey,
+        setDate: setDate,
+        getDate: getDate,
         selectCallback: function selectCallback() {
             formatApply(applyTextDate, fromDatePicker, toDatePicker);
         },
@@ -2937,7 +2945,11 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     applyClass: 'o-DateRange-apply',
     applyFormat: 'YYYY-MM-DD',
     applyCallback: undefined,
-    overlay: false
+    overlay: false,
+    fromKey: 'from',
+    toKey: 'to',
+    setDate: undefined,
+    getDate: undefined
 });
 
 function toggleToFrom(from, to, clss) {
@@ -2977,7 +2989,6 @@ var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
 var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
 var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
-var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
 
 
 
@@ -3004,6 +3015,8 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
     var labelFormat = _ref.labelFormat;
     var outputFormat = _ref.outputFormat;
     var key = _ref.key;
+    var setDate = _ref.setDate;
+    var getDate = _ref.getDate;
     var dispatchOnSelect = _ref.dispatchOnSelect;
     var selectCallback = _ref.selectCallback;
 
@@ -3101,14 +3114,18 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
 
         if (dispatchOnSelect) {
             dispatch(_this, function (state) {
-                state[key] = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, outputFormat);
+                if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(setDate)) {
+                    setDate(state, key, __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, outputFormat));
+                } else {
+                    state[key] = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, outputFormat);
+                }
             });
         }
     });
 
     props.reactFn = function (state) {
         if (!props.selectedDate) {
-            props.selectedDate = state[key] || new Date(currentDate.getTime());
+            props.selectedDate = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(getDate) ? getDate(state, key) : state[key] || new Date(currentDate.getTime());
 
             if (typeof props.selectedDate === 'string') {
                 props.selectedDate = new Date(props.selectedDate);
@@ -3226,6 +3243,8 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
     currentClass: 'o-DatePicker-d--isCurrent',
     selectedDate: undefined,
     key: 'date',
+    setDate: undefined,
+    getDate: undefined,
     dispatchOnSelect: false,
     noPast: false,
     noFuture: false,

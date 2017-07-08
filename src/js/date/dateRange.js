@@ -12,7 +12,8 @@ import {compare} from '../utils/dateUtils';
 export default construct('div', function ({
     defaultClass, classes, multiPanelClass, selectedClass, navClass, fromClass, toClass, applyContainerClass, applyClass,
     applyFormat, applyCallback,
-    overlay
+    overlay,
+    fromKey, toKey, setDate, getDate
 }) {
     this.classList.add(defaultClass);
     
@@ -22,7 +23,9 @@ export default construct('div', function ({
         from = create('a', {'class': fromClass, href: '#from'}),
         to = create('a', {'class': toClass, href: '#to'}),
         fromDatePicker = datePicker({
-            key: 'from',
+            key: fromKey,
+            setDate,
+            getDate,
             selectCallback: e => {
                 slideTo(mp, panels, 1);
                 toggleToTo(from, to, selectedClass);
@@ -45,7 +48,9 @@ export default construct('div', function ({
             outputFormat: applyFormat
         }),
         toDatePicker = datePicker({
-            key: 'to',
+            key: toKey,
+            setDate,
+            getDate,
             selectCallback: () => {
                 formatApply(applyTextDate, fromDatePicker, toDatePicker);
             },
@@ -118,7 +123,11 @@ export default construct('div', function ({
     applyClass: 'o-DateRange-apply',
     applyFormat: 'YYYY-MM-DD',
     applyCallback: undefined,
-    overlay: false
+    overlay: false,
+    fromKey: 'from',
+    toKey: 'to',
+    setDate: undefined,
+    getDate: undefined
 });
 
 function toggleToFrom(from, to, clss) {
