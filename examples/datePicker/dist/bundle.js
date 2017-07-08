@@ -2855,6 +2855,7 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
             var fromProps = fromDatePicker.kompo.props,
                 toProps = toDatePicker.kompo.props;
 
+            toProps.resetWorkingDate = true;
             toProps.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
 
             // If from > to then set selected of toDatePicker to same day
@@ -2899,7 +2900,7 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     this.appendChild(nav);
 
     children(mp, [fromPanel, toPanel]);
-    mount(this, mp);
+    mount(this, mp, this.kompo.selector);
 
     apply.appendChild(applyText);
     apply.appendChild(applyTextDate);
@@ -3134,8 +3135,10 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
             props.selectedDate.setHours(0, 0, 0, 0);
         }
 
-        if (!workingDate) {
+        // TODO Logic below does not work
+        if (!workingDate || props.resetWorkingDate) {
             workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
+            props.resetWorkingDate = false;
         } else {
             workingDate.setHours(0, 0, 0, 0);
         }
@@ -3250,7 +3253,8 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
     noFuture: false,
     notBefore: undefined,
     notAfter: undefined,
-    selectCallback: undefined
+    selectCallback: undefined,
+    resetWorkingDate: false
 });
 
 function outputSelectedDate(datePicker) {

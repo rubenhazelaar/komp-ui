@@ -33,6 +33,7 @@ export default construct('div', function ({
                 const fromProps = fromDatePicker.kompo.props,
                     toProps = toDatePicker.kompo.props;
 
+                toProps.resetWorkingDate = true;
                 toProps.notBefore = outputSelectedDate(fromDatePicker);
 
                 // If from > to then set selected of toDatePicker to same day

@@ -136,8 +136,10 @@ export default construct('table', function ({
             props.selectedDate.setHours(0, 0, 0, 0);
         }
 
-        if (!workingDate) {
+        // TODO Logic below does not work
+        if (!workingDate || props.resetWorkingDate) {
             workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
+            props.resetWorkingDate = false;
         } else {
             workingDate.setHours(0, 0, 0, 0);
         }
@@ -260,7 +262,8 @@ export default construct('table', function ({
     noFuture: false,
     notBefore: undefined,
     notAfter: undefined,
-    selectCallback: undefined
+    selectCallback: undefined,
+    resetWorkingDate: false
 });
 
 export function outputSelectedDate(datePicker) {
