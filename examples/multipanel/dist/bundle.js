@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 53);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1812,12 +1812,7 @@ function app(root, state, router) {
 }
 
 /***/ },
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1849,90 +1844,9 @@ function getDynamicWidth(widths) {
 }
 
 /***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_multiPanel_multiPanel__ = __webpack_require__(41);
-
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
-var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
-
-
-
-
-/* harmony default export */ exports["a"] = construct('div', function (_ref) {
-    var heading = _ref.heading;
-
-    this.setAttribute('data-type', 'Branch');
-
-    // Create Elements
-    var h2 = document.createElement('h2');
-    h2.textContent = heading;
-
-    // Append children
-    this.appendChild(h2);
-
-    var s = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_multiPanel_multiPanel__["a" /* slide */])(this, getRouter(this));
-    react(this, function () {
-        console.log("LEVEL TWO MULTIPANEL");
-        s.do();
-    });
-}, {
-    heading: 'Branch construct'
-});
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
-var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
-
-
-/* harmony default export */ exports["a"] = construct('div', function (_ref) {
-    var heading = _ref.heading;
-    var paramIndex = _ref.paramIndex;
-
-    this.setAttribute('data-type', 'Leaf');
-
-    // Create Elements
-    var h2 = document.createElement('h2'),
-        span = document.createElement('span');
-
-    h2.textContent = heading;
-
-    // Append children
-    this.appendChild(h2);
-    this.appendChild(span);
-
-    var r = getRouter(this);
-
-    // Show parameter if it is set
-    react(this, function () {
-        var params = r.getParams();
-        if (params.length > 0) {
-            span.textContent = 'Param at index ' + paramIndex + ' = ' + params[paramIndex];
-        }
-    });
-}, {
-    heading: 'Leaf construct',
-    paramIndex: 0
-});
-
-/***/ },
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */
+/* 26 */,
+/* 27 */,
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1940,7 +1854,7 @@ var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(25);
 
 var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
@@ -2006,11 +1920,8 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 });
 
 /***/ },
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2018,8 +1929,8 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__);
 /* harmony export (immutable) */ exports["b"] = slideTo;
 /* harmony export (immutable) */ exports["a"] = slide;
@@ -2194,6 +2105,8 @@ function slideTo(multiPanel, panels, index) {
 }
 
 function slide(component, router, element) {
+    var multiPanelProps = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
     var mp = void 0;
 
     return {
@@ -2235,7 +2148,7 @@ function slide(component, router, element) {
 
             var initial = false;
             if (!routed) {
-                mp = multiPanel();
+                mp = multiPanel(multiPanelProps);
                 children(mp, panels);
                 mount(component, el, mp);
                 initial = true;
@@ -2258,11 +2171,11 @@ function getFlexBasis(el) {
 }
 
 /***/ },
-/* 42 */,
-/* 43 */
+/* 31 */,
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(44)(undefined);
+exports = module.exports = __webpack_require__(33)(undefined);
 // imports
 
 
@@ -2273,7 +2186,7 @@ exports.push([module.i, ".o-MultiPanel {\r\n    overflow: hidden;\r\n}\r\n\r\n.o
 
 
 /***/ },
-/* 44 */
+/* 33 */
 /***/ function(module, exports) {
 
 /*
@@ -2355,14 +2268,13 @@ function toComment(sourceMap) {
 
 
 /***/ },
-/* 45 */,
-/* 46 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(43);
+var content = __webpack_require__(32);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -2370,7 +2282,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(47)(content, options);
+var update = __webpack_require__(35)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -2387,7 +2299,7 @@ if(false) {
 }
 
 /***/ },
-/* 47 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 /*
@@ -2433,7 +2345,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(48);
+var	fixUrls = __webpack_require__(36);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -2746,7 +2658,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ },
-/* 48 */
+/* 36 */
 /***/ function(module, exports) {
 
 
@@ -2841,17 +2753,109 @@ module.exports = function (css) {
 
 
 /***/ },
-/* 49 */,
-/* 50 */,
-/* 51 */
+/* 37 */,
+/* 38 */,
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_leaf__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_branch__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_js_multiPanel_panel__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_multiPanel_multiPanel__ = __webpack_require__(30);
+
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
+var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
+
+
+
+
+/* harmony default export */ exports["a"] = construct('div', function (_ref) {
+    var heading = _ref.heading;
+
+    this.setAttribute('data-type', 'Branch');
+
+    // Create Elements
+    var h2 = document.createElement('h2');
+    h2.textContent = heading;
+
+    // Append children
+    this.appendChild(h2);
+
+    var s = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_multiPanel_multiPanel__["a" /* slide */])(this, getRouter(this));
+    react(this, function () {
+        console.log("LEVEL TWO MULTIPANEL");
+        s.do();
+    });
+}, {
+    heading: 'Branch construct'
+});
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
+var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
+
+
+/* harmony default export */ exports["a"] = construct('div', function (_ref) {
+    var heading = _ref.heading;
+    var paramIndex = _ref.paramIndex;
+
+    this.setAttribute('data-type', 'Leaf');
+
+    // Create Elements
+    var h2 = document.createElement('h2'),
+        span = document.createElement('span');
+
+    h2.textContent = heading;
+
+    // Append children
+    this.appendChild(h2);
+    this.appendChild(span);
+
+    var r = getRouter(this);
+
+    // Show parameter if it is set
+    react(this, function () {
+        var params = r.getParams();
+        if (params.length > 0) {
+            span.textContent = 'Param at index ' + paramIndex + ' = ' + params[paramIndex];
+        }
+    });
+}, {
+    heading: 'Leaf construct',
+    paramIndex: 0
+});
+
+/***/ },
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_leaf__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_branch__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_js_multiPanel_panel__ = __webpack_require__(28);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions

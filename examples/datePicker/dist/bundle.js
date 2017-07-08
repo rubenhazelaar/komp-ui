@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 49);
+/******/ 	return __webpack_require__(__webpack_require__.s = 51);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1812,12 +1812,7 @@ function app(root, state, router) {
 }
 
 /***/ },
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1849,12 +1844,9 @@ function getDynamicWidth(widths) {
 }
 
 /***/ },
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */
+/* 26 */,
+/* 27 */,
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1862,7 +1854,7 @@ function getDynamicWidth(widths) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(25);
 
 var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
@@ -1928,11 +1920,8 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 });
 
 /***/ },
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1940,8 +1929,8 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__);
 /* harmony export (immutable) */ exports["b"] = slideTo;
 /* harmony export (immutable) */ exports["a"] = slide;
@@ -2116,6 +2105,8 @@ function slideTo(multiPanel, panels, index) {
 }
 
 function slide(component, router, element) {
+    var multiPanelProps = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
     var mp = void 0;
 
     return {
@@ -2157,7 +2148,7 @@ function slide(component, router, element) {
 
             var initial = false;
             if (!routed) {
-                mp = multiPanel();
+                mp = multiPanel(multiPanelProps);
                 children(mp, panels);
                 mount(component, el, mp);
                 initial = true;
@@ -2180,11 +2171,11 @@ function getFlexBasis(el) {
 }
 
 /***/ },
-/* 42 */,
-/* 43 */
+/* 31 */,
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(44)(undefined);
+exports = module.exports = __webpack_require__(33)(undefined);
 // imports
 
 
@@ -2195,7 +2186,7 @@ exports.push([module.i, ".o-MultiPanel {\r\n    overflow: hidden;\r\n}\r\n\r\n.o
 
 
 /***/ },
-/* 44 */
+/* 33 */
 /***/ function(module, exports) {
 
 /*
@@ -2277,7 +2268,985 @@ function toComment(sourceMap) {
 
 
 /***/ },
-/* 45 */
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(32);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(35)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!./multiPanel.css", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!./multiPanel.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+
+var stylesInDom = {};
+
+var	memoize = function (fn) {
+	var memo;
+
+	return function () {
+		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+		return memo;
+	};
+};
+
+var isOldIE = memoize(function () {
+	// Test for IE <= 9 as proposed by Browserhacks
+	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+	// Tests for existence of standard globals is to allow style-loader
+	// to operate correctly into non-standard environments
+	// @see https://github.com/webpack-contrib/style-loader/issues/177
+	return window && document && document.all && !window.atob;
+});
+
+var getElement = (function (fn) {
+	var memo = {};
+
+	return function(selector) {
+		if (typeof memo[selector] === "undefined") {
+			memo[selector] = fn.call(this, selector);
+		}
+
+		return memo[selector]
+	};
+})(function (target) {
+	return document.querySelector(target)
+});
+
+var singleton = null;
+var	singletonCounter = 0;
+var	stylesInsertedAtTop = [];
+
+var	fixUrls = __webpack_require__(36);
+
+module.exports = function(list, options) {
+	if (typeof DEBUG !== "undefined" && DEBUG) {
+		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+
+	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
+
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (!options.singleton) options.singleton = isOldIE();
+
+	// By default, add <style> tags to the <head> element
+	if (!options.insertInto) options.insertInto = "head";
+
+	// By default, add <style> tags to the bottom of the target
+	if (!options.insertAt) options.insertAt = "bottom";
+
+	var styles = listToStyles(list, options);
+
+	addStylesToDom(styles, options);
+
+	return function update (newList) {
+		var mayRemove = [];
+
+		for (var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+
+		if(newList) {
+			var newStyles = listToStyles(newList, options);
+			addStylesToDom(newStyles, options);
+		}
+
+		for (var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+
+			if(domStyle.refs === 0) {
+				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
+
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+};
+
+function addStylesToDom (styles, options) {
+	for (var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+
+		if(domStyle) {
+			domStyle.refs++;
+
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles (list, options) {
+	var styles = [];
+	var newStyles = {};
+
+	for (var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = options.base ? item[0] + options.base : item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+
+		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
+		else newStyles[id].parts.push(part);
+	}
+
+	return styles;
+}
+
+function insertStyleElement (options, style) {
+	var target = getElement(options.insertInto)
+
+	if (!target) {
+		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
+	}
+
+	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
+
+	if (options.insertAt === "top") {
+		if (!lastStyleElementInsertedAtTop) {
+			target.insertBefore(style, target.firstChild);
+		} else if (lastStyleElementInsertedAtTop.nextSibling) {
+			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			target.appendChild(style);
+		}
+		stylesInsertedAtTop.push(style);
+	} else if (options.insertAt === "bottom") {
+		target.appendChild(style);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement (style) {
+	style.parentNode.removeChild(style);
+
+	var idx = stylesInsertedAtTop.indexOf(style);
+
+	if(idx >= 0) {
+		stylesInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement (options) {
+	var style = document.createElement("style");
+
+	options.attrs.type = "text/css";
+
+	addAttrs(style, options.attrs);
+	insertStyleElement(options, style);
+
+	return style;
+}
+
+function createLinkElement (options) {
+	var link = document.createElement("link");
+
+	options.attrs.type = "text/css";
+	options.attrs.rel = "stylesheet";
+
+	addAttrs(link, options.attrs);
+	insertStyleElement(options, link);
+
+	return link;
+}
+
+function addAttrs (el, attrs) {
+	Object.keys(attrs).forEach(function (key) {
+		el.setAttribute(key, attrs[key]);
+	});
+}
+
+function addStyle (obj, options) {
+	var style, update, remove, result;
+
+	// If a transform function was defined, run it on the css
+	if (options.transform && obj.css) {
+	    result = options.transform(obj.css);
+
+	    if (result) {
+	    	// If transform returns a value, use that instead of the original css.
+	    	// This allows running runtime transformations on the css.
+	    	obj.css = result;
+	    } else {
+	    	// If the transform function returns a falsy value, don't add this css.
+	    	// This allows conditional loading of css
+	    	return function() {
+	    		// noop
+	    	};
+	    }
+	}
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+
+		style = singleton || (singleton = createStyleElement(options));
+
+		update = applyToSingletonTag.bind(null, style, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+
+	} else if (
+		obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function"
+	) {
+		style = createLinkElement(options);
+		update = updateLink.bind(null, style, options);
+		remove = function () {
+			removeStyleElement(style);
+
+			if(style.href) URL.revokeObjectURL(style.href);
+		};
+	} else {
+		style = createStyleElement(options);
+		update = applyToTag.bind(null, style);
+		remove = function () {
+			removeStyleElement(style);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle (newObj) {
+		if (newObj) {
+			if (
+				newObj.css === obj.css &&
+				newObj.media === obj.media &&
+				newObj.sourceMap === obj.sourceMap
+			) {
+				return;
+			}
+
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag (style, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (style.styleSheet) {
+		style.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = style.childNodes;
+
+		if (childNodes[index]) style.removeChild(childNodes[index]);
+
+		if (childNodes.length) {
+			style.insertBefore(cssNode, childNodes[index]);
+		} else {
+			style.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag (style, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		style.setAttribute("media", media)
+	}
+
+	if(style.styleSheet) {
+		style.styleSheet.cssText = css;
+	} else {
+		while(style.firstChild) {
+			style.removeChild(style.firstChild);
+		}
+
+		style.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink (link, options, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	/*
+		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
+		and there is no publicPath defined then lets turn convertToAbsoluteUrls
+		on by default.  Otherwise default to the convertToAbsoluteUrls option
+		directly
+	*/
+	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
+
+	if (options.convertToAbsoluteUrls || autoFixUrls) {
+		css = fixUrls(css);
+	}
+
+	if (sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = link.href;
+
+	link.href = URL.createObjectURL(blob);
+
+	if(oldSrc) URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ },
+/* 37 */,
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ exports["a"] = compare;
+/* unused harmony export convert */
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function compare(a, b) {
+    // Compare two dates (could be of any type supported by the convert
+    // function above) and returns:
+    //  -1 : if a < b
+    //   0 : if a = b
+    //   1 : if a > b
+    // NaN : if a or b is an illegal date
+    // NOTE: The code inside isFinite does an assignment (=).
+    return isFinite(a = convert(a).valueOf()) && isFinite(b = convert(b).valueOf()) ? (a > b) - (a < b) : NaN;
+}
+
+function convert(d) {
+    // Converts the date in d to a date-object. The input can be:
+    //   a date object: returned without modification
+    //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+    //   a number     : Interpreted as number of milliseconds
+    //                  since 1 Jan 1970 (a timestamp)
+    //   a string     : Any format supported by the javascript engine, like
+    //                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
+    //  an object     : Interpreted as an object with year, month and date
+    //                  attributes.  **NOTE** month is 0-11.
+    return d.constructor === Date ? d : d.constructor === Array ? new Date(d[0], d[1], d[2]) : d.constructor === Number ? new Date(d) : d.constructor === String ? new Date(d) : (typeof d === "undefined" ? "undefined" : _typeof(d)) === "object" ? new Date(d.year, d.month, d.date) : NaN;
+}
+
+/***/ },
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datePicker__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__ = __webpack_require__(38);
+
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
+var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ exports["a"] = construct('div', function (_ref) {
+    var _this = this;
+
+    var defaultClass = _ref.defaultClass;
+    var classes = _ref.classes;
+    var multiPanelClass = _ref.multiPanelClass;
+    var selectedClass = _ref.selectedClass;
+    var navClass = _ref.navClass;
+    var fromClass = _ref.fromClass;
+    var toClass = _ref.toClass;
+    var applyContainerClass = _ref.applyContainerClass;
+    var applyClass = _ref.applyClass;
+    var applyFormat = _ref.applyFormat;
+    var applyCallback = _ref.applyCallback;
+    var overlay = _ref.overlay;
+
+    this.classList.add(defaultClass);
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
+
+    var nav = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('nav', { 'class': navClass }),
+        from = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': fromClass, href: '#from' }),
+        to = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': toClass, href: '#to' }),
+        fromDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
+        key: 'from',
+        selectCallback: function selectCallback(e) {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
+            toggleToTo(from, to, selectedClass);
+
+            var fromProps = fromDatePicker.kompo.props,
+                toProps = toDatePicker.kompo.props;
+
+            toProps.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
+
+            // If from > to then set selected of toDatePicker to same day
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__["a" /* compare */])(fromProps.selectedDate, toProps.selectedDate) === 1) {
+                toProps.selectedDate = fromProps.selectedDate;
+            }
+
+            formatApply(applyTextDate, fromDatePicker, toDatePicker);
+
+            // Only rerenders toDatePicker
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["c" /* isolatedReact */])(toDatePicker);
+        },
+        outputFormat: applyFormat
+    }),
+        toDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
+        key: 'to',
+        selectCallback: function selectCallback() {
+            formatApply(applyTextDate, fromDatePicker, toDatePicker);
+        },
+        outputFormat: applyFormat
+    }),
+        mp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["c" /* default */])({ classNames: [multiPanelClass], overlay: overlay }),
+        fromPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: fromDatePicker }),
+        toPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: toDatePicker }),
+        panels = [fromPanel, toPanel],
+        applyContainer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': applyContainerClass }),
+        apply = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': applyClass, href: '#apply' }),
+        applyText = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span'),
+        applyTextDate = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
+
+    from.textContent = 'From';
+    to.textContent = 'To';
+    applyText.textContent = 'Apply';
+
+    /**
+     * Structure
+     */
+    nav.appendChild(from);
+    nav.appendChild(to);
+    this.appendChild(nav);
+
+    children(mp, [fromPanel, toPanel]);
+    mount(this, mp);
+
+    apply.appendChild(applyText);
+    apply.appendChild(applyTextDate);
+    applyContainer.appendChild(apply);
+    this.appendChild(applyContainer);
+    formatApply(applyTextDate, fromDatePicker, toDatePicker);
+
+    /**
+     * Events & Reactions
+     */
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+    from.classList.add(selectedClass);
+
+    from.addEventListener('click', function (e) {
+        e.preventDefault();
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+        toggleToFrom(from, to, selectedClass);
+    });
+
+    to.addEventListener('click', function (e) {
+        e.preventDefault();
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
+        toggleToTo(from, to, selectedClass);
+        toDatePicker.kompo.props.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
+    });
+
+    apply.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (applyCallback) {
+            applyCallback(_this, fromDatePicker, toDatePicker);
+        }
+    });
+}, {
+    defaultClass: 'o-DateRange',
+    classes: [],
+    selectedClass: 'o-DateRange-nav--selected',
+    multiPanelClass: 'o-DateRange-multiPanel',
+    navClass: 'o-DateRange-nav',
+    fromClass: 'o-DateRange-from',
+    toClass: 'o-DateRange-to',
+    applyContainerClass: 'o-DateRange-applyContainer',
+    applyClass: 'o-DateRange-apply',
+    applyFormat: 'YYYY-MM-DD',
+    applyCallback: undefined,
+    overlay: false
+});
+
+function toggleToFrom(from, to, clss) {
+    from.classList.add(clss);
+    to.classList.remove(clss);
+}
+
+function toggleToTo(from, to, clss) {
+    from.classList.remove(clss);
+    to.classList.add(clss);
+}
+
+function formatApply(el, fromDatePicker, toDatePicker) {
+    el.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker) + ' / ' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(toDatePicker);
+}
+
+/***/ },
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_fecha__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__ = __webpack_require__(38);
+/* harmony export (immutable) */ exports["b"] = outputSelectedDate;
+/* harmony export (immutable) */ exports["c"] = isolatedReact;
+
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
+var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
+var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
+var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
+
+
+
+
+
+
+
+/* harmony default export */ exports["a"] = construct('table', function (_ref) {
+    var _this = this;
+
+    var dayNames = _ref.dayNames;
+    var defaultClass = _ref.defaultClass;
+    var classes = _ref.classes;
+    var previousClass = _ref.previousClass;
+    var previousDisabledClass = _ref.previousDisabledClass;
+    var nextClass = _ref.nextClass;
+    var nextDisabledClass = _ref.nextDisabledClass;
+    var previousText = _ref.previousText;
+    var nextText = _ref.nextText;
+    var selectedClass = _ref.selectedClass;
+    var notCurrentMonthClass = _ref.notCurrentMonthClass;
+    var currentClass = _ref.currentClass;
+    var workingFormat = _ref.workingFormat;
+    var labelFormat = _ref.labelFormat;
+    var outputFormat = _ref.outputFormat;
+    var key = _ref.key;
+    var dispatchOnSelect = _ref.dispatchOnSelect;
+    var selectCallback = _ref.selectCallback;
+
+    this.classList.add(defaultClass);
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
+
+    var previous = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', {
+        'class': previousClass,
+        href: '#previous'
+    }),
+        next = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', {
+        'class': nextClass,
+        href: '#next'
+    }),
+        thead = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('thead'),
+        headRow = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr'),
+        headPrevious = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td'),
+        headLabel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td', { colspan: 5 }),
+        headNext = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td'),
+        dayRow = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr'),
+        tbody = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tbody'),
+        props = this.kompo.props;
+
+    var currentDate = new Date(),
+        selectedEl = undefined,
+        workingDate = undefined,
+        hasNoFuture = false,
+        hasNoPast = false;
+
+    currentDate.setHours(0, 0, 0, 0);
+
+    /**
+     * Structure elements
+     */
+    previous.textContent = previousText;
+    next.textContent = nextText;
+
+    headPrevious.appendChild(previous);
+    headNext.appendChild(next);
+    headRow.appendChild(headPrevious);
+    headRow.appendChild(headLabel);
+    headRow.appendChild(headNext);
+    thead.appendChild(headRow);
+    this.appendChild(thead);
+
+    for (var i = 0, l = dayNames.length; i < l; ++i) {
+        var c = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('th');
+        c.textContent = dayNames[i];
+        dayRow.appendChild(c);
+    }
+
+    // Add tr with dayNames in thead
+    thead.appendChild(dayRow);
+    this.appendChild(thead);
+    this.appendChild(tbody);
+
+    /**
+     * Events & reactions
+     */
+    previous.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (hasNoPast) return;
+
+        workingDate.setMonth(workingDate.getMonth() - 1);
+        isolatedReact(_this);
+    });
+
+    next.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (hasNoFuture) return;
+
+        workingDate.setMonth(workingDate.getMonth() + 1);
+        isolatedReact(_this);
+    });
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(tbody, 'a', 'click', function (e) {
+        e.preventDefault();
+
+        if (selectedEl) {
+            selectedEl.classList.remove(selectedClass);
+        }
+
+        selectedEl = e.target;
+        selectedEl.classList.add(selectedClass);
+
+        var dateStr = selectedEl.getAttribute('data-date');
+        props.selectedDate = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.parse(dateStr, workingFormat);
+
+        if (selectCallback) {
+            selectCallback(e);
+        }
+
+        if (dispatchOnSelect) {
+            dispatch(_this, function (state) {
+                state[key] = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, outputFormat);
+            });
+        }
+    });
+
+    props.reactFn = function (state) {
+        if (!props.selectedDate) {
+            props.selectedDate = state[key] || new Date(currentDate.getTime());
+
+            if (typeof props.selectedDate === 'string') {
+                props.selectedDate = new Date(props.selectedDate);
+            }
+
+            props.selectedDate.setHours(0, 0, 0, 0);
+        }
+
+        if (!workingDate) {
+            workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
+        } else {
+            workingDate.setHours(0, 0, 0, 0);
+        }
+
+        if (props.notBefore) {
+            props.notBefore = new Date(props.notBefore);
+            props.notBefore.setHours(0, 0, 0, 0);
+        } else if (props.notAfter) {
+            props.notAfter = new Date(props.notAfter);
+            props.notAfter.setHours(0, 0, 0, 0);
+        }
+
+        headLabel.textContent = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(workingDate, labelFormat);
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(tbody);
+        hasNoPast = false;
+        hasNoFuture = false;
+        previous.classList.remove(previousDisabledClass);
+        next.classList.remove(nextDisabledClass);
+
+        var days = new Date(workingDate.getFullYear(), workingDate.getMonth() + 1, 0).getDate(),
+            start = new Date(workingDate.getFullYear(), workingDate.getMonth(), 0).getDay();
+
+        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr'),
+            currentIncrement = void 0;
+        tbody.appendChild(tr);
+
+        for (var _i = 1 - start, _l = 42 - start; _i <= _l; ++_i) {
+            var dayDate = new Date(workingDate.getFullYear(), workingDate.getMonth(), _i),
+                formattedDate = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(dayDate, workingFormat),
+                td = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td');
+
+            var a = void 0,
+                customCompared = void 0;
+
+            if (props.notBefore) {
+                customCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notBefore);
+            } else if (props.notAfter) {
+                customCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notAfter);
+            }
+
+            dayDate.setHours(0, 0, 0, 0);
+            var compared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, currentDate);
+            switch (true) {
+                case compared === -1 && props.noPast || props.notBefore && customCompared === -1:
+                    a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
+                    hasNoPast = true;
+                    previous.classList.add(previousDisabledClass);
+                    break;
+                case compared === 1 && props.noFuture || props.notAfter && customCompared === 1:
+                    a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
+                    hasNoFuture = true;
+                    previous.classList.add(nextDisabledClass);
+                    break;
+                default:
+                    a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', {
+                        href: '#' + formattedDate,
+                        'data-date': formattedDate
+                    });
+                    break;
+            }
+
+            if (compared === 0) {
+                a.classList.add(currentClass);
+                currentIncrement = _i;
+            }
+
+            if (_i < 1 || _i > days) {
+                a.classList.add(notCurrentMonthClass);
+            }
+
+            if (props.selectedDate !== null && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.selectedDate) === 0) {
+                a.classList.add(selectedClass);
+                selectedEl = a;
+            }
+
+            a.textContent = dayDate.getDate();
+            td.appendChild(a);
+            tr.appendChild(td);
+
+            if (_i < _l && (_i + start) % 7 === 0) {
+                tbody.appendChild(tr);
+                tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr');
+            }
+        }
+
+        tbody.appendChild(tr); // Don't forget to append last row
+    };
+    react(this, props.reactFn);
+}, {
+    dayNames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+    defaultClass: 'o-DatePicker',
+    classes: [],
+    workingFormat: 'DD/MM/YYYY',
+    outputFormat: 'YYYY-MM-DD HH:mm:ss',
+    labelFormat: 'MMM YYYY',
+    previousClass: 'o-DatePicker-prev',
+    previousDisabledClass: 'o-DatePicker-prev--disabled',
+    previousText: '<',
+    nextClass: 'o-DatePicker-next',
+    nextDisabledClass: 'o-DatePicker-next--disabled',
+    nextText: '>',
+    selectedClass: 'o-DatePicker-d--isSelected',
+    notCurrentMonthClass: 'o-DatePicker-d--isNotCurrentMonth',
+    currentClass: 'o-DatePicker-d--isCurrent',
+    selectedDate: undefined,
+    key: 'date',
+    dispatchOnSelect: false,
+    noPast: false,
+    noFuture: false,
+    notBefore: undefined,
+    notAfter: undefined,
+    selectCallback: undefined
+});
+
+function outputSelectedDate(datePicker) {
+    var props = datePicker.kompo.props;
+    return __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, props.outputFormat);
+}
+
+function isolatedReact(datePicker) {
+    var state = getState(datePicker);
+    datePicker.kompo.props.reactFn(state);
+}
+
+/***/ },
+/* 49 */,
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
@@ -2617,498 +3586,13 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
 
 
 /***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(43);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(47)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!./multiPanel.css", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!./multiPanel.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-
-var stylesInDom = {};
-
-var	memoize = function (fn) {
-	var memo;
-
-	return function () {
-		if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-		return memo;
-	};
-};
-
-var isOldIE = memoize(function () {
-	// Test for IE <= 9 as proposed by Browserhacks
-	// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-	// Tests for existence of standard globals is to allow style-loader
-	// to operate correctly into non-standard environments
-	// @see https://github.com/webpack-contrib/style-loader/issues/177
-	return window && document && document.all && !window.atob;
-});
-
-var getElement = (function (fn) {
-	var memo = {};
-
-	return function(selector) {
-		if (typeof memo[selector] === "undefined") {
-			memo[selector] = fn.call(this, selector);
-		}
-
-		return memo[selector]
-	};
-})(function (target) {
-	return document.querySelector(target)
-});
-
-var singleton = null;
-var	singletonCounter = 0;
-var	stylesInsertedAtTop = [];
-
-var	fixUrls = __webpack_require__(48);
-
-module.exports = function(list, options) {
-	if (typeof DEBUG !== "undefined" && DEBUG) {
-		if (typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-
-	options.attrs = typeof options.attrs === "object" ? options.attrs : {};
-
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (!options.singleton) options.singleton = isOldIE();
-
-	// By default, add <style> tags to the <head> element
-	if (!options.insertInto) options.insertInto = "head";
-
-	// By default, add <style> tags to the bottom of the target
-	if (!options.insertAt) options.insertAt = "bottom";
-
-	var styles = listToStyles(list, options);
-
-	addStylesToDom(styles, options);
-
-	return function update (newList) {
-		var mayRemove = [];
-
-		for (var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-
-		if(newList) {
-			var newStyles = listToStyles(newList, options);
-			addStylesToDom(newStyles, options);
-		}
-
-		for (var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-
-			if(domStyle.refs === 0) {
-				for (var j = 0; j < domStyle.parts.length; j++) domStyle.parts[j]();
-
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-};
-
-function addStylesToDom (styles, options) {
-	for (var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-
-		if(domStyle) {
-			domStyle.refs++;
-
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles (list, options) {
-	var styles = [];
-	var newStyles = {};
-
-	for (var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = options.base ? item[0] + options.base : item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-
-		if(!newStyles[id]) styles.push(newStyles[id] = {id: id, parts: [part]});
-		else newStyles[id].parts.push(part);
-	}
-
-	return styles;
-}
-
-function insertStyleElement (options, style) {
-	var target = getElement(options.insertInto)
-
-	if (!target) {
-		throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
-	}
-
-	var lastStyleElementInsertedAtTop = stylesInsertedAtTop[stylesInsertedAtTop.length - 1];
-
-	if (options.insertAt === "top") {
-		if (!lastStyleElementInsertedAtTop) {
-			target.insertBefore(style, target.firstChild);
-		} else if (lastStyleElementInsertedAtTop.nextSibling) {
-			target.insertBefore(style, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			target.appendChild(style);
-		}
-		stylesInsertedAtTop.push(style);
-	} else if (options.insertAt === "bottom") {
-		target.appendChild(style);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement (style) {
-	style.parentNode.removeChild(style);
-
-	var idx = stylesInsertedAtTop.indexOf(style);
-
-	if(idx >= 0) {
-		stylesInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement (options) {
-	var style = document.createElement("style");
-
-	options.attrs.type = "text/css";
-
-	addAttrs(style, options.attrs);
-	insertStyleElement(options, style);
-
-	return style;
-}
-
-function createLinkElement (options) {
-	var link = document.createElement("link");
-
-	options.attrs.type = "text/css";
-	options.attrs.rel = "stylesheet";
-
-	addAttrs(link, options.attrs);
-	insertStyleElement(options, link);
-
-	return link;
-}
-
-function addAttrs (el, attrs) {
-	Object.keys(attrs).forEach(function (key) {
-		el.setAttribute(key, attrs[key]);
-	});
-}
-
-function addStyle (obj, options) {
-	var style, update, remove, result;
-
-	// If a transform function was defined, run it on the css
-	if (options.transform && obj.css) {
-	    result = options.transform(obj.css);
-
-	    if (result) {
-	    	// If transform returns a value, use that instead of the original css.
-	    	// This allows running runtime transformations on the css.
-	    	obj.css = result;
-	    } else {
-	    	// If the transform function returns a falsy value, don't add this css.
-	    	// This allows conditional loading of css
-	    	return function() {
-	    		// noop
-	    	};
-	    }
-	}
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-
-		style = singleton || (singleton = createStyleElement(options));
-
-		update = applyToSingletonTag.bind(null, style, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-
-	} else if (
-		obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function"
-	) {
-		style = createLinkElement(options);
-		update = updateLink.bind(null, style, options);
-		remove = function () {
-			removeStyleElement(style);
-
-			if(style.href) URL.revokeObjectURL(style.href);
-		};
-	} else {
-		style = createStyleElement(options);
-		update = applyToTag.bind(null, style);
-		remove = function () {
-			removeStyleElement(style);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle (newObj) {
-		if (newObj) {
-			if (
-				newObj.css === obj.css &&
-				newObj.media === obj.media &&
-				newObj.sourceMap === obj.sourceMap
-			) {
-				return;
-			}
-
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag (style, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (style.styleSheet) {
-		style.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = style.childNodes;
-
-		if (childNodes[index]) style.removeChild(childNodes[index]);
-
-		if (childNodes.length) {
-			style.insertBefore(cssNode, childNodes[index]);
-		} else {
-			style.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag (style, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		style.setAttribute("media", media)
-	}
-
-	if(style.styleSheet) {
-		style.styleSheet.cssText = css;
-	} else {
-		while(style.firstChild) {
-			style.removeChild(style.firstChild);
-		}
-
-		style.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink (link, options, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	/*
-		If convertToAbsoluteUrls isn't defined, but sourcemaps are enabled
-		and there is no publicPath defined then lets turn convertToAbsoluteUrls
-		on by default.  Otherwise default to the convertToAbsoluteUrls option
-		directly
-	*/
-	var autoFixUrls = options.convertToAbsoluteUrls === undefined && sourceMap;
-
-	if (options.convertToAbsoluteUrls || autoFixUrls) {
-		css = fixUrls(css);
-	}
-
-	if (sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = link.href;
-
-	link.href = URL.createObjectURL(blob);
-
-	if(oldSrc) URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ },
-/* 48 */
-/***/ function(module, exports) {
-
-
-/**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
- *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
- */
-
-module.exports = function (css) {
-  // get current location
-  var location = typeof window !== "undefined" && window.location;
-
-  if (!location) {
-    throw new Error("fixUrls requires window.location");
-  }
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-	  return css;
-  }
-
-  var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
-	This regular expression is just a way to recursively match brackets within
-	a string.
-
-	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-	   (  = Start a capturing group
-	     (?:  = Start a non-capturing group
-	         [^)(]  = Match anything that isn't a parentheses
-	         |  = OR
-	         \(  = Match a start parentheses
-	             (?:  = Start another non-capturing groups
-	                 [^)(]+  = Match anything that isn't a parentheses
-	                 |  = OR
-	                 \(  = Match a start parentheses
-	                     [^)(]*  = Match anything that isn't a parentheses
-	                 \)  = Match a end parentheses
-	             )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-	 \)  = Match a close parens
-
-	 /gi  = Get all matches, not the first.  Be case insensitive.
-	 */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl
-			.trim()
-			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
-			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
-		  return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
-};
-
-
-/***/ },
-/* 49 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__ = __webpack_require__(43);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
@@ -3135,469 +3619,6 @@ document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(
     from: '2017-06-05 23:59:59',
     to: '2017-07-05 23:59:59'
 }).start());
-
-/***/ },
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ exports["a"] = compare;
-/* unused harmony export convert */
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function compare(a, b) {
-    // Compare two dates (could be of any type supported by the convert
-    // function above) and returns:
-    //  -1 : if a < b
-    //   0 : if a = b
-    //   1 : if a > b
-    // NaN : if a or b is an illegal date
-    // NOTE: The code inside isFinite does an assignment (=).
-    return isFinite(a = convert(a).valueOf()) && isFinite(b = convert(b).valueOf()) ? (a > b) - (a < b) : NaN;
-}
-
-function convert(d) {
-    // Converts the date in d to a date-object. The input can be:
-    //   a date object: returned without modification
-    //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
-    //   a number     : Interpreted as number of milliseconds
-    //                  since 1 Jan 1970 (a timestamp)
-    //   a string     : Any format supported by the javascript engine, like
-    //                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
-    //  an object     : Interpreted as an object with year, month and date
-    //                  attributes.  **NOTE** month is 0-11.
-    return d.constructor === Date ? d : d.constructor === Array ? new Date(d[0], d[1], d[2]) : d.constructor === Number ? new Date(d) : d.constructor === String ? new Date(d) : (typeof d === "undefined" ? "undefined" : _typeof(d)) === "object" ? new Date(d.year, d.month, d.date) : NaN;
-}
-
-/***/ },
-/* 56 */,
-/* 57 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datePicker__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__ = __webpack_require__(55);
-
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
-var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
-
-
-
-
-
-
-
-
-
-
-/* harmony default export */ exports["a"] = construct('div', function (_ref) {
-    var _this = this;
-
-    var defaultClass = _ref.defaultClass;
-    var selectedClass = _ref.selectedClass;
-    var applyFormat = _ref.applyFormat;
-    var applyCallback = _ref.applyCallback;
-
-    this.classList.add(defaultClass);
-
-    var nav = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('nav', { 'class': 'o-DateRange-nav' }),
-        from = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': 'o-DateRange-from', href: '#from' }),
-        to = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': 'o-DateRange-to', href: '#to' }),
-        fromDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
-        key: 'from',
-        selectCallback: function selectCallback(e) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
-            toggleToTo(from, to, selectedClass);
-
-            var fromProps = fromDatePicker.kompo.props,
-                toProps = toDatePicker.kompo.props;
-
-            toProps.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
-
-            // If from > to then set selected of toDatePicker to same day
-            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__["a" /* compare */])(fromProps.selectedDate, toProps.selectedDate) === 1) {
-                toProps.selectedDate = fromProps.selectedDate;
-            }
-
-            formatApply(applyTextDate, fromDatePicker, toDatePicker);
-
-            // Only rerenders toDatePicker
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["c" /* isolatedReact */])(toDatePicker);
-        },
-        outputFormat: applyFormat
-    }),
-        toDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
-        key: 'to',
-        selectCallback: function selectCallback() {
-            formatApply(applyTextDate, fromDatePicker, toDatePicker);
-        },
-        outputFormat: applyFormat
-    }),
-        mp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["c" /* default */])(),
-        fromPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: fromDatePicker }),
-        toPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: toDatePicker }),
-        panels = [fromPanel, toPanel],
-        applyContainer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': 'o-DateRange-applyContainer' }),
-        apply = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': 'o-DateRange-apply', href: '#apply' }),
-        applyText = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span'),
-        applyTextDate = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
-
-    from.textContent = 'From';
-    to.textContent = 'To';
-    applyText.textContent = 'Apply';
-
-    /**
-     * Structure
-     */
-    nav.appendChild(from);
-    nav.appendChild(to);
-    this.appendChild(nav);
-
-    children(mp, [fromPanel, toPanel]);
-    mount(this, mp);
-
-    apply.appendChild(applyText);
-    apply.appendChild(applyTextDate);
-    applyContainer.appendChild(apply);
-    this.appendChild(applyContainer);
-    formatApply(applyTextDate, fromDatePicker, toDatePicker);
-
-    /**
-     * Events & Reactions
-     */
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
-    from.classList.add(selectedClass);
-
-    from.addEventListener('click', function (e) {
-        e.preventDefault();
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
-        toggleToFrom(from, to, selectedClass);
-    });
-
-    to.addEventListener('click', function (e) {
-        e.preventDefault();
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
-        toggleToTo(from, to, selectedClass);
-        toDatePicker.kompo.props.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
-    });
-
-    apply.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        if (applyCallback) {
-            applyCallback(_this, fromDatePicker, toDatePicker);
-        }
-    });
-}, {
-    defaultClass: 'o-DateRange',
-    selectedClass: 'o-DateRange-nav--selected',
-    applyFormat: 'YYYY-MM-DD',
-    applyCallback: undefined
-});
-
-function toggleToFrom(from, to, clss) {
-    from.classList.add(clss);
-    to.classList.remove(clss);
-}
-
-function toggleToTo(from, to, clss) {
-    from.classList.remove(clss);
-    to.classList.add(clss);
-}
-
-function formatApply(el, fromDatePicker, toDatePicker) {
-    el.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker) + ' / ' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(toDatePicker);
-}
-
-/***/ },
-/* 58 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_fecha__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__ = __webpack_require__(55);
-/* harmony export (immutable) */ exports["b"] = outputSelectedDate;
-/* harmony export (immutable) */ exports["c"] = isolatedReact;
-
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
-var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
-var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
-var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
-
-
-
-
-
-
-
-/* harmony default export */ exports["a"] = construct('table', function (_ref) {
-    var _this = this;
-
-    var dayNames = _ref.dayNames;
-    var defaultClass = _ref.defaultClass;
-    var previousClass = _ref.previousClass;
-    var nextClass = _ref.nextClass;
-    var previousText = _ref.previousText;
-    var nextText = _ref.nextText;
-    var selectedClass = _ref.selectedClass;
-    var notCurrentMonthClass = _ref.notCurrentMonthClass;
-    var currentClass = _ref.currentClass;
-    var workingFormat = _ref.workingFormat;
-    var labelFormat = _ref.labelFormat;
-    var outputFormat = _ref.outputFormat;
-    var key = _ref.key;
-    var dispatchOnSelect = _ref.dispatchOnSelect;
-    var selectCallback = _ref.selectCallback;
-
-    this.classList.add(defaultClass);
-
-    var previous = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', {
-        'class': previousClass,
-        href: '#previous'
-    }),
-        next = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', {
-        'class': nextClass,
-        href: '#next'
-    }),
-        thead = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('thead'),
-        headRow = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr'),
-        headPrevious = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td'),
-        headLabel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td', { colspan: 5 }),
-        headNext = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td'),
-        dayRow = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr'),
-        tbody = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tbody'),
-        props = this.kompo.props;
-
-    var currentDate = new Date(),
-        selectedEl = undefined,
-        workingDate = undefined,
-        hasNoFuture = false,
-        hasNoPast = false;
-
-    currentDate.setHours(0, 0, 0, 0);
-
-    /**
-     * Structure elements
-     */
-    previous.textContent = previousText;
-    next.textContent = nextText;
-
-    headPrevious.appendChild(previous);
-    headNext.appendChild(next);
-    headRow.appendChild(headPrevious);
-    headRow.appendChild(headLabel);
-    headRow.appendChild(headNext);
-    thead.appendChild(headRow);
-    this.appendChild(thead);
-
-    for (var i = 0, l = dayNames.length; i < l; ++i) {
-        var c = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('th');
-        c.textContent = dayNames[i];
-        dayRow.appendChild(c);
-    }
-
-    // Add tr with dayNames in thead
-    thead.appendChild(dayRow);
-    this.appendChild(thead);
-    this.appendChild(tbody);
-
-    /**
-     * Events & reactions
-     */
-    previous.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        if (hasNoPast) return;
-
-        dispatch(_this, function (state) {
-            markDirty(state);
-            workingDate.setMonth(workingDate.getMonth() - 1);
-        });
-    });
-
-    next.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        if (hasNoFuture) return;
-
-        dispatch(_this, function (state) {
-            markDirty(state);
-            workingDate.setMonth(workingDate.getMonth() + 1);
-        });
-    });
-
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(tbody, 'a', 'click', function (e) {
-        e.preventDefault();
-
-        if (selectedEl) {
-            selectedEl.classList.remove(selectedClass);
-        }
-
-        selectedEl = e.target;
-        selectedEl.classList.add(selectedClass);
-
-        var dateStr = selectedEl.getAttribute('data-date');
-        props.selectedDate = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.parse(dateStr, workingFormat);
-
-        if (selectCallback) {
-            selectCallback(e);
-        }
-
-        if (dispatchOnSelect) {
-            dispatch(_this, function (state) {
-                state[key] = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, outputFormat);
-            });
-        }
-    });
-
-    props.reactFn = function (state) {
-        if (!props.selectedDate) {
-            props.selectedDate = state[key] || new Date(currentDate.getTime());
-
-            if (typeof props.selectedDate === 'string') {
-                props.selectedDate = new Date(props.selectedDate);
-            }
-
-            props.selectedDate.setHours(0, 0, 0, 0);
-        }
-
-        if (!workingDate) {
-            workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
-        } else {
-            workingDate.setHours(0, 0, 0, 0);
-        }
-
-        if (props.notBefore) {
-            props.notBefore = new Date(props.notBefore);
-            props.notBefore.setHours(0, 0, 0, 0);
-        } else if (props.notAfter) {
-            props.notAfter = new Date(props.notAfter);
-            props.notAfter.setHours(0, 0, 0, 0);
-        }
-
-        headLabel.textContent = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(workingDate, labelFormat);
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(tbody);
-        hasNoPast = false;
-        hasNoFuture = false;
-
-        var days = new Date(workingDate.getFullYear(), workingDate.getMonth() + 1, 0).getDate(),
-            start = new Date(workingDate.getFullYear(), workingDate.getMonth(), 0).getDay();
-
-        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr'),
-            currentIncrement = void 0;
-        tbody.appendChild(tr);
-
-        for (var _i = 1 - start, _l = 42 - start; _i <= _l; ++_i) {
-            var dayDate = new Date(workingDate.getFullYear(), workingDate.getMonth(), _i),
-                formattedDate = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(dayDate, workingFormat),
-                td = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td');
-
-            var a = void 0,
-                customCompared = void 0;
-
-            if (props.notBefore) {
-                customCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notBefore);
-            } else if (props.notAfter) {
-                customCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notAfter);
-            }
-
-            dayDate.setHours(0, 0, 0, 0);
-            var compared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, currentDate);
-            switch (true) {
-                case compared === -1 && props.noPast || props.notBefore && customCompared === -1:
-                    a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
-                    hasNoPast = true;
-                    break;
-                case compared === 1 && props.noFuture || props.notAfter && customCompared === 1:
-                    a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
-                    hasNoFuture = true;
-                    break;
-                default:
-                    a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', {
-                        href: '#' + formattedDate,
-                        'data-date': formattedDate
-                    });
-                    break;
-            }
-
-            if (compared === 0) {
-                a.classList.add(currentClass);
-                currentIncrement = _i;
-            }
-
-            if (_i < 1 || _i > days) {
-                a.classList.add(notCurrentMonthClass);
-            }
-
-            if (props.selectedDate !== null && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.selectedDate) === 0) {
-                a.classList.add(selectedClass);
-                selectedEl = a;
-            }
-
-            a.textContent = dayDate.getDate();
-            td.appendChild(a);
-            tr.appendChild(td);
-
-            if (_i < _l && (_i + start) % 7 === 0) {
-                tbody.appendChild(tr);
-                tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('tr');
-            }
-        }
-
-        tbody.appendChild(tr); // Don't forget to append last row
-    };
-    react(this, props.reactFn);
-}, {
-    dayNames: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-    defaultClass: 'o-DatePicker',
-    workingFormat: 'DD/MM/YYYY',
-    outputFormat: 'YYYY-MM-DD HH:mm:ss',
-    labelFormat: 'MMM YYYY',
-    previousClass: 'o-DatePicker-prev',
-    previousText: '<',
-    nextClass: 'o-DatePicker-next',
-    nextText: '>',
-    selectedClass: 'o-DatePicker-d--isSelected',
-    notCurrentMonthClass: 'o-DatePicker-d--isNotCurrentMonth',
-    currentClass: 'o-DatePicker-d--isCurrent',
-    selectedDate: undefined,
-    key: 'date',
-    dispatchOnSelect: false,
-    noPast: false,
-    noFuture: false,
-    notBefore: undefined,
-    notAfter: undefined,
-    selectCallback: undefined
-});
-
-function outputSelectedDate(datePicker) {
-    var props = datePicker.kompo.props;
-    return __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, props.outputFormat);
-}
-
-function isolatedReact(datePicker) {
-    var state = getState(datePicker);
-    datePicker.kompo.props.reactFn(state);
-}
 
 /***/ }
 /******/ ])

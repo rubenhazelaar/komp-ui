@@ -9,7 +9,7 @@ import {compare} from '../utils/dateUtils';
 
 export default construct('table', function ({
     dayNames, defaultClass, classes,
-    previousClass, nextClass, previousText, nextText,
+    previousClass, previousDisabledClass, nextClass, nextDisabledClass, previousText, nextText,
     selectedClass,
     notCurrentMonthClass,
     currentClass,
@@ -152,6 +152,8 @@ export default construct('table', function ({
         empty(tbody);
         hasNoPast = false;
         hasNoFuture = false;
+        previous.classList.remove(previousDisabledClass);
+        next.classList.remove(nextDisabledClass);
 
         const days = new Date(workingDate.getFullYear(), workingDate.getMonth() + 1, 0).getDate(),
             start = new Date(workingDate.getFullYear(), workingDate.getMonth(), 0).getDay();
@@ -185,10 +187,12 @@ export default construct('table', function ({
                 case compared === -1 && props.noPast || props.notBefore && customCompared === -1:
                     a = create('span');
                     hasNoPast = true;
+                    previous.classList.add(previousDisabledClass);
                     break;
                 case compared === 1 && props.noFuture || props.notAfter && customCompared === 1:
                     a = create('span');
                     hasNoFuture = true;
+                    previous.classList.add(nextDisabledClass);
                     break;
                 default:
                     a = create('a', {
@@ -233,8 +237,10 @@ export default construct('table', function ({
     outputFormat: 'YYYY-MM-DD HH:mm:ss',
     labelFormat: 'MMM YYYY',
     previousClass: 'o-DatePicker-prev',
+    previousDisabledClass: 'o-DatePicker-prev--disabled',
     previousText: '<',
     nextClass: 'o-DatePicker-next',
+    nextDisabledClass: 'o-DatePicker-next--disabled',
     nextText: '>',
     selectedClass: 'o-DatePicker-d--isSelected',
     notCurrentMonthClass: 'o-DatePicker-d--isNotCurrentMonth',
