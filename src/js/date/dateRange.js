@@ -98,7 +98,7 @@ export default construct('div', function ({
                     setSelectedDate(toDatePicker, toDate);
                     slideTo(mp, panels, 0);
                     toggleToFrom(from, to, selectedClass);
-                    formatApply(apply, fromDatePicker, toDatePicker)
+                    formatApply(applyTextDate, fromDatePicker, toDatePicker)
                 });
             }
         });
