@@ -9,6 +9,8 @@ import infiniteTable, {resetSpacers} from './table/infiniteTable';
 import datePicker, {outputSelectedDate, isolatedReact} from './date/datePicker';
 import dateRange from './date/dateRange';
 
+import constructAutocomplete from './autocomplete/autocomplete';
+
 const multiPanel = {
     constructMultipanel
     ,slideTo
@@ -33,8 +35,13 @@ const date = {
     ,dateRange
 };
 
+const autocomplete = {
+    constructAutocomplete
+};
+
 export {
     multiPanel
     ,table
     ,date
+    ,autocomplete
 }

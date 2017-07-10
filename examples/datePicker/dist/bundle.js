@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 53);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2753,45 +2753,7 @@ module.exports = function (css) {
 
 
 /***/ },
-/* 37 */,
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ exports["a"] = compare;
-/* unused harmony export convert */
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function compare(a, b) {
-    // Compare two dates (could be of any type supported by the convert
-    // function above) and returns:
-    //  -1 : if a < b
-    //   0 : if a = b
-    //   1 : if a > b
-    // NaN : if a or b is an illegal date
-    // NOTE: The code inside isFinite does an assignment (=).
-    return isFinite(a = convert(a).valueOf()) && isFinite(b = convert(b).valueOf()) ? (a > b) - (a < b) : NaN;
-}
-
-function convert(d) {
-    // Converts the date in d to a date-object. The input can be:
-    //   a date object: returned without modification
-    //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
-    //   a number     : Interpreted as number of milliseconds
-    //                  since 1 Jan 1970 (a timestamp)
-    //   a string     : Any format supported by the javascript engine, like
-    //                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
-    //  an object     : Interpreted as an object with year, month and date
-    //                  attributes.  **NOTE** month is 0-11.
-    return d.constructor === Date ? d : d.constructor === Array ? new Date(d[0], d[1], d[2]) : d.constructor === Number ? new Date(d) : d.constructor === String ? new Date(d) : (typeof d === "undefined" ? "undefined" : _typeof(d)) === "object" ? new Date(d.year, d.month, d.date) : NaN;
-}
-
-/***/ },
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2799,218 +2761,9 @@ function convert(d) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datePicker__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__ = __webpack_require__(38);
-
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
-var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
-
-
-
-
-
-
-
-
-
-
-/* harmony default export */ exports["a"] = construct('div', function (_ref) {
-    var _this = this;
-
-    var defaultClass = _ref.defaultClass;
-    var classes = _ref.classes;
-    var multiPanelClass = _ref.multiPanelClass;
-    var selectedClass = _ref.selectedClass;
-    var navClass = _ref.navClass;
-    var fromClass = _ref.fromClass;
-    var toClass = _ref.toClass;
-    var applyContainerClass = _ref.applyContainerClass;
-    var applyClass = _ref.applyClass;
-    var applyFormat = _ref.applyFormat;
-    var applyCallback = _ref.applyCallback;
-    var overlay = _ref.overlay;
-    var fromKey = _ref.fromKey;
-    var toKey = _ref.toKey;
-    var setDate = _ref.setDate;
-    var getDate = _ref.getDate;
-    var resetClass = _ref.resetClass;
-    var resetText = _ref.resetText;
-    var resetCallback = _ref.resetCallback;
-
-    this.classList.add(defaultClass);
-
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
-
-    var nav = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('nav', { 'class': navClass }),
-        from = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': fromClass, href: '#from' }),
-        to = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': toClass, href: '#to' }),
-        fromDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
-        key: fromKey,
-        setDate: setDate,
-        getDate: getDate,
-        selectCallback: function selectCallback(e) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
-            toggleToTo(from, to, selectedClass);
-
-            var fromProps = fromDatePicker.kompo.props,
-                toProps = toDatePicker.kompo.props;
-
-            toProps.resetWorkingDate = true;
-            toProps.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
-
-            // If from > to then set selected of toDatePicker to same day
-            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__["a" /* compare */])(fromProps.selectedDate, toProps.selectedDate) === 1) {
-                toProps.selectedDate = fromProps.selectedDate;
-            }
-
-            formatApply(applyTextDate, fromDatePicker, toDatePicker);
-
-            // Only rerenders toDatePicker
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["c" /* isolatedReact */])(toDatePicker);
-        },
-        outputFormat: applyFormat
-    }),
-        toDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
-        key: toKey,
-        setDate: setDate,
-        getDate: getDate,
-        selectCallback: function selectCallback() {
-            formatApply(applyTextDate, fromDatePicker, toDatePicker);
-        },
-        outputFormat: applyFormat
-    }),
-        mp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["c" /* default */])({ classNames: [multiPanelClass], overlay: overlay }),
-        fromPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: fromDatePicker }),
-        toPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: toDatePicker }),
-        panels = [fromPanel, toPanel],
-        applyContainer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': applyContainerClass }),
-        apply = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': applyClass, href: '#apply' }),
-        applyText = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span'),
-        applyTextDate = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
-
-    from.textContent = 'From';
-    to.textContent = 'To';
-    applyText.textContent = 'Apply';
-
-    /**
-     * Structure
-     */
-    nav.appendChild(from);
-    nav.appendChild(to);
-    this.appendChild(nav);
-
-    children(mp, [fromPanel, toPanel]);
-    mount(this, mp, this.kompo.selector);
-
-    apply.appendChild(applyText);
-    apply.appendChild(applyTextDate);
-    applyContainer.appendChild(apply);
-
-    if (resetCallback) {
-        var reset = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': resetClass, href: '#reset' });
-        reset.textContent = resetText;
-
-        reset.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            if (resetCallback) {
-                resetCallback(function (fromDate, toDate) {
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(fromDatePicker, fromDate);
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(toDatePicker, toDate);
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
-                    toggleToFrom(from, to, selectedClass);
-                    formatApply(apply, fromDatePicker, toDatePicker);
-                });
-            }
-        });
-
-        applyContainer.appendChild(reset);
-    }
-
-    this.appendChild(applyContainer);
-    formatApply(applyTextDate, fromDatePicker, toDatePicker);
-
-    /**
-     * Events & Reactions
-     */
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
-    from.classList.add(selectedClass);
-
-    from.addEventListener('click', function (e) {
-        e.preventDefault();
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
-        toggleToFrom(from, to, selectedClass);
-    });
-
-    to.addEventListener('click', function (e) {
-        e.preventDefault();
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
-        toggleToTo(from, to, selectedClass);
-        toDatePicker.kompo.props.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
-    });
-
-    apply.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        if (applyCallback) {
-            applyCallback(_this, fromDatePicker, toDatePicker);
-        }
-    });
-}, {
-    defaultClass: 'o-DateRange',
-    classes: [],
-    selectedClass: 'o-DateRange-nav--selected',
-    multiPanelClass: 'o-DateRange-multiPanel',
-    navClass: 'o-DateRange-nav',
-    fromClass: 'o-DateRange-from',
-    toClass: 'o-DateRange-to',
-    applyContainerClass: 'o-DateRange-applyContainer',
-    applyClass: 'o-DateRange-apply',
-    applyFormat: 'YYYY-MM-DD',
-    applyCallback: undefined,
-    overlay: false,
-    fromKey: 'from',
-    toKey: 'to',
-    setDate: undefined,
-    getDate: undefined,
-    resetClass: 'o-DateRange-reset',
-    resetText: 'x',
-    resetCallback: undefined
-});
-
-function toggleToFrom(from, to, clss) {
-    from.classList.add(clss);
-    to.classList.remove(clss);
-}
-
-function toggleToTo(from, to, clss) {
-    from.classList.remove(clss);
-    to.classList.add(clss);
-}
-
-function formatApply(el, fromDatePicker, toDatePicker) {
-    el.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker) + ' / ' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(toDatePicker);
-}
-
-/***/ },
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_fecha__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__ = __webpack_require__(39);
 /* harmony export (immutable) */ exports["b"] = outputSelectedDate;
 /* harmony export (immutable) */ exports["d"] = setSelectedDate;
 /* harmony export (immutable) */ exports["c"] = isolatedReact;
@@ -3330,8 +3083,256 @@ function isolatedReact(datePicker) {
 }
 
 /***/ },
+/* 38 */,
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ exports["a"] = compare;
+/* unused harmony export convert */
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function compare(a, b) {
+    // Compare two dates (could be of any type supported by the convert
+    // function above) and returns:
+    //  -1 : if a < b
+    //   0 : if a = b
+    //   1 : if a > b
+    // NaN : if a or b is an illegal date
+    // NOTE: The code inside isFinite does an assignment (=).
+    return isFinite(a = convert(a).valueOf()) && isFinite(b = convert(b).valueOf()) ? (a > b) - (a < b) : NaN;
+}
+
+function convert(d) {
+    // Converts the date in d to a date-object. The input can be:
+    //   a date object: returned without modification
+    //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+    //   a number     : Interpreted as number of milliseconds
+    //                  since 1 Jan 1970 (a timestamp)
+    //   a string     : Any format supported by the javascript engine, like
+    //                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
+    //  an object     : Interpreted as an object with year, month and date
+    //                  attributes.  **NOTE** month is 0-11.
+    return d.constructor === Date ? d : d.constructor === Array ? new Date(d[0], d[1], d[2]) : d.constructor === Number ? new Date(d) : d.constructor === String ? new Date(d) : (typeof d === "undefined" ? "undefined" : _typeof(d)) === "object" ? new Date(d.year, d.month, d.date) : NaN;
+}
+
+/***/ },
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datePicker__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__ = __webpack_require__(39);
+
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
+var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
+
+
+
+
+
+
+
+
+
+
+/* harmony default export */ exports["a"] = construct('div', function (_ref) {
+    var _this = this;
+
+    var defaultClass = _ref.defaultClass;
+    var classes = _ref.classes;
+    var multiPanelClass = _ref.multiPanelClass;
+    var selectedClass = _ref.selectedClass;
+    var navClass = _ref.navClass;
+    var fromClass = _ref.fromClass;
+    var toClass = _ref.toClass;
+    var applyContainerClass = _ref.applyContainerClass;
+    var applyClass = _ref.applyClass;
+    var applyFormat = _ref.applyFormat;
+    var applyCallback = _ref.applyCallback;
+    var overlay = _ref.overlay;
+    var fromKey = _ref.fromKey;
+    var toKey = _ref.toKey;
+    var setDate = _ref.setDate;
+    var getDate = _ref.getDate;
+    var resetClass = _ref.resetClass;
+    var resetText = _ref.resetText;
+    var resetCallback = _ref.resetCallback;
+
+    this.classList.add(defaultClass);
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
+
+    var nav = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('nav', { 'class': navClass }),
+        from = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': fromClass, href: '#from' }),
+        to = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': toClass, href: '#to' }),
+        fromDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
+        key: fromKey,
+        setDate: setDate,
+        getDate: getDate,
+        selectCallback: function selectCallback(e) {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
+            toggleToTo(from, to, selectedClass);
+
+            var fromProps = fromDatePicker.kompo.props,
+                toProps = toDatePicker.kompo.props;
+
+            toProps.resetWorkingDate = true;
+            toProps.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
+
+            // If from > to then set selected of toDatePicker to same day
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__["a" /* compare */])(fromProps.selectedDate, toProps.selectedDate) === 1) {
+                toProps.selectedDate = fromProps.selectedDate;
+            }
+
+            formatApply(applyTextDate, fromDatePicker, toDatePicker);
+
+            // Only rerenders toDatePicker
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["c" /* isolatedReact */])(toDatePicker);
+        },
+        outputFormat: applyFormat
+    }),
+        toDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
+        key: toKey,
+        setDate: setDate,
+        getDate: getDate,
+        selectCallback: function selectCallback() {
+            formatApply(applyTextDate, fromDatePicker, toDatePicker);
+        },
+        outputFormat: applyFormat
+    }),
+        mp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["c" /* default */])({ classNames: [multiPanelClass], overlay: overlay }),
+        fromPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: fromDatePicker }),
+        toPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: toDatePicker }),
+        panels = [fromPanel, toPanel],
+        applyContainer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': applyContainerClass }),
+        apply = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': applyClass, href: '#apply' }),
+        applyText = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span'),
+        applyTextDate = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
+
+    from.textContent = 'From';
+    to.textContent = 'To';
+    applyText.textContent = 'Apply';
+
+    /**
+     * Structure
+     */
+    nav.appendChild(from);
+    nav.appendChild(to);
+    this.appendChild(nav);
+
+    children(mp, [fromPanel, toPanel]);
+    mount(this, mp, this.kompo.selector);
+
+    apply.appendChild(applyText);
+    apply.appendChild(applyTextDate);
+    applyContainer.appendChild(apply);
+
+    if (resetCallback) {
+        var reset = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': resetClass, href: '#reset' });
+        reset.textContent = resetText;
+
+        reset.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            if (resetCallback) {
+                resetCallback(function (fromDate, toDate) {
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(fromDatePicker, fromDate);
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(toDatePicker, toDate);
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+                    toggleToFrom(from, to, selectedClass);
+                    formatApply(applyTextDate, fromDatePicker, toDatePicker);
+                });
+            }
+        });
+
+        applyContainer.appendChild(reset);
+    }
+
+    this.appendChild(applyContainer);
+    formatApply(applyTextDate, fromDatePicker, toDatePicker);
+
+    /**
+     * Events & Reactions
+     */
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+    from.classList.add(selectedClass);
+
+    from.addEventListener('click', function (e) {
+        e.preventDefault();
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+        toggleToFrom(from, to, selectedClass);
+    });
+
+    to.addEventListener('click', function (e) {
+        e.preventDefault();
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
+        toggleToTo(from, to, selectedClass);
+        toDatePicker.kompo.props.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
+    });
+
+    apply.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (applyCallback) {
+            applyCallback(_this, fromDatePicker, toDatePicker);
+        }
+    });
+}, {
+    defaultClass: 'o-DateRange',
+    classes: [],
+    selectedClass: 'o-DateRange-nav--selected',
+    multiPanelClass: 'o-DateRange-multiPanel',
+    navClass: 'o-DateRange-nav',
+    fromClass: 'o-DateRange-from',
+    toClass: 'o-DateRange-to',
+    applyContainerClass: 'o-DateRange-applyContainer',
+    applyClass: 'o-DateRange-apply',
+    applyFormat: 'YYYY-MM-DD',
+    applyCallback: undefined,
+    overlay: false,
+    fromKey: 'from',
+    toKey: 'to',
+    setDate: undefined,
+    getDate: undefined,
+    resetClass: 'o-DateRange-reset',
+    resetText: 'x',
+    resetCallback: undefined
+});
+
+function toggleToFrom(from, to, clss) {
+    from.classList.add(clss);
+    to.classList.remove(clss);
+}
+
+function toggleToTo(from, to, clss) {
+    from.classList.remove(clss);
+    to.classList.add(clss);
+}
+
+function formatApply(el, fromDatePicker, toDatePicker) {
+    el.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker) + ' / ' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(toDatePicker);
+}
+
+/***/ },
+/* 46 */,
+/* 47 */,
+/* 48 */,
 /* 49 */,
-/* 50 */
+/* 50 */,
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
@@ -3671,14 +3672,15 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
 
 
 /***/ },
-/* 51 */
+/* 52 */,
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_date_datePicker__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_date_datePicker__ = __webpack_require__(37);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
