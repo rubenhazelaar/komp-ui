@@ -2836,6 +2836,9 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     var toKey = _ref.toKey;
     var setDate = _ref.setDate;
     var getDate = _ref.getDate;
+    var resetClass = _ref.resetClass;
+    var resetText = _ref.resetText;
+    var resetCallback = _ref.resetCallback;
 
     this.classList.add(defaultClass);
 
@@ -2905,6 +2908,28 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     apply.appendChild(applyText);
     apply.appendChild(applyTextDate);
     applyContainer.appendChild(apply);
+
+    if (resetCallback) {
+        var reset = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': resetClass, href: '#reset' });
+        reset.textContent = resetText;
+
+        reset.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            if (resetCallback) {
+                resetCallback(function (fromDate, toDate) {
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(fromDatePicker, fromDate);
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(toDatePicker, toDate);
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+                    toggleToFrom(from, to, selectedClass);
+                    formatApply(apply, fromDatePicker, toDatePicker);
+                });
+            }
+        });
+
+        applyContainer.appendChild(reset);
+    }
+
     this.appendChild(applyContainer);
     formatApply(applyTextDate, fromDatePicker, toDatePicker);
 
@@ -2950,7 +2975,10 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     fromKey: 'from',
     toKey: 'to',
     setDate: undefined,
-    getDate: undefined
+    getDate: undefined,
+    resetClass: 'o-DateRange-reset',
+    resetText: 'x',
+    resetCallback: undefined
 });
 
 function toggleToFrom(from, to, clss) {
@@ -2984,6 +3012,7 @@ function formatApply(el, fromDatePicker, toDatePicker) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_fecha__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__ = __webpack_require__(38);
 /* harmony export (immutable) */ exports["b"] = outputSelectedDate;
+/* harmony export (immutable) */ exports["d"] = setSelectedDate;
 /* harmony export (immutable) */ exports["c"] = isolatedReact;
 
 var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
@@ -3020,6 +3049,7 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
     var getDate = _ref.getDate;
     var dispatchOnSelect = _ref.dispatchOnSelect;
     var selectCallback = _ref.selectCallback;
+    var showRange = _ref.showRange;
 
     this.classList.add(defaultClass);
 
@@ -3135,7 +3165,6 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
             props.selectedDate.setHours(0, 0, 0, 0);
         }
 
-        // TODO Logic below does not work
         if (!workingDate || props.resetWorkingDate) {
             workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
             props.resetWorkingDate = false;
@@ -3146,7 +3175,9 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
         if (props.notBefore) {
             props.notBefore = new Date(props.notBefore);
             props.notBefore.setHours(0, 0, 0, 0);
-        } else if (props.notAfter) {
+        }
+
+        if (props.notAfter) {
             props.notAfter = new Date(props.notAfter);
             props.notAfter.setHours(0, 0, 0, 0);
         }
@@ -3172,32 +3203,48 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
                 td = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td');
 
             var a = void 0,
-                customCompared = void 0;
+                notBeforeCompared = void 0,
+                notAfterCompared = void 0;
 
             if (props.notBefore) {
-                customCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notBefore);
-            } else if (props.notAfter) {
-                customCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notAfter);
+                notBeforeCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notBefore);
+            }
+
+            if (props.notAfter) {
+                notAfterCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.notAfter);
             }
 
             dayDate.setHours(0, 0, 0, 0);
             var compared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, currentDate);
             switch (true) {
-                case compared === -1 && props.noPast || props.notBefore && customCompared === -1:
+                case compared === -1 && props.noPast || notBeforeCompared === -1:
                     a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
                     hasNoPast = true;
                     previous.classList.add(previousDisabledClass);
                     break;
-                case compared === 1 && props.noFuture || props.notAfter && customCompared === 1:
+                case compared === 1 && props.noFuture || notAfterCompared === 1:
                     a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span');
                     hasNoFuture = true;
-                    previous.classList.add(nextDisabledClass);
+                    next.classList.add(nextDisabledClass);
                     break;
                 default:
                     a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', {
                         href: '#' + formattedDate,
                         'data-date': formattedDate
                     });
+
+                    if (showRange) {
+                        var selectedCompared = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.selectedDate);
+
+                        if (props.notBefore && notBeforeCompared >= 0 && selectedCompared <= 0) {
+                            a.classList.add('o-DatePicker-d--inRange');
+                        }
+
+                        if (props.notAfter && notAfterCompared <= 0 && selectedCompared >= 0) {
+                            a.classList.add('o-DatePicker-d--inRange');
+                        }
+                    }
+
                     break;
             }
 
@@ -3253,6 +3300,7 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
     noFuture: false,
     notBefore: undefined,
     notAfter: undefined,
+    showRange: false,
     selectCallback: undefined,
     resetWorkingDate: false
 });
@@ -3260,6 +3308,20 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
 function outputSelectedDate(datePicker) {
     var props = datePicker.kompo.props;
     return __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, props.outputFormat);
+}
+
+function setSelectedDate(datePicker, date) {
+    var props = datePicker.kompo.props;
+
+    if (typeof date === 'string') {
+        props.selectedDate = new Date(date);
+    } else {
+        props.selectedDate = date;
+    }
+
+    props.selectedDate.setHours(0, 0, 0, 0);
+    props.resetWorkingDate = true;
+    isolatedReact(datePicker);
 }
 
 function isolatedReact(datePicker) {
@@ -3616,23 +3678,71 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_date_datePicker__ = __webpack_require__(48);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
 
 
-// import datePicker from  '../../../src/js/date/datePicker';
+// import datePicker, {outputSelectedDate, isolatedReact} from  '../../../src/js/date/datePicker';
+
 
 
 // Create root component
 var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', function (_ref) {
     _objectDestructuringEmpty(_ref);
 
-    var dr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__["a" /* default */])();
+    /**
+     * More advanced dateRangePicker
+     */
+    var dr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__["a" /* default */])({
+        resetCallback: function resetCallback(reset) {
+            var toDate = new Date(),
+                fromDate = new Date();
+
+            fromDate.setMonth(fromDate.getMonth() - 1);
+
+            reset(fromDate, toDate);
+        }
+    });
     __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, dr);
 
-    // const dp = datePicker({notBefore: '2017-07-11'});
-    // component.mount(this, dp);
+    /**
+     * Simple implementation of a side by side dateRangePicker
+     */
+    // const fromDatePicker = datePicker({
+    //     notAfter: '2017-07-12 23:59:59',
+    //     key: 'from',
+    //     showRange: true,
+    //     noFuture: true,
+    //     selectCallback: e => {
+    //         const toProps = toDatePicker.kompo.props;
+    //
+    //         toProps.resetWorkingDate = true;
+    //         toProps.notBefore = outputSelectedDate(fromDatePicker);
+    //
+    //         isolatedReact(fromDatePicker);
+    //         isolatedReact(toDatePicker);
+    //     }
+    // });
+    // component.mount(this, fromDatePicker);
+    //
+    // const toDatePicker = datePicker({
+    //     notBefore: '2017-06-05 23:59:59',
+    //     key: 'to',
+    //     noFuture: true,
+    //     showRange: true,
+    //     selectCallback: e => {
+    //         const fromProps = fromDatePicker.kompo.props;
+    //
+    //         fromProps.resetWorkingDate = true;
+    //         fromProps.notAfter = outputSelectedDate(toDatePicker);
+    //
+    //         isolatedReact(fromDatePicker);
+    //         isolatedReact(toDatePicker);
+    //     }
+    // });
+    // component.mount(this, toDatePicker);
 });
 
 // Create instance of root and
@@ -3640,7 +3750,7 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
 document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {
     date: '2017-07-05 23:59:59',
     from: '2017-06-05 23:59:59',
-    to: '2017-07-05 23:59:59'
+    to: '2017-07-12 23:59:59'
 }).start());
 
 /***/ }

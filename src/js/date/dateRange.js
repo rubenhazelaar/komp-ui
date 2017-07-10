@@ -3,7 +3,7 @@ const {construct, mount, children} = component;
 
 import {create, addClasses} from 'kompo-util';
 
-import datePicker, {outputSelectedDate, isolatedReact} from './datePicker';
+import datePicker, {outputSelectedDate, setSelectedDate, isolatedReact} from './datePicker';
 import multiPanel, {slideTo} from  '../multiPanel/multiPanel';
 import panel from '../multiPanel/panel';
 
@@ -13,7 +13,8 @@ export default construct('div', function ({
     defaultClass, classes, multiPanelClass, selectedClass, navClass, fromClass, toClass, applyContainerClass, applyClass,
     applyFormat, applyCallback,
     overlay,
-    fromKey, toKey, setDate, getDate
+    fromKey, toKey, setDate, getDate,
+    resetClass, resetText, resetCallback
 }) {
     this.classList.add(defaultClass);
     
@@ -83,6 +84,28 @@ export default construct('div', function ({
     apply.appendChild(applyText);
     apply.appendChild(applyTextDate);
     applyContainer.appendChild(apply);
+    
+    if (resetCallback) {
+        const reset = create('a', {'class': resetClass, href: '#reset'});
+        reset.textContent = resetText;
+
+        reset.addEventListener('click', e => {
+            e.preventDefault();
+
+            if (resetCallback) {
+                resetCallback((fromDate, toDate) => {
+                    setSelectedDate(fromDatePicker, fromDate);
+                    setSelectedDate(toDatePicker, toDate);
+                    slideTo(mp, panels, 0);
+                    toggleToFrom(from, to, selectedClass);
+                    formatApply(apply, fromDatePicker, toDatePicker)
+                });
+            }
+        });
+        
+        applyContainer.appendChild(reset);
+    }
+    
     this.appendChild(applyContainer);
     formatApply(applyTextDate, fromDatePicker, toDatePicker);
 
@@ -111,7 +134,7 @@ export default construct('div', function ({
         if (applyCallback) {
             applyCallback(this, fromDatePicker, toDatePicker);
         }
-    })
+    });
 }, {
     defaultClass: 'o-DateRange',
     classes: [],
@@ -128,7 +151,10 @@ export default construct('div', function ({
     fromKey: 'from',
     toKey: 'to',
     setDate: undefined,
-    getDate: undefined
+    getDate: undefined,
+    resetClass: 'o-DateRange-reset',
+    resetText: 'x',
+    resetCallback: undefined
 });
 
 function toggleToFrom(from, to, clss) {

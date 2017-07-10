@@ -20,7 +20,8 @@ export default construct('table', function ({
     setDate,
     getDate,
     dispatchOnSelect,
-    selectCallback
+    selectCallback,
+    showRange
 }) {
     this.classList.add(defaultClass);
 
@@ -136,7 +137,6 @@ export default construct('table', function ({
             props.selectedDate.setHours(0, 0, 0, 0);
         }
 
-        // TODO Logic below does not work
         if (!workingDate || props.resetWorkingDate) {
             workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
             props.resetWorkingDate = false;
@@ -147,7 +147,9 @@ export default construct('table', function ({
         if (props.notBefore) {
             props.notBefore = new Date(props.notBefore);
             props.notBefore.setHours(0, 0, 0, 0)
-        } else if (props.notAfter) {
+        }
+
+        if (props.notAfter) {
             props.notAfter = new Date(props.notAfter);
             props.notAfter.setHours(0, 0, 0, 0)
         }
@@ -179,34 +181,48 @@ export default construct('table', function ({
                 td = create('td');
 
             let a,
-                customCompared;
-
+                notBeforeCompared,
+                notAfterCompared;
 
             if (props.notBefore) {
-                customCompared = compare(dayDate, props.notBefore);
-            } else if (props.notAfter) {
-                customCompared = compare(dayDate, props.notAfter);
+                notBeforeCompared = compare(dayDate, props.notBefore);
             }
 
+            if (props.notAfter) {
+                notAfterCompared = compare(dayDate, props.notAfter);
+            }
 
             dayDate.setHours(0, 0, 0, 0);
             const compared = compare(dayDate, currentDate);
             switch (true) {
-                case compared === -1 && props.noPast || props.notBefore && customCompared === -1:
+                case compared === -1 && props.noPast || notBeforeCompared === -1:
                     a = create('span');
                     hasNoPast = true;
                     previous.classList.add(previousDisabledClass);
                     break;
-                case compared === 1 && props.noFuture || props.notAfter && customCompared === 1:
+                case compared === 1 && props.noFuture || notAfterCompared === 1:
                     a = create('span');
                     hasNoFuture = true;
-                    previous.classList.add(nextDisabledClass);
+                    next.classList.add(nextDisabledClass);
                     break;
                 default:
                     a = create('a', {
                         href: '#' + formattedDate,
                         'data-date': formattedDate
                     });
+
+                    if (showRange) {
+                        const selectedCompared = compare(dayDate, props.selectedDate);
+
+                        if (props.notBefore && notBeforeCompared >= 0 && selectedCompared <= 0) {
+                            a.classList.add('o-DatePicker-d--inRange');
+                        }
+
+                        if (props.notAfter && notAfterCompared <= 0 && selectedCompared >= 0) {
+                            a.classList.add('o-DatePicker-d--inRange');
+                        }
+                    }
+
                     break;
             }
 
@@ -262,6 +278,7 @@ export default construct('table', function ({
     noFuture: false,
     notBefore: undefined,
     notAfter: undefined,
+    showRange: false,
     selectCallback: undefined,
     resetWorkingDate: false
 });
@@ -269,6 +286,20 @@ export default construct('table', function ({
 export function outputSelectedDate(datePicker) {
     const props = datePicker.kompo.props;
     return fecha.format(props.selectedDate, props.outputFormat);
+}
+
+export function setSelectedDate(datePicker, date) {
+    const props = datePicker.kompo.props;
+    
+    if (typeof date === 'string') {
+        props.selectedDate = new Date(date)   
+    } else {
+        props.selectedDate = date;
+    }
+
+    props.selectedDate.setHours(0,0,0,0);
+    props.resetWorkingDate = true;
+    isolatedReact(datePicker);
 }
 
 export function isolatedReact(datePicker) {
