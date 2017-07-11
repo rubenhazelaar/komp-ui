@@ -32,7 +32,7 @@ export default construct('div', function ({
         noResults = create('li', {'class': noResultsClass});
 
     noResults.textContent = noResultsText;
-    if(!immediateRender) list.classList.add(emptyClass);
+    if(!immediateRender) this.classList.add(emptyClass);
 
     let render = immediateRender;
 
@@ -61,8 +61,8 @@ export default construct('div', function ({
 
     input.addEventListener('keyup', throttle(e => {
         if (!noResultsInputRender && input.value == '') {
-            emptyList(list, emptyClass);
-            list.classList.remove(noResultsClass);
+            emptyList(this, list, emptyClass);
+            this.classList.remove(noResultsClass);
             render = false;
         } else {
             render = true;
@@ -77,7 +77,7 @@ export default construct('div', function ({
 
     input.addEventListener('blur', e => {
         setTimeout(() => {
-            emptyList(list, emptyClass);
+            emptyList(this, list, emptyClass);
         }, blurDelay);
     });
 
@@ -85,7 +85,7 @@ export default construct('div', function ({
         e.preventDefault();
         props.selected = e.target;
         input.value = props.selected.textContent;
-        emptyList(list, emptyClass);
+        emptyList(this, list, emptyClass);
     });
 
     react(this, state => {
@@ -107,14 +107,14 @@ export default construct('div', function ({
         empty(list);
 
         if (frag.children.length === 0) {
+            this.classList.add(noResultsClass);
             list.appendChild(noResults);
-            list.classList.add(noResultsClass);
         } else {
-            list.classList.remove(noResultsClass);
+            this.classList.remove(noResultsClass);
             list.appendChild(frag);
         }
 
-        list.classList.remove(emptyClass);
+        this.classList.remove(emptyClass);
     })
 }, {
     defaultClass: 'o-Autocomplete',
@@ -137,7 +137,7 @@ export default construct('div', function ({
     actionCallback: undefined
 });
 
-function emptyList(list, clss) {
+function emptyList(ac, list, clss) {
     empty(list);
-    list.classList.add(clss);
+    ac.classList.add(clss);
 }
