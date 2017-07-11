@@ -1,6 +1,6 @@
 {
   "name": "kompo-ui",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A collection of interface components (such as filterlists, datepickers and toolbars) created with the Kompo library",
   "main": "./lib/js/index.js",
   "scripts": {
