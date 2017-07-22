@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tab Component - Kompo UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <style>
+        body {
+            padding: 1rem;
+        }
+
+        .o-Tab {
+            border:1px solid #000;
+            width: 100%;
+        }
+
+        .o-Tab-tabWrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .o-Tab-tab {
+            padding: 1rem;
+            flex: 1 1 auto;
+            border-bottom: 1px solid #000;
+            text-decoration: none;
+            text-align: center;
+            background-color: yellow;
+        }
+
+        .o-Tab-tab--selected {
+            background-color: transparent;
+            border-bottom: none;
+        }
+
+        .o-Tab-content {
+            display: none;
+            padding: 2rem;
+        }
+
+        .o-Tab-content--selected {
+            display: block;
+        }
+    </style>
+ </head>
+<body>
+<script src="dist/bundle.js"></script>
+</body>
+</html>

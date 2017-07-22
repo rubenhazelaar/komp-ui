@@ -11,13 +11,14 @@ import dateRange from './date/dateRange';
 
 import constructAutocomplete from './autocomplete/autocomplete';
 
+import constructTab, {Tab} from './tab/tab';
+
 const multiPanel = {
     constructMultipanel
     ,slideTo
     ,slide
     ,panel
 };
-
 
 const table = {
     constructTable
@@ -39,9 +40,15 @@ const autocomplete = {
     constructAutocomplete
 };
 
+const tab = {
+    constructTab,
+    Tab
+};
+
 export {
     multiPanel
     ,table
     ,date
     ,autocomplete
+    ,tab
 }

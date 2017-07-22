@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 54);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1831,7 +1831,9 @@ function app(root, state, router) {
 /* 41 */,
 /* 42 */,
 /* 43 */,
-/* 44 */
+/* 44 */,
+/* 45 */,
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1839,208 +1841,169 @@ function app(root, state, router) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__listitem__ = __webpack_require__(51);
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return Tab; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
-var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
-var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
+var merge = __WEBPACK_IMPORTED_MODULE_0_kompo__["util"].merge;
 
 
 
 
-
+// TODO Pass on state
 
 /* harmony default export */ exports["a"] = construct('div', function (_ref) {
     var _this = this;
 
     var defaultClass = _ref.defaultClass;
     var classes = _ref.classes;
-    var containerClass = _ref.containerClass;
-    var inputClass = _ref.inputClass;
-    var listClass = _ref.listClass;
-    var noResultsClass = _ref.noResultsClass;
-    var emptyClass = _ref.emptyClass;
-    var throttleDelay = _ref.throttleDelay;
-    var blurDelay = _ref.blurDelay;
-    var immediateRender = _ref.immediateRender;
-    var noResultsInputRender = _ref.noResultsInputRender;
-    var noResultsText = _ref.noResultsText;
-    var placeholder = _ref.placeholder;
-    var actionClass = _ref.actionClass;
-    var actionText = _ref.actionText;
-    var actionCallback = _ref.actionCallback;
+    var tabs = _ref.tabs;
+    var defaultTabIndex = _ref.defaultTabIndex;
+    var tabWrapperClass = _ref.tabWrapperClass;
+    var tabClass = _ref.tabClass;
+    var contentWrapperClass = _ref.contentWrapperClass;
+    var contentClass = _ref.contentClass;
+    var selectedTabClass = _ref.selectedTabClass;
+    var selectedContentClass = _ref.selectedContentClass;
 
     this.classList.add(defaultClass);
-
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
 
-    var props = this.kompo.props,
-        container = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': containerClass }),
-        input = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('input', {
-        'class': inputClass,
-        placeholder: placeholder
-    }),
-        list = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('ul', { 'class': listClass }),
-        noResults = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('li', { 'class': noResultsClass });
+    var tabWrapper = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': tabWrapperClass }),
+        contentWrapper = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': contentWrapperClass });
+    this.appendChild(tabWrapper);
+    this.appendChild(contentWrapper);
 
-    noResults.textContent = noResultsText;
-    if (!immediateRender) this.classList.add(emptyClass);
+    var selectedTab = void 0,
+        selectedContent = void 0;
 
-    var render = immediateRender;
+    var _loop = function _loop(i, l) {
+        var ti = tabs[i],
+            t = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': tabClass, href: '#' + ti.getName() }),
+            c = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': contentClass });
 
-    /**
-     * Structure
-     */
-    container.appendChild(input);
-    this.appendChild(container);
-    this.appendChild(list);
+        t.textContent = ti.getHumanName();
+        tabWrapper.appendChild(t);
 
-    /**
-     * Events & Reactions
-     */
-    if (actionCallback) {
-        var action = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': actionClass, href: '#' });
-        action.textContent = actionText;
-        container.appendChild(action);
+        if (defaultTabIndex === i) {
+            t.classList.add(selectedTabClass);
+            selectedTab = t;
+            c.classList.add(selectedContentClass);
+            selectedContent = c;
+        }
 
-        action.addEventListener('click', function (e) {
+        t.addEventListener('click', function (e) {
             e.preventDefault();
-            if (props.selected && props.selected.hasOwnProperty('kompo')) {
-                actionCallback(props.selected, input.value);
-            }
+
+            if (selectedTab === t) return;
+
+            if (selectedTab) selectedTab.classList.remove(selectedTabClass);
+            t.classList.add(selectedTabClass);
+            selectedTab = t;
+
+            if (selectedContent) selectedContent.classList.remove(selectedContentClass);
+            c.classList.add(selectedContentClass);
+            selectedContent = c;
         });
+
+        // Append different types of content to append
+        append(_this, c, ti.getContent());
+        contentWrapper.appendChild(c);
+    };
+
+    for (var i = 0, l = tabs.length; i < l; ++i) {
+        _loop(i, l);
     }
-
-    input.addEventListener('keyup', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["throttle"])(function (e) {
-        if (!noResultsInputRender && input.value == '') {
-            emptyList(_this, list, emptyClass);
-            _this.classList.remove(noResultsClass);
-            render = false;
-        } else {
-            render = true;
-        }
-
-        dispatch(_this, function (state) {
-            markDirty(state);
-        });
-
-        props.selected = list.children[0];
-    }, throttleDelay));
-
-    input.addEventListener('blur', function (e) {
-        setTimeout(function () {
-            emptyList(_this, list, emptyClass);
-        }, blurDelay);
-    });
-
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(list, 'li:not(.' + noResultsClass + ')', 'click', function (e) {
-        e.preventDefault();
-        props.selected = e.target;
-        input.value = props.selected.textContent;
-        emptyList(_this, list, emptyClass);
-    });
-
-    react(this, function (state) {
-        if (!render || !Array.isArray(state)) return;
-
-        var frag = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["createFragment"])(),
-            filter = props.filter;
-
-        var _loop = function _loop(i, l) {
-            var value = filter ? filter(state[i], input.value) : state[i];
-
-            if (value === false) return 'continue';
-
-            var li = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__listitem__["a" /* default */])();
-            li.textContent = value;
-            mount(_this, frag, li, function () {
-                return state[i];
-            });
-        };
-
-        for (var i = 0, l = state.length; i < l; ++i) {
-            var _ret = _loop(i, l);
-
-            if (_ret === 'continue') continue;
-        }
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(list);
-
-        if (frag.children.length === 0) {
-            _this.classList.add(noResultsClass);
-            list.appendChild(noResults);
-        } else {
-            _this.classList.remove(noResultsClass);
-            list.appendChild(frag);
-        }
-
-        _this.classList.remove(emptyClass);
-    });
 }, {
-    defaultClass: 'o-Autocomplete',
+    defaultClass: 'o-Tab',
     classes: [],
-    containerClass: 'o-Autocomplete-container',
-    inputClass: 'o-Autocomplete-input',
-    listClass: 'o-Autocomplete-list',
-    emptyClass: 'o-Autocomplete--isEmpty',
-    noResultsClass: 'o-Autocomplete--noResults',
-    filter: undefined,
-    throttleDelay: 200,
-    blurDelay: 200,
-    immediateRender: false,
-    noResultsInputRender: false,
-    noResultsText: 'No results found',
-    placeholder: 'Start typing and select...',
-    selected: undefined,
-    actionClass: 'o-Autocomplete-action',
-    actionText: 'action',
-    actionCallback: undefined
+    tabs: [],
+    defaultTabIndex: 0,
+    tabWrapperClass: 'o-Tab-tabWrapper',
+    tabClass: 'o-Tab-tab',
+    contentWrapperClass: 'o-Tab-contentWrapper',
+    contentClass: 'o-Tab-content',
+    selectedTabClass: 'o-Tab-tab--selected',
+    selectedContentClass: 'o-Tab-content--selected'
 });
 
-function emptyList(ac, list, clss) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(list);
-    ac.classList.add(clss);
+function append(component, parent, child) {
+    if (Array.isArray(child)) {
+        for (var i = 0, l = child.length; i < l; ++i) {
+            _append(component, parent, child[i]);
+        }
+
+        return;
+    }
+
+    _append(component, parent, child);
 }
 
+function _append(component, parent, child) {
+    if (typeof child === 'string') {
+        parent.textContent = child;
+    } else if (child.hasOwnProperty('kompo')) {
+        mount(component, child, component.kompo.selector, false);
+    } else if (child instanceof Node) {
+        this.appendChild(child);
+    } else {
+        throw new Error('Child should be a string, KompoElement or a Node');
+    }
+}
+
+var Tab = function () {
+    function Tab(options) {
+        _classCallCheck(this, Tab);
+
+        this.options = merge({
+            name: '',
+            humanName: '',
+            content: undefined
+        }, options);
+    }
+
+    Tab.prototype.getName = function getName() {
+        return this.options.name;
+    };
+
+    Tab.prototype.getHumanName = function getHumanName() {
+        return this.options.humanName ? this.options.humanName : this.options.name;
+    };
+
+    Tab.prototype.getContent = function getContent() {
+        return this.options.content;
+    };
+
+    return Tab;
+}();
+
 /***/ },
-/* 45 */,
-/* 46 */,
 /* 47 */,
 /* 48 */,
 /* 49 */,
 /* 50 */,
-/* 51 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
-
-
-/* harmony default export */ exports["a"] = construct('li', function () {});
-
-/***/ },
+/* 51 */,
 /* 52 */,
 /* 53 */,
-/* 54 */
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_autocomplete_autocomplete__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_tab_tab__ = __webpack_require__(46);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
 
 var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
-var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
 
 
 
@@ -2049,209 +2012,16 @@ var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
 var root = construct('div', function (_ref) {
     _objectDestructuringEmpty(_ref);
 
-    var ac = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_autocomplete_autocomplete__["a" /* default */])({
-        filter: function filter(raw, value) {
-            if (!raw.movie.match(new RegExp(value, 'gi')) || raw.movie === false) {
-                return false;
-            }
-
-            return raw.movie;
-        },
-        actionCallback: function actionCallback(selected, value) {
-            console.log(getState(selected));
-        }
+    var tc = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_tab_tab__["a" /* default */])({
+        tabs: [new __WEBPACK_IMPORTED_MODULE_1__src_js_tab_tab__["b" /* Tab */]({ name: 'tab 1', content: 'tab 1' }), new __WEBPACK_IMPORTED_MODULE_1__src_js_tab_tab__["b" /* Tab */]({ name: 'tab 2', content: 'tab 2' }), new __WEBPACK_IMPORTED_MODULE_1__src_js_tab_tab__["b" /* Tab */]({ name: 'tab 3', content: 'tab 3' })]
     });
 
-    mount(this, ac, function (state) {
-        return state.data;
-    });
+    mount(this, tc);
 });
 
 // Create instance of root and
 // append table to body
-document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {
-    data: [{
-        id: 1,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 2,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 3,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 4,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 5,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 6,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 7,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 8,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 9,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 10,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 11,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 12,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 13,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 14,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 15,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 16,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 17,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 18,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 19,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 20,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 21,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 22,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 23,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 24,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 25,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 26,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 27,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 28,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 29,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 30,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 31,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 32,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 33,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 34,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 35,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 36,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }]
-}).start());
+document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {}).start());
 
 /***/ }
 /******/ ])
