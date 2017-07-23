@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check Component - Kompo UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <style>
+        body {
+            padding: 1rem;
+        }
+
+        .o-Check {
+            display: block;
+            border:1px solid #000;
+            width: 100%;
+            padding: 1rem;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        .o-Check:after {
+            content: "No";
+            float:right;
+        }
+
+        .o-Check--checked:after {
+            content: "Yes" !important;
+            float:right;
+        }
+
+        .o-Check--checked {
+            background-color: yellow;
+        }
+    </style>
+ </head>
+<body>
+<script src="dist/bundle.js"></script>
+</body>
+</html>

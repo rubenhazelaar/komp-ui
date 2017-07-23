@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 64);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1814,168 +1814,7 @@ function app(root, state, router) {
 /***/ },
 /* 25 */,
 /* 26 */,
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tableRow__ = __webpack_require__(38);
-/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return tableActions; });
-
-
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('table', function (_ref) {
-    var _this = this;
-
-    var appendRow = _ref.appendRow;
-    var rowFilter = _ref.rowFilter;
-    var columnFilter = _ref.columnFilter;
-    var on = _ref.on;
-    var classes = _ref.classes;
-    var oddRowClass = _ref.oddRowClass;
-    var evenRowClass = _ref.evenRowClass;
-
-    var head = document.createElement('thead'),
-        body = document.createElement('tbody'),
-        frag = document.createDocumentFragment();
-
-    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(on)) on(this);
-
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
-
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (state) {
-        var data = state.data,
-            offset = state.offset,
-            limit = state.limit,
-            props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(_this),
-            selectedRows = state.selectedRows,
-            minimize = state.minimize;
-
-        if (!Array.isArray(data) || data.length < 1) return;
-
-        props.rows = [];
-
-        var hasRowFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(rowFilter),
-            hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter),
-            keys = Object.keys(hasColumnFilter ? columnFilter(data[0]) : data[0]);
-
-        // First empty out head and then refresh
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
-        appendRow(_this, head, {
-            filtered: keys,
-            raw: data[0],
-            columnElement: 'th',
-            minimize: minimize,
-            minimizeWhitelist: props.minimizeWhitelist
-        });
-
-        var dataLength = data.length;
-        var os = offset && offset <= dataLength ? offset : 0;
-        var l = typeof limit !== 'undefined' && os + limit < dataLength ? limit : dataLength;
-
-        for (os; os < l; ++os) {
-            var offsetData = data[os];
-            if (hasRowFilter && !rowFilter(offsetData)) continue;
-            appendRow(_this, frag, {
-                filtered: hasColumnFilter ? columnFilter(offsetData) : offsetData,
-                raw: offsetData,
-                index: os,
-                defaultClass: os % 2 == 0 ? evenRowClass : oddRowClass,
-                key: os + 1,
-                rows: props.rows,
-                selectedClass: props.selectedClass,
-                selectedRows: selectedRows,
-                minimize: minimize,
-                minimizeWhitelist: props.minimizeWhitelist
-            });
-        }
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
-        body.appendChild(frag);
-    });
-
-    this.appendChild(head);
-    this.appendChild(body);
-}, {
-    classes: [],
-    oddRowClass: '',
-    evenRowClass: '',
-    minimizeWhitelist: undefined,
-    appendRow: function appendRow(table, parent, props) {
-        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__tableRow__["a" /* default */])(props);
-        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, parent, tr, table.kompo.selector);
-    }
-});
-
-var tableActions = {
-    addLimit: function addLimit(Element, add) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            s.limit = s.limit + add > s.data.length ? s.data.length : s.limit + add;
-        });
-    },
-    subLimit: function subLimit(Element, sub) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            s.limit = s.limit - sub <= 0 ? 0 : s.limit - sub;
-        });
-    },
-    setLimit: function setLimit(Element, limit) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            if (limit <= 0) {
-                s.limit = 0;
-                return;
-            }
-
-            if (limit > s.data.length) {
-                s.limit = s.data.length;
-                return;
-            }
-
-            s.limit = limit;
-        });
-    },
-    addOffset: function addOffset(Element, add) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            s.offset = s.offset + add >= s.data.length ? s.data.length : s.offset + add;
-        });
-    },
-    subOffset: function subOffset(Element, sub) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            s.offset = s.offset - sub <= 0 ? 0 : s.offset - sub;
-        });
-    },
-    setOffset: function setOffset(Element, offset) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            if (offset <= 0) {
-                s.offset = 0;
-                return;
-            }
-
-            if (offset > s.data.length) {
-                s.offset = s.data.length;
-                return;
-            }
-
-            s.offset = offset;
-        });
-    },
-    minimize: function minimize(Element) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            s.minimize = true;
-        });
-    },
-    maximize: function maximize(Element) {
-        __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(Element, function (s) {
-            s.minimize = false;
-        });
-    }
-};
-
-/***/ },
+/* 27 */,
 /* 28 */,
 /* 29 */,
 /* 30 */,
@@ -1986,369 +1825,121 @@ var tableActions = {
 /* 35 */,
 /* 36 */,
 /* 37 */,
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
-    var defaultClass = _ref.defaultClass;
-    var filtered = _ref.filtered;
-    var columnElement = _ref.columnElement;
-    var key = _ref.key;
-    var rows = _ref.rows;
-    var selectedClass = _ref.selectedClass;
-    var selectedRows = _ref.selectedRows;
-    var minimize = _ref.minimize;
-    var minimizeWhitelist = _ref.minimizeWhitelist;
-
-    var arr = void 0,
-        isObject = false;
-    if (!Array.isArray(filtered)) {
-        arr = Object.keys(filtered);
-        isObject = true;
-    } else {
-        arr = filtered;
-    }
-
-    if (defaultClass) this.classList.add(defaultClass);
-
-    if (rows) {
-        rows.push(this);
-    }
-
-    if (key) {
-        this.setAttribute('data-key', key);
-
-        if (typeof selectedRows !== 'undefined' && selectedRows.indexOf(key) > -1) {
-            if (selectedClass) this.classList.add(selectedClass);
-        }
-    }
-
-    for (var i = 0, l = arr.length; i < l; ++i) {
-        var k = isObject ? arr[i] : i;
-
-        if (typeof minimizeWhitelist !== 'undefined') {
-            var onWhitelist = isObject ? minimizeWhitelist.indexOf(k) === -1 : minimizeWhitelist.indexOf(filtered[k]) === -1;
-            if (minimize && onWhitelist) {
-                continue;
-            }
-        }
-
-        var c = this.appendChild(document.createElement(columnElement));
-        c.textContent = filtered[k];
-    }
-}, {
-    key: '',
-    defaultClass: '',
-    filtered: [],
-    raw: [],
-    columnElement: 'td',
-    index: undefined
-});
-
-/***/ },
+/* 38 */,
 /* 39 */,
 /* 40 */,
 /* 41 */,
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableRow__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__accordionTableRow__ = __webpack_require__(52);
-
-
-
-
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
-    rowSlot: function rowSlot(c, filtered, raw) {},
-    appendRow: function appendRow(table, parent, props) {
-        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table);
-
-        props.defaultClass = tableProps.rowClass;
-
-        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.append(parent, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__tableRow__["a" /* default */])(props));
-
-        if (typeof props.index !== 'undefined') {
-            __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.append(parent, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__accordionTableRow__["a" /* default */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["merge"])(props, tableProps)));
-        }
-    },
-    on: function on(table) {
-        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
-            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]';
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
-            e.preventDefault();
-            var next = this.nextSibling,
-                props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
-                currentKey = this.getAttribute('data-key');
-
-            if (next) {
-                next.style.display = next.style.display === 'none' ? null : 'none';
-            }
-
-            if (props.showOne && props.key && props.key !== currentKey) {
-                var tr = props.rows[props.key - 1].nextSibling;
-                tr.style.display = 'none';
-            }
-
-            props.key = currentKey;
-        });
-    },
-
-    rowClass: '',
-    showOne: true
-});
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(27);
-
-
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.compose(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */], {
-    on: function on(table) {
-        var tableProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(table),
-            selector = tableProps.rowClass ? '.' + tableProps.rowClass : 'tr[data-key]';
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, selector, 'click', function (e) {
-            var _this = this;
-
-            __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch(table, function (s) {
-                var selectedRows = s.selectedRows = Array.isArray(s.selectedRows) ? s.selectedRows : [],
-                    key = parseInt(_this.getAttribute('data-key')),
-                    index = selectedRows.indexOf(key);
-
-                if (index === -1) {
-                    selectedRows.push(key);
-                } else {
-                    selectedRows.splice(index, 1);
-                }
-
-                // Force rerender
-                s.selectedRowsLength = selectedRows.length;
-            });
-        });
-    },
-
-    rowClass: '',
-    selectedClass: '',
-    selectOne: false
-});
-
-/***/ },
+/* 42 */,
+/* 43 */,
 /* 44 */,
 /* 45 */,
-/* 46 */,
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* unused harmony export isChecked */
+
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+
+
+
+
+/* harmony default export */ exports["a"] = construct('a', function (_ref) {
+    var _this = this;
+
+    var defaultClass = _ref.defaultClass;
+    var classes = _ref.classes;
+    var checked = _ref.checked;
+    var callback = _ref.callback;
+    var label = _ref.label;
+
+    this.classList.add(defaultClass);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
+
+    var props = this.kompo.props;
+
+    this.textContent = label;
+
+    toggle(props, this);
+
+    this.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggle(props, _this);
+        if (callback) callback(e);
+    });
+}, {
+    defaultClass: 'o-Check',
+    classes: [],
+    checked: false,
+    checkedClass: 'o-Check--checked',
+    callback: undefined,
+    label: ''
+});
+
+function toggle(props, el) {
+    if (props.checked) {
+        el.classList.add(props.checkedClass);
+        props.checked = false;
+    } else {
+        el.classList.remove(props.checkedClass);
+        props.checked = true;
+    }
+}
+
+function isChecked(check) {
+    return check.kompo.props.checked;
+}
+
+/***/ },
 /* 47 */,
 /* 48 */,
 /* 49 */,
 /* 50 */,
 /* 51 */,
-/* 52 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
-    var display = _ref.display;
-    var filtered = _ref.filtered;
-    var raw = _ref.raw;
-    var columnElement = _ref.columnElement;
-    var rowSlot = _ref.rowSlot;
-
-    var length = Array.isArray(filtered) ? filtered.length : Object.keys(filtered).length,
-        c = this.appendChild(document.createElement(columnElement));
-
-    c.setAttribute('colspan', length);
-    rowSlot(c, filtered, raw);
-
-    this.style.display = display;
-}, {
-    display: 'none',
-    filtered: [],
-    raw: [],
-    columnElement: 'td',
-    index: undefined,
-    rowSlot: function rowSlot(c, filtered, raw) {}
-});
-
-/***/ },
+/* 52 */,
 /* 53 */,
 /* 54 */,
 /* 55 */,
 /* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__table__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__accordionTable__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__selectTable__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_form_check__ = __webpack_require__(46);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
 
-
-
-// Example components with self-explanatory name
-
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 
 
 
-var doc = document;
 
 // Create root component
-var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', function (_ref) {
-    var _this = this;
-
+var root = construct('div', function (_ref) {
     _objectDestructuringEmpty(_ref);
 
-    var addLimit = doc.createElement('a'),
-        subLimit = doc.createElement('a'),
-        addOffset = doc.createElement('a'),
-        subOffset = doc.createElement('a'),
-        minimize = doc.createElement('a'),
-        maximize = doc.createElement('a'),
-        t1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__table__["a" /* default */])({
-        classes: ['o-Table', 'u-mtm'],
-        oddRowClass: 'o-Table-row--isOdd',
-        evenRowClass: 'o-Table-row--isEven',
-        on: function on(table) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, 'tr', 'click', function (e) {
-                console.log(table.kompo.props.rows);
-            });
-        },
-        minimizeWhitelist: ['firstname']
-    }),
-        t2 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__selectTable__["a" /* default */])({
-        columnFilter: function columnFilter(data) {
-            return {
-                Firstname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.firstname),
-                Lastname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.lastname)
-            };
-        },
-
-        selectedClass: 'selected'
-    }),
-        t3 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__accordionTable__["a" /* default */])({
-        showOne: false,
-        columnFilter: function columnFilter(data) {
-            return {
-                Firstname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.firstname),
-                Lastname: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(data.lastname)
-            };
-        },
-        rowSlot: function rowSlot(columnElement, filtered, raw) {
-            var h1 = doc.createElement('h1');
-            h1.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["capitalize"])(raw.movie);
-            columnElement.appendChild(h1);
-        }
+    var cc = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_form_check__["a" /* default */])({
+        checked: true,
+        label: 'With columns names'
     });
 
-    addLimit.textContent = 'Add 1 to limit';
-    addLimit.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addLimit(_this, 1);
-    });
-
-    subLimit.textContent = 'Subtract 1 of limit';
-    subLimit.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subLimit(_this, 1);
-    });
-
-    addOffset.textContent = 'Add 1 to offset';
-    addOffset.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].addOffset(_this, 1);
-    });
-
-    subOffset.textContent = 'Subtract 1 of offset';
-    subOffset.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].subOffset(_this, 1);
-    });
-
-    minimize.textContent = 'Minimize';
-    minimize.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].minimize(_this);
-    });
-
-    maximize.textContent = 'Maximize';
-    maximize.addEventListener('click', function (e) {
-        e.preventDefault();
-        __WEBPACK_IMPORTED_MODULE_2__table__["b" /* tableActions */].maximize(_this);
-    });
-
-    this.appendChild(addLimit);
-    this.appendChild(subLimit);
-    this.appendChild(addOffset);
-    this.appendChild(subOffset);
-    this.appendChild(minimize);
-    this.appendChild(maximize);
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, [t1, t2, t3]);
+    mount(this, cc);
 });
 
 // Create instance of root and
 // append table to body
-document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {
-    limit: 2,
-    minimize: true,
-    offset: 0,
-    data: [{
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }]
-}).start());
+document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {}).start());
 
 /***/ }
 /******/ ])
 });
 ;
-//# sourceMappingURL=table-bundle.js.map
+//# sourceMappingURL=bundle.js.map

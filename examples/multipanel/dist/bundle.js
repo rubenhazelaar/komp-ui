@@ -71,114 +71,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.util = exports.state = exports.router = undefined;
-
-var _component = __webpack_require__(1);
-
-var _component2 = _interopRequireDefault(_component);
-
-var _link = __webpack_require__(22);
-
-var _link2 = _interopRequireDefault(_link);
-
-var _router = __webpack_require__(23);
-
-var _router2 = _interopRequireDefault(_router);
-
-var _app = __webpack_require__(24);
-
-var _app2 = _interopRequireDefault(_app);
-
-var _dispatch = __webpack_require__(11);
-
-var _dispatch2 = _interopRequireDefault(_dispatch);
-
-var _observe = __webpack_require__(3);
-
-var _observe2 = _interopRequireDefault(_observe);
-
-var _hasProxy = __webpack_require__(4);
-
-var _hasProxy2 = _interopRequireDefault(_hasProxy);
-
-var _isObject = __webpack_require__(6);
-
-var _isObject2 = _interopRequireDefault(_isObject);
-
-var _merge = __webpack_require__(7);
-
-var _merge2 = _interopRequireDefault(_merge);
-
-var _isFunction = __webpack_require__(5);
-
-var _isFunction2 = _interopRequireDefault(_isFunction);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var router = {
-    construct: _router2.default,
-    route: _router.route,
-    indexRoute: _router.indexRoute,
-    swap: _router.swap,
-    link: _link2.default
-};
-
-var state = {
-    app: _app2.default,
-    dispatch: _dispatch2.default,
-    observe: _observe2.default,
-    inheritObserved: _observe.inheritObserved,
-    markClean: _observe.markClean,
-    markDirty: _observe.markDirty
-};
-
-var util = {
-    hasProxy: _hasProxy2.default,
-    isObject: _isObject2.default,
-    merge: _merge2.default,
-    isFunction: _isFunction2.default
-};
-
-exports.default = {
-    construct: _component2.default,
-    render: _component.render,
-    update: _component.update,
-    kompo: _component.kompo,
-    setState: _component.setState,
-    mount: _component.mount,
-    react: _component.react,
-    slot: _component.slot,
-    getRouter: _component.getRouter,
-    unmount: _component.unmount,
-    unmountAll: _component.unmountAll,
-    mountIndex: _component.mountIndex,
-    getState: _component.getState,
-    compose: _component.compose,
-    append: _component.append,
-    getProps: _component.getProps,
-    constructClass: _component.constructClass,
-    children: _component.children,
-    appendChildren: _component.appendChildren
-};
-exports.router = router;
-exports.state = state;
-exports.util = util;
-
-/***/ },
-/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -562,6 +459,109 @@ function appendChildren(Element, useFragment) {
         Element.appendChild(parent);
     }
 }
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.util = exports.state = exports.router = undefined;
+
+var _component = __webpack_require__(0);
+
+var _component2 = _interopRequireDefault(_component);
+
+var _link = __webpack_require__(22);
+
+var _link2 = _interopRequireDefault(_link);
+
+var _router = __webpack_require__(23);
+
+var _router2 = _interopRequireDefault(_router);
+
+var _app = __webpack_require__(24);
+
+var _app2 = _interopRequireDefault(_app);
+
+var _dispatch = __webpack_require__(11);
+
+var _dispatch2 = _interopRequireDefault(_dispatch);
+
+var _observe = __webpack_require__(3);
+
+var _observe2 = _interopRequireDefault(_observe);
+
+var _hasProxy = __webpack_require__(4);
+
+var _hasProxy2 = _interopRequireDefault(_hasProxy);
+
+var _isObject = __webpack_require__(6);
+
+var _isObject2 = _interopRequireDefault(_isObject);
+
+var _merge = __webpack_require__(7);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _isFunction = __webpack_require__(5);
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = {
+    construct: _router2.default,
+    route: _router.route,
+    indexRoute: _router.indexRoute,
+    swap: _router.swap,
+    link: _link2.default
+};
+
+var state = {
+    app: _app2.default,
+    dispatch: _dispatch2.default,
+    observe: _observe2.default,
+    inheritObserved: _observe.inheritObserved,
+    markClean: _observe.markClean,
+    markDirty: _observe.markDirty
+};
+
+var util = {
+    hasProxy: _hasProxy2.default,
+    isObject: _isObject2.default,
+    merge: _merge2.default,
+    isFunction: _isFunction2.default
+};
+
+exports.default = {
+    construct: _component2.default,
+    render: _component.render,
+    update: _component.update,
+    kompo: _component.kompo,
+    setState: _component.setState,
+    mount: _component.mount,
+    react: _component.react,
+    slot: _component.slot,
+    getRouter: _component.getRouter,
+    unmount: _component.unmount,
+    unmountAll: _component.unmountAll,
+    mountIndex: _component.mountIndex,
+    getState: _component.getState,
+    compose: _component.compose,
+    append: _component.append,
+    getProps: _component.getProps,
+    constructClass: _component.constructClass,
+    children: _component.children,
+    appendChildren: _component.appendChildren
+};
+exports.router = router;
+exports.state = state;
+exports.util = util;
 
 /***/ },
 /* 2 */
@@ -1095,7 +1095,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = dispatch;
 
-var _component = __webpack_require__(1);
+var _component = __webpack_require__(0);
 
 function dispatch(Element, cb, noRender) {
     if (!cb) return;
@@ -1411,7 +1411,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _component = __webpack_require__(1);
+var _component = __webpack_require__(0);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -1502,7 +1502,7 @@ var _merge = __webpack_require__(7);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _component = __webpack_require__(1);
+var _component = __webpack_require__(0);
 
 var _isFunction = __webpack_require__(5);
 
@@ -1784,7 +1784,7 @@ var _observe = __webpack_require__(3);
 
 var _observe2 = _interopRequireDefault(_observe);
 
-var _component = __webpack_require__(1);
+var _component = __webpack_require__(0);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1850,7 +1850,7 @@ function getDynamicWidth(widths) {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
@@ -1925,7 +1925,7 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
@@ -2760,7 +2760,7 @@ module.exports = function (css) {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_multiPanel_multiPanel__ = __webpack_require__(30);
 
@@ -2797,7 +2797,7 @@ var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 
 var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
@@ -2852,11 +2852,13 @@ var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */,
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_leaf__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_branch__ = __webpack_require__(40);

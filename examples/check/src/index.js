@@ -2,20 +2,16 @@
 import component, {state} from 'kompo';
 const {construct, mount} = component;
 
-import radio, {getKey, getValue} from '../../../src/js/form/radio';
+import check, {isChecked} from '../../../src/js/form/check';
 
 // Create root component
 const root = construct('div', function({}) {
-    const rc = radio({
-        defaultOptionIndex: 2,
-        options: {
-            opt1: 'Option 1',
-            opt2: 'Option 2',
-            opt3: 'Option 3'
-        }
+    const cc = check({
+        checked: true,
+        label: 'With columns names'
     });
 
-    mount(this, rc);
+    mount(this, cc);
 });
 
 // Create instance of root and

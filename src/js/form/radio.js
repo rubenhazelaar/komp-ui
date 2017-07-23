@@ -61,9 +61,9 @@ function setSelected(props, el, key, value) {
 }
 
 export function getKey(radio) {
-    return radio.kompo.selectedKey;
+    return radio.kompo.props.selectedKey;
 }
 
 export function getValue(radio) {
-    return radio.kompo.selectedValue;
+    return radio.kompo.props.selectedValue;
 }
