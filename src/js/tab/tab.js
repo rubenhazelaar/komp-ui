@@ -92,7 +92,7 @@ function _append(component, parent, child) {
     } else if (child.hasOwnProperty('kompo')) {
         mount(component, parent, child, component.kompo.selector, false);
     } else if (child instanceof Node) {
-        this.appendChild(child);
+        parent.appendChild(child);
     } else {
         throw new Error('Child should be a string, KompoElement or a Node');
     }
