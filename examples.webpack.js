@@ -11,7 +11,8 @@ var config = {
         'examples/multipanel/dist/bundle': './examples/multipanel/src/index.js',
         'examples/datePicker/dist/bundle': './examples/datePicker/src/index.js',
         'examples/autocomplete/dist/bundle': './examples/autocomplete/src/index.js',
-        'examples/tab/dist/bundle': './examples/tab/src/index.js'
+        'examples/tab/dist/bundle': './examples/tab/src/index.js',
+        'examples/radio/dist/bundle': './examples/radio/src/index.js'
     },
     output: {
         path: './',

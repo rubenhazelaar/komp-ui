@@ -13,6 +13,8 @@ import constructAutocomplete from './autocomplete/autocomplete';
 
 import constructTab, {Tab} from './tab/tab';
 
+import constructRadio, {getKey, getValue} from './radio/radio';
+
 const multiPanel = {
     constructMultipanel
     ,slideTo
@@ -41,8 +43,14 @@ const autocomplete = {
 };
 
 const tab = {
-    constructTab,
-    Tab
+    constructTab
+    ,Tab
+};
+
+const radio = {
+    constructRadio
+    ,getKey
+    ,getValue
 };
 
 export {
@@ -51,4 +59,5 @@ export {
     ,date
     ,autocomplete
     ,tab
-}
+    ,radio
+};

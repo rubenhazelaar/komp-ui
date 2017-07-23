@@ -4,8 +4,6 @@ const {merge} = util;
 
 import {addClasses, create} from 'kompo-util';
 
-// TODO Pass on state
-
 export default construct('div', function({
     defaultClass,
     classes,

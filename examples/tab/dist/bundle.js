@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1833,7 +1833,8 @@ function app(root, state, router) {
 /* 43 */,
 /* 44 */,
 /* 45 */,
-/* 46 */
+/* 46 */,
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1851,8 +1852,6 @@ var merge = __WEBPACK_IMPORTED_MODULE_0_kompo__["util"].merge;
 
 
 
-
-// TODO Pass on state
 
 /* harmony default export */ exports["a"] = construct('div', function (_ref) {
     var _this = this;
@@ -1980,7 +1979,6 @@ var Tab = function () {
 }();
 
 /***/ },
-/* 47 */,
 /* 48 */,
 /* 49 */,
 /* 50 */,
@@ -1991,13 +1989,15 @@ var Tab = function () {
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */,
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_tab_tab__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_tab_tab__ = __webpack_require__(47);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
