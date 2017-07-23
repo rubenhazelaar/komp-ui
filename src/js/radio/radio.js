@@ -18,9 +18,9 @@ export default construct('div', function({
         keys = Object.keys(options);
     
     for(let i = 0, l = keys.length; i < l; ++i) {
-        const a = create('a', {'class': optionClass}),
-            key = keys[i],
-            value = options[key];
+        const key = keys[i],
+            value = options[key],
+            a = create('a', {'class': optionClass, href: '#'+key});
         
         a.textContent = value;
 
