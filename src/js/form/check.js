@@ -36,11 +36,11 @@ export default construct('a', function({
 
 function toggle(props, el) {
     if (props.checked) {
-        el.classList.add(props.checkedClass);
-        props.checked = false;
-    } else {
         el.classList.remove(props.checkedClass);
         props.checked = true;
+    } else {
+        el.classList.add(props.checkedClass);
+        props.checked = false;
     }
 }
 
