@@ -2,7 +2,9 @@
 import component, {state} from 'kompo';
 const {construct, mount} = component;
 
-import check, {isChecked} from '../../../src/js/form/check';
+import {create} from 'kompo-util';
+
+import check, {isChecked, setCheck} from '../../../src/js/form/check';
 
 // Create root component
 const root = construct('div', function({}) {
@@ -12,6 +14,17 @@ const root = construct('div', function({}) {
     });
 
     mount(this, cc);
+
+    const a = create('a', {href: '#'});
+    a.textContent = 'Toggle check';
+    a.addEventListener('click', e => {
+        e.preventDefault();
+
+        console.log(isChecked(cc));
+        
+        setCheck(cc, !isChecked(cc))
+    });
+    this.appendChild(a);
 });
 
 // Create instance of root and

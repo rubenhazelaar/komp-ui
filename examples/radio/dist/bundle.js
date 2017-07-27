@@ -1842,6 +1842,7 @@ function app(root, state, router) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony export (immutable) */ exports["b"] = setOption;
 /* unused harmony export getKey */
 /* unused harmony export getValue */
 
@@ -1886,6 +1887,8 @@ var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
             if (callback) callback(e, key, value);
         });
 
+        props.optionElements.push(a);
+
         _this.appendChild(a);
     };
 
@@ -1899,6 +1902,7 @@ var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
     optionClass: 'o-Radio-option',
     selectedOptionClass: 'o-Radio-option--selected',
     options: {},
+    optionElements: [],
     selected: undefined,
     selectedKey: undefined,
     selectedValue: undefined,
@@ -1911,6 +1915,19 @@ function setSelected(props, el, key, value) {
     props.selected = el;
     props.selectedKey = key;
     props.selectedValue = value;
+}
+
+function setOption(option, k) {
+    var props = option.kompo.props,
+        els = props.optionElements;
+
+    for (var i = 0, l = els.length; i < l; ++i) {
+        var el = els[i];
+
+        if (el.href.indexOf('#' + k) !== -1) {
+            setSelected(props, el, k, el.textContent);
+        }
+    }
 }
 
 function getKey(radio) {
@@ -1941,7 +1958,9 @@ function getValue(radio) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_form_radio__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_form_radio__ = __webpack_require__(47);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
@@ -1952,11 +1971,13 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 
 
 
+
+
 // Create root component
 var root = construct('div', function (_ref) {
     _objectDestructuringEmpty(_ref);
 
-    var rc = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_form_radio__["a" /* default */])({
+    var rc = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_form_radio__["a" /* default */])({
         defaultOptionIndex: 2,
         options: {
             opt1: 'Option 1',
@@ -1966,6 +1987,14 @@ var root = construct('div', function (_ref) {
     });
 
     mount(this, rc);
+
+    var a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { href: '#' });
+    a.textContent = 'Set option 2';
+    a.addEventListener('click', function (e) {
+        e.preventDefault();
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_form_radio__["b" /* setOption */])(rc, 'opt2');
+    });
+    this.appendChild(a);
 });
 
 // Create instance of root and

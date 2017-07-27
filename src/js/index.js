@@ -13,8 +13,8 @@ import constructAutocomplete from './autocomplete/autocomplete';
 
 import constructTab, {Tab} from './tab/tab';
 
-import constructRadio, {getKey, getValue} from './form/radio';
-import constructCheck, {isChecked} from './form/check';
+import constructRadio, {getKey, getValue, setOption} from './form/radio';
+import constructCheck, {isChecked, setCheck} from './form/check';
 
 const multiPanel = {
     constructMultipanel
@@ -52,11 +52,13 @@ const radio = {
     constructRadio
     ,getKey
     ,getValue
+    ,setOption
 };
 
 const check = {
     constructCheck
     ,isChecked
+    ,setCheck
 };
 
 export {

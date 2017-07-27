@@ -37,6 +37,8 @@ export default construct('div', function({
             if (callback) callback(e, key, value);
         });
 
+        props.optionElements.push(a);
+
         this.appendChild(a);
     }
 }, {
@@ -46,6 +48,7 @@ export default construct('div', function({
     optionClass: 'o-Radio-option',
     selectedOptionClass: 'o-Radio-option--selected',
     options: {},
+    optionElements: [],
     selected: undefined,
     selectedKey: undefined,
     selectedValue: undefined,
@@ -58,6 +61,19 @@ function setSelected(props, el, key, value) {
     props.selected = el;
     props.selectedKey = key;
     props.selectedValue = value;
+}
+
+export function setOption(option, k) {
+    const props = option.kompo.props,
+        els = props.optionElements;
+
+    for(let i = 0, l = els.length; i < l; ++i) {
+        const el = els[i];
+
+        if (el.href.indexOf('#'+k) !== -1) {
+            setSelected(props, el, k, el.textContent);
+        }
+    }
 }
 
 export function getKey(radio) {

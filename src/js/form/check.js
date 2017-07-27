@@ -10,6 +10,7 @@ export default construct('a', function({
     callback,
     label
 }) {
+    this.href = '#';
     this.classList.add(defaultClass);
     addClasses(this, classes);
     
@@ -17,7 +18,7 @@ export default construct('a', function({
     
     this.textContent = label;
 
-    toggle(props, this);
+    setCheck(this, checked);
 
     this.addEventListener('click', e => {
         e.preventDefault();
@@ -41,6 +42,19 @@ function toggle(props, el) {
         el.classList.remove(props.checkedClass);
         props.checked = true;
     }
+}
+
+export function setCheck(check, b) {
+    const props = check.kompo.props;
+
+    if (b === true) {
+        check.classList.add(props.checkedClass);
+        props.checked = true;
+    } else {
+        check.classList.remove(props.checkedClass);
+        props.checked = false;
+    }
+
 }
 
 export function isChecked(check) {

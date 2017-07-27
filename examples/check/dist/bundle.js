@@ -1841,7 +1841,8 @@ function app(root, state, router) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* unused harmony export isChecked */
+/* harmony export (immutable) */ exports["c"] = setCheck;
+/* harmony export (immutable) */ exports["b"] = isChecked;
 
 var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
 
@@ -1857,6 +1858,7 @@ var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
     var callback = _ref.callback;
     var label = _ref.label;
 
+    this.href = '#';
     this.classList.add(defaultClass);
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
 
@@ -1864,7 +1866,7 @@ var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
 
     this.textContent = label;
 
-    toggle(props, this);
+    setCheck(this, checked);
 
     this.addEventListener('click', function (e) {
         e.preventDefault();
@@ -1890,6 +1892,18 @@ function toggle(props, el) {
     }
 }
 
+function setCheck(check, b) {
+    var props = check.kompo.props;
+
+    if (b === true) {
+        check.classList.add(props.checkedClass);
+        props.checked = true;
+    } else {
+        check.classList.remove(props.checkedClass);
+        props.checked = false;
+    }
+}
+
 function isChecked(check) {
     return check.kompo.props.checked;
 }
@@ -1911,7 +1925,9 @@ function isChecked(check) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_form_check__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_form_check__ = __webpack_require__(46);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
@@ -1922,16 +1938,29 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 
 
 
+
+
 // Create root component
 var root = construct('div', function (_ref) {
     _objectDestructuringEmpty(_ref);
 
-    var cc = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_form_check__["a" /* default */])({
+    var cc = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_form_check__["a" /* default */])({
         checked: true,
         label: 'With columns names'
     });
 
     mount(this, cc);
+
+    var a = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { href: '#' });
+    a.textContent = 'Toggle check';
+    a.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        console.log(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_form_check__["b" /* isChecked */])(cc));
+
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_form_check__["c" /* setCheck */])(cc, !__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_form_check__["b" /* isChecked */])(cc));
+    });
+    this.appendChild(a);
 });
 
 // Create instance of root and

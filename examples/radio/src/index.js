@@ -2,7 +2,9 @@
 import component, {state} from 'kompo';
 const {construct, mount} = component;
 
-import radio, {getKey, getValue} from '../../../src/js/form/radio';
+import {create} from 'kompo-util';
+
+import radio, {getKey, getValue, setOption} from '../../../src/js/form/radio';
 
 // Create root component
 const root = construct('div', function({}) {
@@ -16,6 +18,14 @@ const root = construct('div', function({}) {
     });
 
     mount(this, rc);
+
+    const a = create('a', {href: '#'});
+    a.textContent = 'Set option 2';
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        setOption(rc, 'opt2')
+    });
+    this.appendChild(a);
 });
 
 // Create instance of root and
