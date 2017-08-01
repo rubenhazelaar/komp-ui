@@ -135,8 +135,8 @@ export default construct('div', function ({
         unmountAll(this);
         empty(list);
 
-        const want = state.want,
-            mapping = state.mapping,
+        const want = state.want || [],
+            mapping = state.mapping || {},
             ics = [],
             selectedItem = props.selectedItem,
             selectedName = selectedItem ? selectedItem.kompo.props.name : undefined;
