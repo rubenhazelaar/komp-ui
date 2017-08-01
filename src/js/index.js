@@ -16,6 +16,8 @@ import constructTab, {Tab} from './tab/tab';
 import constructRadio, {getKey, getValue, setOption} from './form/radio';
 import constructCheck, {isChecked, setCheck} from './form/check';
 
+import constructOrderList from './orderList/orderList';
+
 const multiPanel = {
     constructMultipanel
     ,slideTo
@@ -61,6 +63,10 @@ const check = {
     ,setCheck
 };
 
+const orderList = {
+    constructOrderList
+};
+
 export {
     multiPanel
     ,table
@@ -69,4 +75,5 @@ export {
     ,tab
     ,radio
     ,check
+    ,orderList
 };

@@ -13,7 +13,8 @@ var config = {
         'examples/autocomplete/dist/bundle': './examples/autocomplete/src/index.js',
         'examples/tab/dist/bundle': './examples/tab/src/index.js',
         'examples/radio/dist/bundle': './examples/radio/src/index.js',
-        'examples/check/dist/bundle': './examples/check/src/index.js'
+        'examples/check/dist/bundle': './examples/check/src/index.js',
+        'examples/orderList/dist/bundle': './examples/orderList/src/index.js'
     },
     output: {
         path: './',

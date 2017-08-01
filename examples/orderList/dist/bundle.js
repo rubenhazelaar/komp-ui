@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 62);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1813,114 +1813,12 @@ function app(root, state, router) {
 
 /***/ },
 /* 25 */,
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
-    var _this = this;
-
-    var defaultClass = _ref.defaultClass;
-    var selectedClass = _ref.selectedClass;
-    var hasColumnFilter = _ref.hasColumnFilter;
-    var columnFilter = _ref.columnFilter;
-
-
-    if (defaultClass) this.classList.add(defaultClass);
-
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (s) {
-        if (selectedClass) {
-            if (s.selected) {
-                _this.classList.add(selectedClass);
-            } else {
-                _this.classList.remove(selectedClass);
-            }
-        }
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(_this);
-        var data = hasColumnFilter ? columnFilter(s) : s,
-            keys = Object.keys(data);
-        for (var i = 0, l = keys.length; i < l; ++i) {
-            var k = keys[i],
-                v = data[k];
-
-            // if(typeof minimizeWhitelist !== 'undefined') {
-            //     const onWhitelist = isObject?
-            //     minimizeWhitelist.indexOf(k) === -1:
-            //     minimizeWhitelist.indexOf(filtered[k]) === -1;
-            //     if(minimize && onWhitelist) {
-            //         continue;
-            //     }
-            // }
-
-            var c = _this.appendChild(document.createElement('td'));
-            if (v instanceof Node) {
-                c.appendChild(v);
-            } else {
-                c.textContent = v;
-            }
-        }
-    });
-}, {
-    defaultClass: ''
-});
-
-/***/ },
+/* 26 */,
 /* 27 */,
 /* 28 */,
 /* 29 */,
 /* 30 */,
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-
-
-
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('tr', function (_ref) {
-    var _this = this;
-
-    var defaultClass = _ref.defaultClass;
-    var hasColumnFilter = _ref.hasColumnFilter;
-    var columnFilter = _ref.columnFilter;
-
-
-    if (defaultClass) this.classList.add(defaultClass);
-
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, function (s) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(_this);
-        var data = hasColumnFilter ? columnFilter(s) : s,
-            keys = Object.keys(data);
-        for (var i = 0, l = keys.length; i < l; ++i) {
-            // if(typeof minimizeWhitelist !== 'undefined') {
-            //     const onWhitelist = isObject?
-            //     minimizeWhitelist.indexOf(k) === -1:
-            //     minimizeWhitelist.indexOf(filtered[k]) === -1;
-            //     if(minimize && onWhitelist) {
-            //         continue;
-            //     }
-            // }
-
-            var c = _this.appendChild(document.createElement('th'));
-            c.textContent = keys[i];
-        }
-    });
-}, {
-    defaultClass: ''
-});
-
-/***/ },
+/* 31 */,
 /* 32 */,
 /* 33 */,
 /* 34 */,
@@ -1937,10 +1835,7 @@ function app(root, state, router) {
 /* 45 */,
 /* 46 */,
 /* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1948,173 +1843,259 @@ function app(root, state, router) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tableRow__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tableHead__ = __webpack_require__(31);
-/* unused harmony export resetSpacers */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_arrayMove__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_orderByArray__ = __webpack_require__(68);
+/* unused harmony export item */
+
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
+var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
+var unmountAll = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.unmountAll;
+var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
+var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
+var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
 
 
 
 
 
 
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('table', function (_ref) {
+
+var item = construct('li', function (_ref) {
     var _this = this;
 
-    var appendRow = _ref.appendRow;
-    var on = _ref.on;
+    var defaultClass = _ref.defaultClass;
     var classes = _ref.classes;
-    var oddRowClass = _ref.oddRowClass;
-    var evenRowClass = _ref.evenRowClass;
-    var selectedClass = _ref.selectedClass;
-    var appendHead = _ref.appendHead;
-    var headRowClass = _ref.headRowClass;
-    var emptyNotice = _ref.emptyNotice;
-    var emptyClass = _ref.emptyClass;
-    var scrollableElement = _ref.scrollableElement;
-    var topSpacer = _ref.topSpacer;
-    var bottomSpacer = _ref.bottomSpacer;
-    var rowHeight = _ref.rowHeight;
-    var blockSize = _ref.blockSize;
-    var scrollThrottle = _ref.scrollThrottle;
+    var name = _ref.name;
+    var alias = _ref.alias;
+    var disabled = _ref.disabled;
+    var disabledClass = _ref.disabledClass;
+    var checkClass = _ref.checkClass;
+    var wrapperClass = _ref.wrapperClass;
+    var placeholder = _ref.placeholder;
 
-    var head = document.createElement('thead'),
-        body = document.createElement('tbody'),
-        props = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps(this),
-        frag = document.createDocumentFragment();
-
-    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(on)) on(this);
-
+    this.classList.add(defaultClass);
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
 
-    var wasEmpty = false;
+    var check = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': checkClass, href: '#activateOrDisable' }),
+        wrapper = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': wrapperClass }),
+        nameEl = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('span'),
+        aliasEl = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('input', { placeholder: placeholder });
 
-    scrollableElement = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(scrollableElement) ? scrollableElement() : scrollableElement;
+    nameEl.textContent = name;
+    if (alias) aliasEl.value = alias;
 
-    if (scrollableElement) {
-        scrollableElement.style.overflowAnchor = 'none'; // Prevent weird Chrome 56+ behavior
-        scrollableElement.addEventListener('scroll', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["throttle"])(function (e) {
-            var state = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState(_this),
-                dataLength = state.data.length,
-                scrollPosition = scrollableElement.scrollTop,
+    wrapper.appendChild(nameEl);
+    wrapper.appendChild(aliasEl);
+    this.appendChild(check);
+    this.appendChild(wrapper);
 
-            // TODO clientHeight could be troublesome
-            reqPerBody = (Math.ceil(scrollableElement.clientHeight / rowHeight / blockSize) + 2) * blockSize,
-                visibleStart = Math.floor(scrollPosition / rowHeight),
-                renderStart = Math.max((Math.floor(visibleStart / blockSize) - 1) * blockSize, 0),
-                visibleEnd = Math.min(renderStart + reqPerBody, dataLength);
-
-            if (state.offset !== renderStart || state.limit !== visibleEnd - renderStart) {
-                state.offset = renderStart;
-                state.limit = visibleEnd - renderStart;
-                reactFn(state);
-            }
-        }, scrollThrottle));
+    if (disabled) {
+        this.classList.add(disabledClass);
     }
 
-    var reactFn = function reactFn(state) {
-        var data = state.data,
-            offset = state.offset,
-            limit = state.limit,
-            minimize = state.minimize,
-            rowFilter = props.rowFilter,
-            columnFilter = props.columnFilter;
-
-        if (!Array.isArray(data)) return;
-
-        // Empty out before append
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(head);
-
-        // When empty...
-        if (data.length == 0) {
-            // ... render empty notice
-            var tr = document.createElement('tr'),
-                td = document.createElement('td');
-
-            td.textContent = emptyNotice;
-            tr.appendChild(td);
-            head.appendChild(tr);
-            _this.classList.add(emptyClass);
-            wasEmpty = true;
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
-            return;
-        } else if (wasEmpty) {
-            // Remove empty notice
-            _this.classList.remove(emptyClass);
-            wasEmpty = false;
-        }
-
-        var hasRowFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(rowFilter),
-            hasColumnFilter = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(columnFilter);
-
-        appendHead(_this, head, {
-            defaultClass: headRowClass,
-            minimizeWhitelist: props.minimizeWhitelist,
-            hasColumnFilter: hasColumnFilter,
-            columnFilter: columnFilter
+    /**
+     * Events
+     */
+    aliasEl.addEventListener('keyup', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["throttle"])(function (e) {
+        dispatch(_this, function (state) {
+            state.mapping[name] = aliasEl.value;
         });
-
-        var dataLength = data.length;
-        var os = offset && offset <= dataLength ? offset : 0;
-        var l = typeof limit !== 'undefined' && os + limit < dataLength ? os + limit : dataLength;
-
-        // Set spacer heights
-        bottomSpacer.style.height = rowHeight * (dataLength - (offset + limit)) + 'px';
-        topSpacer.style.height = rowHeight * offset + 'px';
-
-        for (os; os < l; ++os) {
-            if (hasRowFilter && !rowFilter(data[os])) continue;
-            appendRow(_this, frag, os, {
-                defaultClass: os % 2 == 0 ? evenRowClass : oddRowClass,
-                selectedClass: selectedClass,
-                hasColumnFilter: hasColumnFilter,
-                columnFilter: columnFilter
-            });
-        }
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(body);
-        body.appendChild(frag);
-    };
-
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react(this, reactFn);
-
-    this.appendChild(head);
-    this.appendChild(body);
+    }, 100));
 }, {
+    defaultClass: 'o-OrderList-item',
     classes: [],
-    oddRowClass: '',
-    evenRowClass: '',
-    headRowClass: '',
-    minimizeWhitelist: undefined,
-    emptyNotice: 'No data found',
-    emptyClass: 'empty',
-    appendRow: function appendRow(table, frag, key, props) {
-        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__tableRow__["a" /* default */])(props);
-        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, frag, tr, function (s) {
-            return table.kompo.selector ? table.kompo.selector(s).data[key] : s.data[key];
-        });
-    },
-    appendHead: function appendHead(table, head, props) {
-        var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__tableHead__["a" /* default */])(props);
-        __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, head, tr, function (s) {
-            return table.kompo.selector ? table.kompo.selector(s).data[0] : s.data[0];
-        });
-    },
-
-    scrollableElement: undefined,
-    topSpacer: undefined,
-    bottomSpacer: undefined,
-    rowHeight: 20,
-    blockSize: 5,
-    scrollThrottle: 10
+    name: 'N/A',
+    alias: '',
+    index: undefined,
+    disabled: false,
+    disabledClass: 'o-OrderList-item--disabled',
+    checkClass: 'o-OrderList-item-check',
+    wrapperClass: 'o-OrderList-item-wrapper',
+    placeholder: 'Provide an alias for this column...'
 });
 
-function resetSpacers(infiniteTable) {
-    var props = infiniteTable.kompo.props;
-    props.topSpacer.style.height = 0;
-    props.bottomSpacer.style.height = 0;
+
+
+/* harmony default export */ exports["a"] = construct('div', function (_ref2) {
+    var _this3 = this;
+
+    var defaultClass = _ref2.defaultClass;
+    var classes = _ref2.classes;
+    var upText = _ref2.upText;
+    var downText = _ref2.downText;
+    var available = _ref2.available;
+    var disabledClass = _ref2.disabledClass;
+    var wrapperClass = _ref2.wrapperClass;
+    var upClass = _ref2.upClass;
+    var downClass = _ref2.downClass;
+    var listClass = _ref2.listClass;
+    var itemClass = _ref2.itemClass;
+    var itemWrapperClass = _ref2.itemWrapperClass;
+    var itemCheckClass = _ref2.itemCheckClass;
+    var itemPlaceholder = _ref2.itemPlaceholder;
+    var itemDisabledClass = _ref2.itemDisabledClass;
+
+    this.classList.add(defaultClass);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
+
+    var orderList = this,
+        props = this.kompo.props,
+        wrapper = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': wrapperClass }),
+        up = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': upClass, href: '#up' }),
+        down = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': downClass, href: '#down' }),
+        list = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('ol', { 'class': listClass });
+
+    up.textContent = upText;
+    down.textContent = downText;
+    wrapper.appendChild(up);
+    wrapper.appendChild(down);
+    this.appendChild(wrapper);
+    this.appendChild(list);
+
+    /**
+     * Eventhandlers
+     */
+    var reorderFn = function reorderFn(im) {
+        return function (e) {
+            e.preventDefault();
+
+            if (!props.selectedItem) return;
+
+            var name = props.selectedItem.kompo.props.name,
+                ai = available.indexOf(name),
+                aim = ai + im;
+
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_arrayMove__["a" /* default */])(available, ai, aim >= available.length ? 0 : aim);
+            dispatch(orderList, function (state) {
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_orderByArray__["a" /* default */])(state.want, available);
+                markDirty(state);
+            });
+        };
+    };
+    up.addEventListener('click', reorderFn(-1));
+    down.addEventListener('click', reorderFn(1));
+
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(this, 'li', 'click', function (e) {
+        var _this2 = this;
+
+        e.preventDefault();
+
+        if (e.target.tagName === 'A') {
+            dispatch(orderList, function (state) {
+                toggleItem(_this2, state);
+            });
+        } else if (this.kompo.props.disabled === false) {
+            setSelected(orderList, this);
+        }
+    });
+
+    var ordered = false;
+
+    /**
+     * Reactions
+     */
+    var reactFn = function reactFn(state) {
+        unmountAll(_this3);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(list);
+
+        var want = state.want,
+            mapping = state.mapping,
+            ics = [],
+            selectedItem = props.selectedItem,
+            selectedName = selectedItem ? selectedItem.kompo.props.name : undefined;
+
+        if (!ordered) {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_orderByArray__["a" /* default */])(available, want);
+            ordered = true;
+        }
+
+        for (var i = 0, l = available.length; i < l; ++i) {
+            var name = available[i],
+                hasMapping = mapping.hasOwnProperty(name),
+                ic = item({
+                name: name,
+                alias: hasMapping ? mapping[name] : undefined,
+                index: i,
+                defaultClass: itemClass,
+                wrapperClass: itemWrapperClass,
+                checkClass: itemCheckClass,
+                placeholder: itemPlaceholder,
+                disabledClass: itemDisabledClass
+            });
+
+            if (want.indexOf(name) === -1) {
+                ic.classList.add(disabledClass);
+                ic.kompo.props.disabled = true;
+            } else {
+                ic.classList.remove(disabledClass);
+                ic.kompo.props.disabled = false;
+            }
+
+            if (selectedItem && selectedName === name) {
+                setSelected(orderList, ic);
+            }
+
+            ics.push(ic);
+        }
+
+        mount(_this3, list, ics);
+    };
+    react(this, reactFn);
+}, {
+    defaultClass: 'o-OrderList',
+    classes: [],
+    upText: 'Up',
+    downText: 'Down',
+    available: [],
+    selectedItem: undefined,
+    selectedClass: 'o-OrderList-item--selected',
+    disabledClass: 'o-OrderList-item--disabled',
+    wrapperClass: 'o-OrderList-wrapper',
+    upClass: 'o-OrderList-up',
+    downClass: 'o-OrderList-down',
+    listClass: 'o-OrderList-list',
+    itemClass: 'o-OrderList-item',
+    itemDisabledClass: 'o-OrderList-item--disabled',
+    itemWrapperClass: 'o-OrderList-item-wrapper',
+    itemCheckClass: 'o-OrderList-item-check',
+    itemPlaceholder: 'Provide an alias for this column...'
+});
+
+function setSelected(orderList, item) {
+    var props = orderList.kompo.props,
+        selectedItem = props.selectedItem;
+
+    if (selectedItem === item) return;
+
+    if (selectedItem) {
+        selectedItem.classList.remove(props.selectedClass);
+    }
+
+    item.classList.add(props.selectedClass);
+    props.selectedItem = item;
+}
+
+function toggleItem(item, state) {
+    var props = item.kompo.props,
+        name = props.name,
+        disabledClass = props.disabledClass;
+
+    if (props.disabled) {
+        item.classList.remove(disabledClass);
+        props.disabled = false;
+        state.want.splice(state.want.indexOf(name), 0, name);
+    } else {
+        item.classList.add(disabledClass);
+        props.disabled = true;
+        state.want.splice(state.want.indexOf(name), 1);
+    }
 }
 
 /***/ },
+/* 49 */,
+/* 50 */,
+/* 51 */,
 /* 52 */,
 /* 53 */,
 /* 54 */,
@@ -2123,243 +2104,91 @@ function resetSpacers(infiniteTable) {
 /* 57 */,
 /* 58 */,
 /* 59 */,
-/* 60 */
+/* 60 */,
+/* 61 */,
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_js_table_infiniteTable__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_orderList_orderList__ = __webpack_require__(48);
 function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 // Component and content creation classes and functions
 
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
+var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 
 
-// Example components with self-explanatory name
 
 
 // Create root component
-var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', function (_ref) {
+var root = construct('div', function (_ref) {
     _objectDestructuringEmpty(_ref);
 
-    var scrollable = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': 'o-Scrollable' }),
-        topSpacer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'style': 'height: 0' }),
-        bottomSpacer = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'style': 'height: 0' }),
-        t1 = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__src_js_table_infiniteTable__["a" /* default */])({
-        classes: ['o-Table', 'u-mbn'],
-        oddRowClass: 'o-Table-row--isOdd',
-        evenRowClass: 'o-Table-row--isEven',
-        on: function on(table) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, 'tr', 'click', function (e) {
-                console.log(table.kompo.props);
-            });
-        },
-        minimizeWhitelist: ['firstname'],
-        scrollableElement: scrollable,
-        topSpacer: topSpacer,
-        bottomSpacer: bottomSpacer
+    var ol = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__src_js_orderList_orderList__["a" /* default */])({
+        available: ['phone', 'name', 'id', 'address']
     });
-
-    this.appendChild(scrollable);
-    scrollable.appendChild(topSpacer);
-    __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, scrollable, t1);
-    scrollable.appendChild(bottomSpacer);
+    mount(this, ol);
 });
 
 // Create instance of root and
 // append table to body
 document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(), {
-    limit: 10,
-    minimize: true,
-    offset: 0,
-    data: [{
-        id: 1,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 2,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 3,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 4,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 5,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 6,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 7,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 8,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 9,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 10,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 11,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 12,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 13,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 14,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 15,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 16,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 17,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 18,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 19,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 20,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 21,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 22,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 23,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 24,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 25,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 26,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 27,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 28,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 29,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 30,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 31,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 32,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 33,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }, {
-        id: 34,
-        firstname: 'rick',
-        lastname: 'deckard',
-        movie: 'blade runner'
-    }, {
-        id: 35,
-        firstname: 'mia',
-        lastname: 'wallace',
-        movie: 'pulp fiction'
-    }, {
-        id: 36,
-        firstname: 'rocky',
-        lastname: 'balboa',
-        movie: 'rocky'
-    }]
+    want: ['id', 'name', 'address'],
+    mapping: {
+        id: 'Code',
+        name: 'Full name'
+    }
 }).start());
+
+/***/ },
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ exports["a"] = function (arr, old_index, new_index) {
+    while (old_index < 0) {
+        old_index += arr.length;
+    }
+    while (new_index < 0) {
+        new_index += arr.length;
+    }
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length;
+        while (k-- + 1) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing purposes
+};
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ exports["a"] = orderByArray;
+function orderByArray(arr, orderArr) {
+    arr.sort(function (a, b) {
+        var aIndex = orderArr.indexOf(a),
+            bIndex = orderArr.indexOf(b);
+
+        if (aIndex === -1 || bIndex === -1) {
+            return 0;
+        }
+        return aIndex - bIndex;
+    });
+};
 
 /***/ }
 /******/ ])
 });
 ;
-//# sourceMappingURL=table-bundle.js.map
+//# sourceMappingURL=bundle.js.map

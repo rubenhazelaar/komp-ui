@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1884,10 +1884,10 @@ var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
 
 function toggle(props, el) {
     if (props.checked) {
-        el.classList.add(props.checkedClass);
+        el.classList.remove(props.checkedClass);
         props.checked = false;
     } else {
-        el.classList.remove(props.checkedClass);
+        el.classList.add(props.checkedClass);
         props.checked = true;
     }
 }
@@ -1919,7 +1919,8 @@ function isChecked(check) {
 /* 54 */,
 /* 55 */,
 /* 56 */,
-/* 57 */
+/* 57 */,
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
