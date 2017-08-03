@@ -175,7 +175,7 @@ export default construct('div', function ({
             ics.push(ic);
         }
 
-        mount(this, list, ics);
+        mount(this, list, ics, this.kompo.selector);
     };
     react(this, reactFn);
 }, {
