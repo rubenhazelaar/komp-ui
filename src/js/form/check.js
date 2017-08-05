@@ -23,7 +23,7 @@ export default construct('a', function({
     this.addEventListener('click', e => {
         e.preventDefault();
         toggle(props, this);
-        if (callback) callback(e);
+        if (callback) callback(e, props.checked);
     });
 }, {
     defaultClass: 'o-Check',
