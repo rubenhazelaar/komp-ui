@@ -16,8 +16,15 @@ export default construct('div', function ({
     placeholder,
     actionClass,
     actionText,
-    actionCallback
+    actionCallback,
+    name,
+    required,
+    disabled
 }) {
+    if (!name) {
+        throw new Error('A name is required');
+    }
+    
     this.classList.add(defaultClass);
 
     addClasses(this, classes);
@@ -30,6 +37,16 @@ export default construct('div', function ({
         }),
         list = create('ul', {'class': listClass}),
         noResults = create('li', {'class': noResultsClass});
+
+    if(required) {
+        this.setAttribute('required',required);
+        input.setAttribute('required',required);
+    }
+
+    if(disabled) {
+        this.setAttribute('disabled',disabled);
+        input.setAttribute('disabled',disabled);
+    }
 
     noResults.textContent = noResultsText;
     if(!immediateRender) this.classList.add(emptyClass);
