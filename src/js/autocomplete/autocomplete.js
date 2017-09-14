@@ -1,6 +1,5 @@
-import component, {state} from 'kompo';
-const {construct, react, mount} = component;
-const {dispatch, markDirty} = state;
+import component from 'kompo';
+const {construct, react, mount, getState} = component;
 
 import {create, createFragment, addClasses, throttle, delegate, empty, isObject} from 'kompo-util';
 
@@ -10,7 +9,6 @@ export default construct('div', function ({
     defaultClass, classes, containerClass,
     inputClass, listClass, noResultsClass, emptyClass,
     throttleDelay, blurDelay,
-    immediateRender,
     noResultsInputRender,
     noResultsText,
     showNoResults,
@@ -25,9 +23,9 @@ export default construct('div', function ({
     if (!name) {
         throw new Error('A name is required');
     }
-    
-    this.classList.add(defaultClass);
 
+    this.classList.add(defaultClass);
+    this.classList.add(emptyClass);
     addClasses(this, classes);
 
     const props = this.kompo.props,
@@ -39,20 +37,18 @@ export default construct('div', function ({
         list = create('ul', {'class': listClass}),
         noResults = create('li', {'class': noResultsClass});
 
-    if(required) {
-        this.setAttribute('required',required);
-        input.setAttribute('required',required);
+    if (required) {
+        this.setAttribute('required', required);
+        input.setAttribute('required', required);
     }
 
-    if(disabled) {
-        this.setAttribute('disabled',disabled);
-        input.setAttribute('disabled',disabled);
+    if (disabled) {
+        this.setAttribute('disabled', disabled);
+        input.setAttribute('disabled', disabled);
     }
 
     noResults.textContent = noResultsText;
-    if(!immediateRender) this.classList.add(emptyClass);
 
-    let render = immediateRender;
 
     /**
      * Structure
@@ -64,7 +60,7 @@ export default construct('div', function ({
     /**
      * Events & Reactions
      */
-    if(actionCallback) {
+    if (actionCallback) {
         const action = create('a', {'class': actionClass, href: '#'});
         action.textContent = actionText;
         container.appendChild(action);
@@ -81,14 +77,9 @@ export default construct('div', function ({
         if (!noResultsInputRender && input.value == '') {
             emptyList(this, list, emptyClass);
             this.classList.remove(noResultsClass);
-            render = false;
         } else {
-            render = true;
+            reactFn(true)(getState(this));
         }
-
-        dispatch(this, state => {
-            markDirty(state);
-        });
 
         props.selected = list.children[0];
     }, throttleDelay));
@@ -99,48 +90,57 @@ export default construct('div', function ({
         }, blurDelay);
     });
 
-    delegate(list, 'li:not(.'+noResultsClass+')', 'click', e => {
+    delegate(list, 'li:not(.' + noResultsClass + ')', 'click', e => {
         e.preventDefault();
         props.selected = e.target;
         input.value = props.selected.textContent;
         emptyList(this, list, emptyClass);
     });
 
-    react(this, state => {
-        if (!render) return;
+    const reactFn = (usedInput) => {
+        return (state) => {
+            if (isObject(state) && !Array.isArray(state)) {
+                if (!usedInput) {
+                    input.value = state.values[name] || '';
+                }
+                state = state.data;
+            }
 
-        if (isObject(state) && !Array.isArray(state)) {
-            input.value = state.value;
-            state = state.data;
-        }
+            if (!Array.isArray(state)) return;
 
-        if (!Array.isArray(state)) return;
+            const frag = createFragment(),
+                filter = props.filter;
 
-        const frag = createFragment(),
-            filter = props.filter;
+            for (let i = 0, l = state.length; i < l; ++i) {
+                const value = filter ? filter(state[i], input.value) : state[i];
 
-        for (let i = 0, l = state.length; i < l; ++i) {
-            const value = filter ? filter(state[i], input.value) : state[i];
+                if (value === false) continue;
 
-            if (value === false) continue;
+                const li = listitem();
+                li.textContent = value;
+                mount(this, frag, li, () => state[i]);
+            }
 
-            const li = listitem();
-            li.textContent = value;
-            mount(this, frag, li, () => state[i]);
-        }
+            empty(list);
 
-        empty(list);
+            switch (true) {
+                case showNoResults && frag.children.length === 0:
+                    this.classList.add(noResultsClass);
+                    list.appendChild(noResults);
+                case frag.children.length === 0 || props.skipInitialListRender:
+                    this.classList.add(emptyClass);
+                    props.skipInitialListRender = false;
+                    break;
+                case usedInput:
+                    this.classList.remove(noResultsClass);
+                    this.classList.remove(emptyClass);
+                    list.appendChild(frag);
+                    break;
+            }
+        };
+    };
 
-        if (showNoResults && frag.children.length === 0) {
-            this.classList.add(noResultsClass);
-            list.appendChild(noResults);
-        } else {
-            this.classList.remove(noResultsClass);
-            list.appendChild(frag);
-        }
-
-        this.classList.remove(emptyClass);
-    })
+    react(this, reactFn(false));
 }, {
     defaultClass: 'o-Autocomplete',
     classes: [],
@@ -152,7 +152,7 @@ export default construct('div', function ({
     filter: undefined,
     throttleDelay: 200,
     blurDelay: 200,
-    immediateRender: false,
+    skipInitialListRender: true,
     noResultsInputRender: false,
     noResultsText: 'No results found',
     showNoResults: true,
