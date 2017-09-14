@@ -2,7 +2,7 @@ import component, {state} from 'kompo';
 const {construct, react, mount} = component;
 const {dispatch, markDirty} = state;
 
-import {create, createFragment, addClasses, throttle, delegate, empty} from 'kompo-util';
+import {create, createFragment, addClasses, throttle, delegate, empty, isObject} from 'kompo-util';
 
 import listitem from './listitem';
 
@@ -13,6 +13,7 @@ export default construct('div', function ({
     immediateRender,
     noResultsInputRender,
     noResultsText,
+    showNoResults,
     placeholder,
     actionClass,
     actionText,
@@ -106,7 +107,14 @@ export default construct('div', function ({
     });
 
     react(this, state => {
-        if (!render || !Array.isArray(state)) return;
+        if (!render) return;
+
+        if (isObject(state) && !Array.isArray(state)) {
+            input.value = state.value;
+            state = state.data;
+        }
+
+        if (!Array.isArray(state)) return;
 
         const frag = createFragment(),
             filter = props.filter;
@@ -123,7 +131,7 @@ export default construct('div', function ({
 
         empty(list);
 
-        if (frag.children.length === 0) {
+        if (showNoResults && frag.children.length === 0) {
             this.classList.add(noResultsClass);
             list.appendChild(noResults);
         } else {
@@ -147,6 +155,7 @@ export default construct('div', function ({
     immediateRender: false,
     noResultsInputRender: false,
     noResultsText: 'No results found',
+    showNoResults: true,
     placeholder: 'Start typing and select...',
     selected: undefined,
     actionClass: 'o-Autocomplete-action',
