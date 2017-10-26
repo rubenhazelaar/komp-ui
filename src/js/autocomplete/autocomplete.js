@@ -80,6 +80,8 @@ export default construct('div', function ({
         } else {
             reactFn(true)(getState(this));
         }
+        
+        this.setAttribute('value', input.value);
 
         props.selected = list.children[0];
     }, throttleDelay));
@@ -94,6 +96,7 @@ export default construct('div', function ({
         e.preventDefault();
         props.selected = e.target;
         input.value = props.selected.textContent;
+        this.setAttribute('value', input.value);
         emptyList(this, list, emptyClass);
     });
 
@@ -101,7 +104,9 @@ export default construct('div', function ({
         return (state) => {
             if (isObject(state) && !Array.isArray(state)) {
                 if (!usedInput) {
-                    input.value = state.values[name] || '';
+                    const v = state.values[name] || '';
+                    input.value = v;
+                    this.setAttribute('value', v);
                 }
                 state = state.data;
             }
