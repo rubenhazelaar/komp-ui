@@ -6,7 +6,7 @@ import accordionTable from './table/accordionTable';
 import selectTable from './table/selectTable';
 import infiniteTable, {resetSpacers} from './table/infiniteTable';
 
-import datePicker, {outputSelectedDate, isolatedReact} from './date/datePicker';
+import datePicker, {outputSelectedDate, isolatedReact, setSelectedDate} from './date/datePicker';
 import dateRange from './date/dateRange';
 
 import constructAutocomplete from './autocomplete/autocomplete';
@@ -37,6 +37,7 @@ const table = {
 const date = {
     datePicker
     ,outputSelectedDate
+    ,setSelectedDate
     ,isolatedReact
     ,dateRange
 };
