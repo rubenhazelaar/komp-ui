@@ -81,33 +81,46 @@ export default construct('div', function ({
     children(mp, [fromPanel, toPanel]);
     mount(this, mp, this.kompo.selector);
 
-    apply.appendChild(applyText);
-    apply.appendChild(applyTextDate);
-    applyContainer.appendChild(apply);
-    
-    if (resetCallback) {
-        const reset = create('a', {'class': resetClass, href: '#reset'});
-        reset.textContent = resetText;
+    if (applyCallback) {
+        apply.appendChild(applyText);
+        apply.appendChild(applyTextDate);
+        applyContainer.appendChild(apply);
 
-        reset.addEventListener('click', e => {
+        if (resetCallback) {
+            const reset = create('a', {'class': resetClass, href: '#reset'});
+            reset.textContent = resetText;
+
+            reset.addEventListener('click', e => {
+                e.preventDefault();
+
+                if (resetCallback) {
+                    resetCallback((fromDate, toDate) => {
+                        setSelectedDate(fromDatePicker, fromDate);
+                        setSelectedDate(toDatePicker, toDate);
+                        slideTo(mp, panels, 0);
+                        toggleToFrom(from, to, selectedClass);
+                        formatApply(applyTextDate, fromDatePicker, toDatePicker)
+                    });
+                }
+            });
+
+            applyContainer.appendChild(reset);
+        }
+
+        this.appendChild(applyContainer);
+        formatApply(applyTextDate, fromDatePicker, toDatePicker);
+
+        /**
+         * Apply callback
+         */
+        apply.addEventListener('click', e => {
             e.preventDefault();
 
-            if (resetCallback) {
-                resetCallback((fromDate, toDate) => {
-                    setSelectedDate(fromDatePicker, fromDate);
-                    setSelectedDate(toDatePicker, toDate);
-                    slideTo(mp, panels, 0);
-                    toggleToFrom(from, to, selectedClass);
-                    formatApply(applyTextDate, fromDatePicker, toDatePicker)
-                });
+            if (applyCallback) {
+                applyCallback(this, fromDatePicker, toDatePicker);
             }
         });
-        
-        applyContainer.appendChild(reset);
     }
-    
-    this.appendChild(applyContainer);
-    formatApply(applyTextDate, fromDatePicker, toDatePicker);
 
     /**
      * Events & Reactions
@@ -126,14 +139,6 @@ export default construct('div', function ({
         slideTo(mp, panels, 1);
         toggleToTo(from, to, selectedClass);
         toDatePicker.kompo.props.notBefore = outputSelectedDate(fromDatePicker);
-    });
-
-    apply.addEventListener('click', e => {
-        e.preventDefault();
-
-        if (applyCallback) {
-            applyCallback(this, fromDatePicker, toDatePicker);
-        }
     });
 }, {
     defaultClass: 'o-DateRange',
