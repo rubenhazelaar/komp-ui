@@ -14,7 +14,8 @@ export default construct('div', function ({
     applyFormat, applyCallback,
     overlay,
     fromKey, toKey, setDate, getDate,
-    resetClass, resetText, resetCallback
+    resetClass, resetText, resetCallback,
+    noPast, noFuture,
 }) {
     this.classList.add(defaultClass);
     
@@ -47,7 +48,9 @@ export default construct('div', function ({
                 // Only rerenders toDatePicker
                 isolatedReact(toDatePicker);
             },
-            outputFormat: applyFormat
+            outputFormat: applyFormat,
+            noFuture,
+            noPast
         }),
         toDatePicker = datePicker({
             key: toKey,
@@ -56,7 +59,9 @@ export default construct('div', function ({
             selectCallback: () => {
                 formatApply(applyTextDate, fromDatePicker, toDatePicker);
             },
-            outputFormat: applyFormat
+            outputFormat: applyFormat,
+            noFuture,
+            noPast
         }),
         mp = multiPanel({ classNames: [multiPanelClass],overlay}),
         fromPanel = panel({component: fromDatePicker}),
@@ -159,7 +164,9 @@ export default construct('div', function ({
     getDate: undefined,
     resetClass: 'o-DateRange-reset',
     resetText: 'x',
-    resetCallback: undefined
+    resetCallback: undefined,
+    noPast: false,
+    noFuture: false
 });
 
 function toggleToFrom(from, to, clss) {
