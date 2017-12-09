@@ -16,7 +16,7 @@ export default construct('div', function ({
     fromKey, toKey, setDate, getDate,
     resetClass, resetText, resetCallback,
     noPast, noFuture,
-    toSelectCallback
+    toSelectCallback, fromSelectCallback, selectCallback
 }) {
     this.classList.add(defaultClass);
     
@@ -48,6 +48,9 @@ export default construct('div', function ({
 
                 // Only rerenders toDatePicker
                 isolatedReact(toDatePicker);
+
+                if (fromSelectCallback) fromSelectCallback(fromDatePicker, toDatePicker);
+                if (selectCallback) selectCallback(fromDatePicker, toDatePicker);
             },
             outputFormat: applyFormat,
             noFuture,
@@ -60,6 +63,7 @@ export default construct('div', function ({
             selectCallback: () => {
                 formatApply(applyTextDate, fromDatePicker, toDatePicker);
                 if (toSelectCallback) toSelectCallback(fromDatePicker, toDatePicker);
+                if (selectCallback) selectCallback(fromDatePicker, toDatePicker);
             },
             outputFormat: applyFormat,
             noFuture,
@@ -169,7 +173,9 @@ export default construct('div', function ({
     resetCallback: undefined,
     noPast: false,
     noFuture: false,
-    toSelectCallback: undefined
+    toSelectCallback: undefined,
+    fromSelectCallback: undefined,
+    selectCallback: undefined
 });
 
 function toggleToFrom(from, to, clss) {
