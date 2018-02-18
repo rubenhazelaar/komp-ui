@@ -4,7 +4,7 @@ import panel from './multiPanel/panel';
 import constructTable, {tableActions} from './table/table';
 import accordionTable from './table/accordionTable';
 import selectTable from './table/selectTable';
-import infiniteTable, {resetSpacers} from './table/infiniteTable';
+import infiniteTable, {resetSpacers, multiSelect} from './table/infiniteTable';
 
 import datePicker, {outputSelectedDate, isolatedReact, setSelectedDate} from './date/datePicker';
 import dateRange from './date/dateRange';
@@ -32,6 +32,7 @@ const table = {
     ,selectTable
     ,infiniteTable
     ,resetSpacers
+    ,multiSelect
 };
 
 const date = {

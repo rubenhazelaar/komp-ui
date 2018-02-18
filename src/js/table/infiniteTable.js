@@ -191,3 +191,28 @@ export function resetSpacers(infiniteTable) {
     props.topSpacer.style.height = 0;
     props.bottomSpacer.style.height = 0;
 }
+
+export function multiSelect(table, e) {
+    const target = e.target.parentNode,
+        tableProps = table.kompo.props,
+        key = keySelected(tableProps, target);
+
+    // Remove if already in selected
+    if (tableProps.selected.hasOwnProperty(key)) {
+        target.classList.remove(tableProps.selectedClass);
+        delete tableProps.selected[key];
+        return
+    }
+
+    tableProps.selected[key] = target;
+    target.classList.add(tableProps.selectedClass);
+}
+
+function keySelected(tableProps, row) {
+    if (!tableProps.selected) {
+        tableProps.selected = {};
+    }
+
+    const s = component.getState(row);
+    return s[tableProps.uniqueKey];
+}
