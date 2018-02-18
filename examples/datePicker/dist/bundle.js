@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 59);
+/******/ 	return __webpack_require__(__webpack_require__.s = 61);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2761,7 +2761,7 @@ module.exports = function (css) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_fecha__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__ = __webpack_require__(39);
 /* harmony export (immutable) */ exports["b"] = outputSelectedDate;
@@ -3170,6 +3170,11 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     var resetClass = _ref.resetClass;
     var resetText = _ref.resetText;
     var resetCallback = _ref.resetCallback;
+    var noPast = _ref.noPast;
+    var noFuture = _ref.noFuture;
+    var toSelectCallback = _ref.toSelectCallback;
+    var fromSelectCallback = _ref.fromSelectCallback;
+    var _selectCallback = _ref.selectCallback;
 
     this.classList.add(defaultClass);
 
@@ -3201,8 +3206,13 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
 
             // Only rerenders toDatePicker
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["c" /* isolatedReact */])(toDatePicker);
+
+            if (fromSelectCallback) fromSelectCallback(fromDatePicker, toDatePicker);
+            if (_selectCallback) _selectCallback(fromDatePicker, toDatePicker);
         },
-        outputFormat: applyFormat
+        outputFormat: applyFormat,
+        noFuture: noFuture,
+        noPast: noPast
     }),
         toDatePicker = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["a" /* default */])({
         key: toKey,
@@ -3210,8 +3220,12 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
         getDate: getDate,
         selectCallback: function selectCallback() {
             formatApply(applyTextDate, fromDatePicker, toDatePicker);
+            if (toSelectCallback) toSelectCallback(fromDatePicker, toDatePicker);
+            if (_selectCallback) _selectCallback(fromDatePicker, toDatePicker);
         },
-        outputFormat: applyFormat
+        outputFormat: applyFormat,
+        noFuture: noFuture,
+        noPast: noPast
     }),
         mp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["c" /* default */])({ classNames: [multiPanelClass], overlay: overlay }),
         fromPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: fromDatePicker }),
@@ -3236,33 +3250,46 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     children(mp, [fromPanel, toPanel]);
     mount(this, mp, this.kompo.selector);
 
-    apply.appendChild(applyText);
-    apply.appendChild(applyTextDate);
-    applyContainer.appendChild(apply);
+    if (applyCallback) {
+        apply.appendChild(applyText);
+        apply.appendChild(applyTextDate);
+        applyContainer.appendChild(apply);
 
-    if (resetCallback) {
-        var reset = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': resetClass, href: '#reset' });
-        reset.textContent = resetText;
+        if (resetCallback) {
+            var reset = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('a', { 'class': resetClass, href: '#reset' });
+            reset.textContent = resetText;
 
-        reset.addEventListener('click', function (e) {
+            reset.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (resetCallback) {
+                    resetCallback(function (fromDate, toDate) {
+                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(fromDatePicker, fromDate);
+                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(toDatePicker, toDate);
+                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+                        toggleToFrom(from, to, selectedClass);
+                        formatApply(applyTextDate, fromDatePicker, toDatePicker);
+                    });
+                }
+            });
+
+            applyContainer.appendChild(reset);
+        }
+
+        this.appendChild(applyContainer);
+        formatApply(applyTextDate, fromDatePicker, toDatePicker);
+
+        /**
+         * Apply callback
+         */
+        apply.addEventListener('click', function (e) {
             e.preventDefault();
 
-            if (resetCallback) {
-                resetCallback(function (fromDate, toDate) {
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(fromDatePicker, fromDate);
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(toDatePicker, toDate);
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
-                    toggleToFrom(from, to, selectedClass);
-                    formatApply(applyTextDate, fromDatePicker, toDatePicker);
-                });
+            if (applyCallback) {
+                applyCallback(_this, fromDatePicker, toDatePicker);
             }
         });
-
-        applyContainer.appendChild(reset);
     }
-
-    this.appendChild(applyContainer);
-    formatApply(applyTextDate, fromDatePicker, toDatePicker);
 
     /**
      * Events & Reactions
@@ -3281,14 +3308,6 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
         toggleToTo(from, to, selectedClass);
         toDatePicker.kompo.props.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
-    });
-
-    apply.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        if (applyCallback) {
-            applyCallback(_this, fromDatePicker, toDatePicker);
-        }
     });
 }, {
     defaultClass: 'o-DateRange',
@@ -3309,7 +3328,12 @@ var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
     getDate: undefined,
     resetClass: 'o-DateRange-reset',
     resetText: 'x',
-    resetCallback: undefined
+    resetCallback: undefined,
+    noPast: false,
+    noFuture: false,
+    toSelectCallback: undefined,
+    fromSelectCallback: undefined,
+    selectCallback: undefined
 });
 
 function toggleToFrom(from, to, clss) {
@@ -3337,7 +3361,9 @@ function formatApply(el, fromDatePicker, toDatePicker) {
 /* 53 */,
 /* 54 */,
 /* 55 */,
-/* 56 */
+/* 56 */,
+/* 57 */,
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
@@ -3677,9 +3703,9 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
 
 
 /***/ },
-/* 57 */,
-/* 58 */,
-/* 59 */
+/* 59 */,
+/* 60 */,
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";

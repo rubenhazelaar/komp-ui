@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 62);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1976,6 +1976,7 @@ function app(root, state, router) {
     var rowHeight = _ref.rowHeight;
     var blockSize = _ref.blockSize;
     var scrollThrottle = _ref.scrollThrottle;
+    var uniqueKey = _ref.uniqueKey;
 
     var head = document.createElement('thead'),
         body = document.createElement('tbody'),
@@ -2067,7 +2068,9 @@ function app(root, state, router) {
                 defaultClass: os % 2 == 0 ? evenRowClass : oddRowClass,
                 selectedClass: selectedClass,
                 hasColumnFilter: hasColumnFilter,
-                columnFilter: columnFilter
+                columnFilter: columnFilter,
+                selected: props.selected,
+                uniqueKey: uniqueKey
             });
         }
 
@@ -2090,7 +2093,13 @@ function app(root, state, router) {
     appendRow: function appendRow(table, frag, key, props) {
         var tr = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__tableRow__["a" /* default */])(props);
         __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(table, frag, tr, function (s) {
-            return table.kompo.selector ? table.kompo.selector(s).data[key] : s.data[key];
+            var ns = table.kompo.selector ? table.kompo.selector(s).data[key] : s.data[key];
+
+            if (props.selected && ns.hasOwnProperty(props.uniqueKey)) {
+                ns.selected = props.selected.hasOwnProperty(ns[props.uniqueKey]);
+            }
+
+            return ns;
         });
     },
     appendHead: function appendHead(table, head, props) {
@@ -2105,7 +2114,8 @@ function app(root, state, router) {
     bottomSpacer: undefined,
     rowHeight: 20,
     blockSize: 5,
-    scrollThrottle: 10
+    scrollThrottle: 10,
+    uniqueKey: 'id'
 });
 
 function resetSpacers(infiniteTable) {
@@ -2123,7 +2133,9 @@ function resetSpacers(infiniteTable) {
 /* 57 */,
 /* 58 */,
 /* 59 */,
-/* 60 */
+/* 60 */,
+/* 61 */,
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2152,9 +2164,24 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
         classes: ['o-Table', 'u-mbn'],
         oddRowClass: 'o-Table-row--isOdd',
         evenRowClass: 'o-Table-row--isEven',
+        selectedClass: 'selected',
+        uniqueKey: 'id',
         on: function on(table) {
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["delegate"])(table, 'tr', 'click', function (e) {
-                console.log(table.kompo.props);
+                e.preventDefault();
+                var target = e.target.parentNode,
+                    tableProps = table.kompo.props,
+                    key = keySelected(tableProps, target);
+
+                // Remove if already in selected
+                if (tableProps.selected.hasOwnProperty(key)) {
+                    target.classList.remove(tableProps.selectedClass);
+                    delete tableProps.selected[key];
+                    return;
+                }
+
+                tableProps.selected[key] = target;
+                target.classList.add(tableProps.selectedClass);
             });
         },
         minimizeWhitelist: ['firstname'],
@@ -2168,6 +2195,15 @@ var root = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', functi
     __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount(this, scrollable, t1);
     scrollable.appendChild(bottomSpacer);
 });
+
+function keySelected(tableProps, row) {
+    if (!tableProps.selected) {
+        tableProps.selected = {};
+    }
+
+    var s = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState(row);
+    return s[tableProps.uniqueKey];
+}
 
 // Create instance of root and
 // append table to body

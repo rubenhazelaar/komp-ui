@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 57);
+/******/ 	return __webpack_require__(__webpack_require__.s = 59);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1844,8 +1844,7 @@ function app(root, state, router) {
 var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
 var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
-var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
-var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
+var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
 
 
 
@@ -1864,16 +1863,23 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
     var emptyClass = _ref.emptyClass;
     var throttleDelay = _ref.throttleDelay;
     var blurDelay = _ref.blurDelay;
-    var immediateRender = _ref.immediateRender;
     var noResultsInputRender = _ref.noResultsInputRender;
     var noResultsText = _ref.noResultsText;
+    var showNoResults = _ref.showNoResults;
     var placeholder = _ref.placeholder;
     var actionClass = _ref.actionClass;
     var actionText = _ref.actionText;
     var actionCallback = _ref.actionCallback;
+    var name = _ref.name;
+    var required = _ref.required;
+    var disabled = _ref.disabled;
+
+    if (!name) {
+        throw new Error('A name is required');
+    }
 
     this.classList.add(defaultClass);
-
+    this.classList.add(emptyClass);
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
 
     var props = this.kompo.props,
@@ -1885,10 +1891,17 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
         list = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('ul', { 'class': listClass }),
         noResults = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('li', { 'class': noResultsClass });
 
-    noResults.textContent = noResultsText;
-    if (!immediateRender) this.classList.add(emptyClass);
+    if (required) {
+        this.setAttribute('required', required);
+        input.setAttribute('required', required);
+    }
 
-    var render = immediateRender;
+    if (disabled) {
+        this.setAttribute('disabled', disabled);
+        input.setAttribute('disabled', disabled);
+    }
+
+    noResults.textContent = noResultsText;
 
     /**
      * Structure
@@ -1917,14 +1930,11 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
         if (!noResultsInputRender && input.value == '') {
             emptyList(_this, list, emptyClass);
             _this.classList.remove(noResultsClass);
-            render = false;
         } else {
-            render = true;
+            reactFn(true)(getState(_this));
         }
 
-        dispatch(_this, function (state) {
-            markDirty(state);
-        });
+        _this.setAttribute('value', input.value);
 
         props.selected = list.children[0];
     }, throttleDelay));
@@ -1939,45 +1949,64 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
         e.preventDefault();
         props.selected = e.target;
         input.value = props.selected.textContent;
+        _this.setAttribute('value', input.value);
         emptyList(_this, list, emptyClass);
     });
 
-    react(this, function (state) {
-        if (!render || !Array.isArray(state)) return;
+    var reactFn = function reactFn(usedInput) {
+        return function (state) {
+            if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isObject"])(state) && !Array.isArray(state)) {
+                if (!usedInput) {
+                    var v = state.values[name] || '';
+                    input.value = v;
+                    _this.setAttribute('value', v);
+                }
+                state = state.data;
+            }
 
-        var frag = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["createFragment"])(),
-            filter = props.filter;
+            if (!Array.isArray(state)) return;
 
-        var _loop = function _loop(i, l) {
-            var value = filter ? filter(state[i], input.value) : state[i];
+            var frag = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["createFragment"])(),
+                filter = props.filter;
 
-            if (value === false) return 'continue';
+            var _loop = function _loop(i, l) {
+                var value = filter ? filter(state[i], input.value) : state[i];
 
-            var li = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__listitem__["a" /* default */])();
-            li.textContent = value;
-            mount(_this, frag, li, function () {
-                return state[i];
-            });
+                if (value === false) return 'continue';
+
+                var li = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__listitem__["a" /* default */])();
+                li.textContent = value;
+                mount(_this, frag, li, function () {
+                    return state[i];
+                });
+            };
+
+            for (var i = 0, l = state.length; i < l; ++i) {
+                var _ret = _loop(i, l);
+
+                if (_ret === 'continue') continue;
+            }
+
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(list);
+
+            switch (true) {
+                case showNoResults && frag.children.length === 0:
+                    _this.classList.add(noResultsClass);
+                    list.appendChild(noResults);
+                case frag.children.length === 0 || props.skipInitialListRender:
+                    _this.classList.add(emptyClass);
+                    props.skipInitialListRender = false;
+                    break;
+                case usedInput:
+                    _this.classList.remove(noResultsClass);
+                    _this.classList.remove(emptyClass);
+                    list.appendChild(frag);
+                    break;
+            }
         };
+    };
 
-        for (var i = 0, l = state.length; i < l; ++i) {
-            var _ret = _loop(i, l);
-
-            if (_ret === 'continue') continue;
-        }
-
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(list);
-
-        if (frag.children.length === 0) {
-            _this.classList.add(noResultsClass);
-            list.appendChild(noResults);
-        } else {
-            _this.classList.remove(noResultsClass);
-            list.appendChild(frag);
-        }
-
-        _this.classList.remove(emptyClass);
-    });
+    react(this, reactFn(false));
 }, {
     defaultClass: 'o-Autocomplete',
     classes: [],
@@ -1989,9 +2018,10 @@ var markDirty = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].markDirty;
     filter: undefined,
     throttleDelay: 200,
     blurDelay: 200,
-    immediateRender: false,
+    skipInitialListRender: true,
     noResultsInputRender: false,
     noResultsText: 'No results found',
+    showNoResults: true,
     placeholder: 'Start typing and select...',
     selected: undefined,
     actionClass: 'o-Autocomplete-action',
@@ -2030,7 +2060,9 @@ var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
 /***/ },
 /* 55 */,
 /* 56 */,
-/* 57 */
+/* 57 */,
+/* 58 */,
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";

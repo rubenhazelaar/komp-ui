@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 62);
+/******/ 	return __webpack_require__(__webpack_require__.s = 64);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1843,9 +1843,8 @@ function app(root, state, router) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_arrayMove__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_orderByArray__ = __webpack_require__(68);
-/* unused harmony export item */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_arrayMove__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_orderByArray__ = __webpack_require__(57);
 
 var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
 var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
@@ -1914,8 +1913,6 @@ var item = construct('li', function (_ref) {
     wrapperClass: 'o-OrderList-item-wrapper',
     placeholder: 'Provide an alias for this column...'
 });
-
-
 
 /* harmony default export */ exports["a"] = construct('div', function (_ref2) {
     var _this3 = this;
@@ -1999,8 +1996,8 @@ var item = construct('li', function (_ref) {
         unmountAll(_this3);
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(list);
 
-        var want = state.want,
-            mapping = state.mapping,
+        var want = state.want || [],
+            mapping = state.mapping || {},
             ics = [],
             selectedItem = props.selectedItem,
             selectedName = selectedItem ? selectedItem.kompo.props.name : undefined;
@@ -2039,7 +2036,7 @@ var item = construct('li', function (_ref) {
             ics.push(ic);
         }
 
-        mount(_this3, list, ics);
+        mount(_this3, list, ics, _this3.kompo.selector);
     };
     react(this, reactFn);
 }, {
@@ -2100,13 +2097,53 @@ function toggleItem(item, state) {
 /* 53 */,
 /* 54 */,
 /* 55 */,
-/* 56 */,
-/* 57 */,
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ exports["a"] = function (arr, old_index, new_index) {
+    while (old_index < 0) {
+        old_index += arr.length;
+    }
+    while (new_index < 0) {
+        new_index += arr.length;
+    }
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length;
+        while (k-- + 1) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing purposes
+};
+
+/***/ },
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ exports["a"] = orderByArray;
+function orderByArray(arr, orderArr) {
+    arr.sort(function (a, b) {
+        var aIndex = orderArr.indexOf(a),
+            bIndex = orderArr.indexOf(b);
+
+        if (aIndex === -1 || bIndex === -1) {
+            return 0;
+        }
+        return aIndex - bIndex;
+    });
+};
+
+/***/ },
 /* 58 */,
 /* 59 */,
 /* 60 */,
 /* 61 */,
-/* 62 */
+/* 62 */,
+/* 63 */,
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2142,50 +2179,6 @@ document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(
         name: 'Full name'
     }
 }).start());
-
-/***/ },
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ exports["a"] = function (arr, old_index, new_index) {
-    while (old_index < 0) {
-        old_index += arr.length;
-    }
-    while (new_index < 0) {
-        new_index += arr.length;
-    }
-    if (new_index >= arr.length) {
-        var k = new_index - arr.length;
-        while (k-- + 1) {
-            arr.push(undefined);
-        }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    return arr; // for testing purposes
-};
-
-/***/ },
-/* 68 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ exports["a"] = orderByArray;
-function orderByArray(arr, orderArr) {
-    arr.sort(function (a, b) {
-        var aIndex = orderArr.indexOf(a),
-            bIndex = orderArr.indexOf(b);
-
-        if (aIndex === -1 || bIndex === -1) {
-            return 0;
-        }
-        return aIndex - bIndex;
-    });
-};
 
 /***/ }
 /******/ ])

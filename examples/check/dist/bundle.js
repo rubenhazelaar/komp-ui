@@ -71,7 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1871,7 +1871,7 @@ var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
     this.addEventListener('click', function (e) {
         e.preventDefault();
         toggle(props, _this);
-        if (callback) callback(e);
+        if (callback) callback(e, props.checked);
     });
 }, {
     defaultClass: 'o-Check',
@@ -1920,7 +1920,9 @@ function isChecked(check) {
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */,
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";

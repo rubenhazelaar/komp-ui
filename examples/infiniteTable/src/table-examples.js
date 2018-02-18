@@ -14,9 +14,24 @@ const root = component.construct('div', function({}) {
             classes: ['o-Table', 'u-mbn'],
             oddRowClass: 'o-Table-row--isOdd',
             evenRowClass: 'o-Table-row--isEven',
+            selectedClass: 'selected',
+            uniqueKey: 'id',
             on: (table) => {
                 delegate(table, 'tr', 'click', function(e) {
-                    console.log(table.kompo.props);
+                    e.preventDefault();
+                    const target = e.target.parentNode,
+                        tableProps = table.kompo.props,
+                        key = keySelected(tableProps, target);
+
+                    // Remove if already in selected
+                    if (tableProps.selected.hasOwnProperty(key)) {
+                        target.classList.remove(tableProps.selectedClass);
+                        delete tableProps.selected[key];
+                        return
+                    }
+
+                    tableProps.selected[key] = target;
+                    target.classList.add(tableProps.selectedClass);
                 });
             },
             minimizeWhitelist: ['firstname'],
@@ -30,6 +45,15 @@ const root = component.construct('div', function({}) {
     component.mount(this, scrollable, t1);
     scrollable.appendChild(bottomSpacer);
 });
+
+function keySelected(tableProps, row) {
+    if (!tableProps.selected) {
+        tableProps.selected = {};
+    }
+
+    const s = component.getState(row);
+    return s[tableProps.uniqueKey];
+}
 
 // Create instance of root and
 // append table to body

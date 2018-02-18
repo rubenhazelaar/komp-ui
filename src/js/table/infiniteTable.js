@@ -21,7 +21,8 @@ export default component.construct('table', function({
     bottomSpacer,
     rowHeight,
     blockSize,
-    scrollThrottle
+    scrollThrottle,
+    uniqueKey
 }) {
     const head = document.createElement('thead'),
         body = document.createElement('tbody'),
@@ -118,9 +119,11 @@ export default component.construct('table', function({
                 os,
                 {
                     defaultClass: os % 2 == 0? evenRowClass: oddRowClass,
-                    selectedClass: selectedClass,
+                    selectedClass,
                     hasColumnFilter,
-                    columnFilter
+                    columnFilter,
+                    selected: props.selected,
+                    uniqueKey
                 }
             );
         }
@@ -151,9 +154,15 @@ export default component.construct('table', function({
     ) {
         const tr = tableRow(props);
         component.mount(table, frag, tr, s => {
-            return table.kompo.selector?
+            const ns = table.kompo.selector?
                 table.kompo.selector(s).data[key]:
                 s.data[key];
+
+            if (props.selected && ns.hasOwnProperty(props.uniqueKey)) {
+                ns.selected = props.selected.hasOwnProperty(ns[props.uniqueKey]);
+            }
+
+            return ns;
         });
     },
     appendHead(
@@ -173,7 +182,8 @@ export default component.construct('table', function({
     bottomSpacer: undefined,
     rowHeight: 20,
     blockSize: 5,
-    scrollThrottle: 10
+    scrollThrottle: 10,
+    uniqueKey: 'id'
 });
 
 export function resetSpacers(infiniteTable) {
