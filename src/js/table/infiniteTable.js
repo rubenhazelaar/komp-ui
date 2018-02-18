@@ -158,7 +158,7 @@ export default component.construct('table', function({
                 table.kompo.selector(s).data[key]:
                 s.data[key];
 
-            if (props.selected && ns.hasOwnProperty(props.uniqueKey)) {
+            if (ns && props.selected && ns.hasOwnProperty(props.uniqueKey)) {
                 ns.selected = props.selected.hasOwnProperty(ns[props.uniqueKey]);
             }
 
