@@ -128,8 +128,6 @@ export default component.construct('table', function({
             );
         }
 
-
-
         empty(body);
         body.appendChild(frag);
     };
@@ -183,7 +181,8 @@ export default component.construct('table', function({
     rowHeight: 20,
     blockSize: 5,
     scrollThrottle: 10,
-    uniqueKey: 'id'
+    uniqueKey: 'id',
+    selected: {}
 });
 
 export function resetSpacers(infiniteTable) {
@@ -209,10 +208,6 @@ export function multiSelect(table, e) {
 }
 
 function keySelected(tableProps, row) {
-    if (!tableProps.selected) {
-        tableProps.selected = {};
-    }
-
     const s = component.getState(row);
     return s[tableProps.uniqueKey];
 }
