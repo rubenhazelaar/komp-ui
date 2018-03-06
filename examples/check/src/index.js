@@ -14,6 +14,7 @@ const root = construct('div', function({}) {
     });
 
     mount(this, cc);
+    this.appendChild(cc);
 
     const a = create('a', {href: '#'});
     a.textContent = 'Toggle check';

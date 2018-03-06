@@ -21,6 +21,7 @@ const root = component.construct('div', function ({}) {
         }
     });
     component.mount(this, dr);
+    this.appendChild(dr);
 
     /**
      * Simple implementation of a side by side dateRangePicker

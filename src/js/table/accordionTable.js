@@ -22,8 +22,10 @@ export default component.compose(table, {
             };
 
         
-        component.mount(table, frag, tr, selector);
-        component.mount(table, frag, contentTr, selector);
+        component.mount(table, tr, selector);
+        component.mount(table, contentTr, selector);
+        frag.appendChild(tr);
+        frag.appendChild(contentTr);
     },
     on(table) {
         const tableProps = component.getProps(table),

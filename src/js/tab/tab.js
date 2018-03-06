@@ -90,7 +90,8 @@ function _append(component, parent, child) {
     if (typeof child === 'string') {
         parent.textContent = child;
     } else if (child.hasOwnProperty('kompo')) {
-        mount(component, parent, child, component.kompo.selector, false);
+        mount(component, child, component.kompo.selector);
+        parent.appendChild(child);
     } else if (child instanceof Node) {
         parent.appendChild(child);
     } else {

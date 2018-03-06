@@ -42,7 +42,8 @@ const root = component.construct('div', function({}) {
     
     this.appendChild(scrollable);
     scrollable.appendChild(topSpacer);
-    component.mount(this, scrollable, t1);
+    component.mount(this, t1);
+    scrollable.appendChild(t1);
     scrollable.appendChild(bottomSpacer);
 });
 

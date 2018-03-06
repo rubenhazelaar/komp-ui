@@ -84,9 +84,6 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 exports.default = construct;
 exports.constructClass = constructClass;
 exports.render = render;
@@ -103,13 +100,13 @@ exports.slot = slot;
 exports.hasSlot = hasSlot;
 exports.getRouter = getRouter;
 exports.compose = compose;
-exports.append = append;
 exports.getProps = getProps;
 exports.getMethods = getMethods;
-exports.children = children;
-exports.appendChildren = appendChildren;
+exports.getMounts = getMounts;
+exports.mountable = mountable;
+exports.debug = debug;
 
-var _merge = __webpack_require__(7);
+var _merge = __webpack_require__(6);
 
 var _merge2 = _interopRequireDefault(_merge);
 
@@ -117,17 +114,15 @@ var _hasProxy = __webpack_require__(4);
 
 var _hasProxy2 = _interopRequireDefault(_hasProxy);
 
-var _isObject = __webpack_require__(6);
+var _isObject = __webpack_require__(5);
 
 var _isObject2 = _interopRequireDefault(_isObject);
-
-var _isFunction = __webpack_require__(5);
-
-var _isFunction2 = _interopRequireDefault(_isFunction);
 
 var _observe = __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * Adds construct function to Element prototype
@@ -154,7 +149,7 @@ function construct(tag, constructFn) {
         var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
         var c = kompo(document.createElement(tag));
-        c.kompo.props = (0, _merge2.default)(_extends({}, defaultProps), props);
+        c.kompo.props = (0, _merge2.default)({}, defaultProps, props);
         c.construct = constructFn;
         return c;
     };
@@ -168,7 +163,7 @@ function constructClass(tag, constructClass) {
         var props = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
         var c = kompo(document.createElement(tag));
-        c.kompo.props = (0, _merge2.default)(_extends({}, defaultProps), props);
+        c.kompo.props = (0, _merge2.default)({}, defaultProps, props);
         (0, _merge2.default)(c, methods);
         return c;
     };
@@ -182,8 +177,29 @@ function constructClass(tag, constructClass) {
 function render(Element) {
     var kompo = Element.kompo;
     if (kompo.initial) {
+        console.groupCollapsed('RENDER: ');
+        console.log(Element);
+        console.log(kompo);
+        // Construct then ...
+        console.groupCollapsed('CONSTRUCT: ');
         Element.construct(kompo.props);
         kompo.initial = false;
+        console.groupEnd();
+
+        // ... react
+        var statefulls = kompo.statefulls,
+            _selector = kompo.selector,
+            state = _selector ? _selector(Element.__kompo__.state) : Element.__kompo__.state;
+
+        if (statefulls.length > 0 && state) {
+            console.log('HAS STATE: ', state);
+            console.groupCollapsed('REACTS: ');
+            for (var i = 0, l = statefulls.length; i < l; ++i) {
+                statefulls[i](state, Element);
+            }
+            console.groupEnd();
+        }
+        console.groupEnd();
     } else {
         update(Element);
     }
@@ -191,30 +207,50 @@ function render(Element) {
 
 function update(Element) {
     var kompo = Element.kompo,
-        mounts = kompo.mounts,
-        selector = kompo.selector,
-        state = selector ? selector(Element.__kompo__.state) : Element.__kompo__.state,
+        statefulls = kompo.statefulls,
         isRoot = Element === Element.__kompo__.root;
 
-    // State is false, do not run statefulls
-    if (state) {
-        // If is object and flagged dirty or not at all than do not update
-        var checkIfDirty = _hasProxy2.default ? (0, _isObject2.default)(state) || Array.isArray(state) : (0, _isObject2.default)(state) && !Array.isArray(state);
+    console.groupCollapsed('UPDATE: ');
+    console.log(Element);
+    console.log(kompo);
 
-        if (!(checkIfDirty && state.hasOwnProperty('__kompo_dirty__') && state.__kompo_dirty__.length === 0)) {
-            var statefulls = kompo.statefulls;
-            for (var i = 0, l = statefulls.length; i < l; ++i) {
-                statefulls[i](state, Element);
+    // Only run if a component has statefulls
+    if (statefulls.length > 0) {
+        var _selector2 = kompo.selector,
+            state = _selector2 ? _selector2(Element.__kompo__.state) : Element.__kompo__.state;
+
+        console.log('HAS STATE: ', state);
+
+        // State is false, do not run statefulls
+        if (state) {
+            // If is object and flagged dirty or not at all than do not update
+            var checkIfDirty = _hasProxy2.default ? (0, _isObject2.default)(state) || Array.isArray(state) : (0, _isObject2.default)(state) && !Array.isArray(state);
+
+            if (!(checkIfDirty && state.hasOwnProperty('__kompo_dirty__') && state.__kompo_dirty__.length === 0)) {
+                console.log('_STATE_IS_DIRTY_');
+                console.groupCollapsed('REACTS: ');
+                for (var i = 0, l = statefulls.length; i < l; ++i) {
+                    statefulls[i](state, Element);
+                }
+                console.groupEnd();
             }
         }
     }
 
-    for (var _i = 0, _l = mounts.length; _i < _l; ++_i) {
-        render(mounts[_i]);
+    var mounts = kompo.mounts;
+    if (mounts.length > 0) {
+        console.groupCollapsed('MOUNTS: ');
+        for (var _i = 0, _l = mounts.length; _i < _l; ++_i) {
+            render(mounts[_i]);
+        }
+        console.groupEnd();
     }
 
+    console.groupEnd();
+
     if (isRoot) {
-        (0, _observe.markClean)(state);
+        (0, _observe.markClean)(Element.__kompo__.state);
+        console.log('___END_OF_UPDATE_LOOP___');
     }
 }
 
@@ -228,20 +264,19 @@ function kompo(Element) {
         slots: {},
         routed: undefined,
         selector: undefined,
-        state: undefined,
-        unmount: undefined,
-        children: undefined
+        // state: undefined, // TODO Unavailable now but could perhaps be used as caching mechanism (also see setState())
+        unmount: undefined
     };
 
     return Element;
 }
 
 function setState(Element, selector) {
-    var apply = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
-
     var kompo = Element.kompo;
-    if (apply) kompo.state = selector(Element.__kompo__.state);
+    // TODO Unavailable now but could perhaps be used as caching mechanism
+    // if(apply) kompo.state = selector(Element.__kompo__.state);
     kompo.selector = selector;
+    return Element;
 }
 
 function getState(Element) {
@@ -249,52 +284,23 @@ function getState(Element) {
     return selector ? selector(Element.__kompo__.state) : Element.__kompo__.state;
 }
 
-function mount(parent, child, selector, sel) {
-    var apply = arguments.length <= 4 || arguments[4] === undefined ? true : arguments[4];
-
-    var el = void 0;
-
-    var l = arguments.length,
-        selectorIsFn = (0, _isFunction2.default)(selector);
-
-    switch (true) {
-        case l === 2:
-            el = parent;
-            break;
-        case l >= 3:
-            if (selectorIsFn || typeof selector === 'undefined') {
-                el = parent;
-                apply = true;
-            } else {
-                el = child;
-                child = selector;
-            }
-        case l >= 4:
-            if (selectorIsFn) {
-                apply = sel !== false;
-            } else {
-                selector = sel;
-            }
-        case l === 5:
-            apply = apply !== false;
-            break;
-    }
-
+function mount(parent, child, selector) {
     if (Array.isArray(child)) {
-        _mountAll(parent, el, child, selector, apply);
+        _mountAll(parent, child, selector);
     } else {
-        _mount(parent, el, child, selector, apply);
+        _mount(parent, child, selector);
     }
 }
 
-function _mount(parent, Element, child, selector, apply) {
+function _mount(parent, child, selector) {
     if (selector) {
-        setState(child, selector, apply);
+        setState(child, selector);
+    } else if (child instanceof Mountable) {
+        setState(child.Element, child.selector);
+        child = child.Element;
     }
 
     render(child);
-
-    Element.appendChild(child);
 
     // Protection if same element is appended multiple times
     var mounts = parent.kompo.mounts;
@@ -306,16 +312,11 @@ function _mount(parent, Element, child, selector, apply) {
     }
 }
 
-function _mountAll(parent, Element, children, selector, apply) {
-    var frag = document.createDocumentFragment();
-
+function _mountAll(parent, children, selector) {
     // Mount all children ...
     for (var i = 0, l = children.length; i < l; ++i) {
-        _mount(parent, frag, children[i], selector ? selector(i) : undefined, apply);
+        _mount(parent, children[i], selector ? selector : undefined);
     }
-
-    // ... append to DOM in one go
-    Element.appendChild(frag);
 }
 
 function unmount(Element) {
@@ -334,11 +335,7 @@ function mountIndex(parent, child) {
 }
 
 function react(Element, statefull) {
-    var kompo = Element.kompo,
-        selector = kompo.selector;
-
-    kompo.statefulls.push(statefull);
-    statefull(selector ? selector(Element.__kompo__.state) : Element.__kompo__.state, Element);
+    Element.kompo.statefulls.push(statefull);
 }
 
 /**
@@ -399,11 +396,6 @@ function compose(constructComponent, composeProps) {
     };
 }
 
-function append(parent, child) {
-    render(child);
-    parent.appendChild(child);
-}
-
 function getProps(Element) {
     return Element.kompo.props;
 }
@@ -438,25 +430,45 @@ function getMethods(clss) {
     return methods;
 }
 
-function children(Element, children) {
-    Element.kompo.children = children;
-    return Element;
+function getMounts(Element) {
+    return Element.kompo.mounts;
 }
 
-function appendChildren(Element, useFragment) {
-    var children = Element.kompo.children,
-        parent = useFragment ? document.createDocumentFragment() : Element;
+var Mountable = function Mountable(Element, selector) {
+    _classCallCheck(this, Mountable);
 
-    for (var i = 0, l = children.length; i < l; ++i) {
-        var child = children[i];
-        if (child.hasOwnProperty('kompo')) {
-            render(child);
-        }
-        parent.appendChild(child);
+    this.Element = Element;
+    this.selector = selector;
+};
+
+function mountable(Element, selector) {
+    return new Mountable(Element, selector);
+}
+
+function debug(Element, level) {
+    if (!Element instanceof HTMLElement) {
+        throw new Error('Not an instance of Element');
     }
 
-    if (useFragment) {
-        Element.appendChild(parent);
+    if (!Element.hasOwnProperty('kompo')) {
+        throw new Error('Is not a KompoElement');
+    }
+
+    var kompo = Element.kompo,
+        mounts = kompo.mounts;
+
+    console.log(Element, kompo);
+
+    if (Number.isInteger(level) && level > 0 && mounts.length > 0) {
+        console.groupCollapsed('MOUNTS: ');
+
+        var nl = --level;
+        for (var i = 0, l = mounts.length; i < l; ++i) {
+            debug(mounts[i], nl);
+            console.log('__END_OF_MOUNT__');
+        }
+
+        console.groupEnd();
     }
 }
 
@@ -488,7 +500,7 @@ var _app = __webpack_require__(24);
 
 var _app2 = _interopRequireDefault(_app);
 
-var _dispatch = __webpack_require__(11);
+var _dispatch = __webpack_require__(10);
 
 var _dispatch2 = _interopRequireDefault(_dispatch);
 
@@ -500,15 +512,15 @@ var _hasProxy = __webpack_require__(4);
 
 var _hasProxy2 = _interopRequireDefault(_hasProxy);
 
-var _isObject = __webpack_require__(6);
+var _isObject = __webpack_require__(5);
 
 var _isObject2 = _interopRequireDefault(_isObject);
 
-var _merge = __webpack_require__(7);
+var _merge = __webpack_require__(6);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _isFunction = __webpack_require__(5);
+var _isFunction = __webpack_require__(11);
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
 
@@ -545,6 +557,8 @@ exports.default = {
     kompo: _component.kompo,
     setState: _component.setState,
     mount: _component.mount,
+    getMounts: _component.getMounts,
+    mountable: _component.mountable,
     react: _component.react,
     slot: _component.slot,
     getRouter: _component.getRouter,
@@ -553,11 +567,9 @@ exports.default = {
     mountIndex: _component.mountIndex,
     getState: _component.getState,
     compose: _component.compose,
-    append: _component.append,
     getProps: _component.getProps,
     constructClass: _component.constructClass,
-    children: _component.children,
-    appendChildren: _component.appendChildren
+    debug: _component.debug
 };
 exports.router = router;
 exports.state = state;
@@ -579,7 +591,7 @@ var _capitalize = __webpack_require__(13);
 
 var _capitalize2 = _interopRequireDefault(_capitalize);
 
-var _create = __webpack_require__(8);
+var _create = __webpack_require__(7);
 
 var _create2 = _interopRequireDefault(_create);
 
@@ -599,11 +611,11 @@ var _isFunction = __webpack_require__(17);
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
 
-var _isObject = __webpack_require__(9);
+var _isObject = __webpack_require__(8);
 
 var _isObject2 = _interopRequireDefault(_isObject);
 
-var _matches = __webpack_require__(10);
+var _matches = __webpack_require__(9);
 
 var _matches2 = _interopRequireDefault(_matches);
 
@@ -665,7 +677,7 @@ var _hasProxy = __webpack_require__(4);
 
 var _hasProxy2 = _interopRequireDefault(_hasProxy);
 
-var _isObject = __webpack_require__(6);
+var _isObject = __webpack_require__(5);
 
 var _isObject2 = _interopRequireDefault(_isObject);
 
@@ -735,6 +747,8 @@ function observe(obj) {
 }
 
 function observeObjectFallback(obj) {
+    if (!(0, _isObject2.default)(obj)) return; // A no-op when it id not an object
+
     var keys = Object.keys(obj);
 
     var _loop = function _loop(i, l) {
@@ -787,7 +801,7 @@ function inheritObserved(obj) {
         var _key = keys[i],
             value = obj[_key];
 
-        if (ignored.indexOf(_key) > -1) continue;
+        if (ignored.indexOf(_key) !== -1) continue;
 
         if (typeof value === 'undefined') return;
 
@@ -820,6 +834,14 @@ function markClean(obj) {
 }
 
 function markDirty(obj) {
+    if (!(0, _isObject2.default)(obj)) return; // A no-op on all but Object and Arrays
+
+    if (!obj.hasOwnProperty('__kompo_dirty__')) {
+        Object.defineProperty(obj, '__kompo_dirty__', {
+            writable: true,
+            value: []
+        });
+    }
     obj.__kompo_dirty__.push(true);
 }
 
@@ -837,29 +859,6 @@ exports.default = 'Proxy' in window;
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isFunction;
-
-/**
- * Checks if given variable is a function
- *
- * @param {*} functionToCheck
- * @returns {boolean}
- */
-function isFunction(functionToCheck) {
-  var getType = {};
-  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-}
-
-/***/ },
-/* 6 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -903,7 +902,7 @@ function isObject(value) {
 }
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -933,7 +932,7 @@ function merge() {
 }
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1009,7 +1008,7 @@ function createText(str) {
 }
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1053,7 +1052,7 @@ function isObject(value) {
 }
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 "use strict";
@@ -1084,7 +1083,7 @@ exports.default = function () {
 }();
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1106,7 +1105,32 @@ function dispatch(Element, cb, noRender) {
     if (!state) return;
 
     cb(state);
-    if (!noRender) (0, _component.render)(Element.__kompo__.root);
+    if (!noRender) requestAnimationFrame(function () {
+        (0, _component.render)(Element.__kompo__.root);
+    });
+}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isFunction;
+
+/**
+ * Checks if given variable is a function
+ *
+ * @param {*} functionToCheck
+ * @returns {boolean}
+ */
+function isFunction(functionToCheck) {
+  var getType = {};
+  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 
 /***/ },
@@ -1194,7 +1218,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = delegate;
 
-__webpack_require__(10);
+__webpack_require__(9);
 
 // Self-executing
 
@@ -1310,11 +1334,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = replace;
 
-var _create = __webpack_require__(8);
+var _create = __webpack_require__(7);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _isObject = __webpack_require__(9);
+var _isObject = __webpack_require__(8);
 
 var _isObject2 = _interopRequireDefault(_isObject);
 
@@ -1415,7 +1439,7 @@ var _component = __webpack_require__(0);
 
 var _component2 = _interopRequireDefault(_component);
 
-var _dispatch = __webpack_require__(11);
+var _dispatch = __webpack_require__(10);
 
 var _dispatch2 = _interopRequireDefault(_dispatch);
 
@@ -1454,6 +1478,7 @@ exports.default = (0, _component2.default)('a', function (_ref) {
         this.textContent = child;
     } else if (child.hasOwnProperty('kompo')) {
         (0, _component.mount)(this, child);
+        this.appendChild(child);
     } else if (child instanceof Node) {
         this.appendChild(child);
     } else if ((0, _component.hasSlot)(this, 'child')) {
@@ -1498,13 +1523,13 @@ exports.route = route;
 exports.indexRoute = indexRoute;
 exports.swap = swap;
 
-var _merge = __webpack_require__(7);
+var _merge = __webpack_require__(6);
 
 var _merge2 = _interopRequireDefault(_merge);
 
 var _component = __webpack_require__(0);
 
-var _isFunction = __webpack_require__(5);
+var _isFunction = __webpack_require__(11);
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
 
@@ -1805,7 +1830,9 @@ function app(root, state, router) {
             if (selector) {
                 (0, _component.setState)(root, selector);
             }
-            (0, _component.render)(root);
+            requestAnimationFrame(function () {
+                (0, _component.render)(root);
+            });
             return root;
         }
     };
@@ -1905,7 +1932,8 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
     // Pass on level to component for further routing
     component.kompo.level = this.kompo.level;
 
-    mount(this, component, this.kompo.selector, false);
+    mount(this, component, this.kompo.selector);
+    this.appendChild(component);
 }, {
     classNames: [],
     basis: 100,
@@ -1937,7 +1965,6 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 
 var getProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps;
 var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
-var children = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.children;
 
 
 
@@ -1955,9 +1982,9 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
     var unit = _ref.unit;
     var transitionDuration = _ref.transitionDuration;
     var easingFunction = _ref.easingFunction;
+    var children = _ref.children;
 
     var wrapper = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div'),
-        children = this.kompo.children,
         props = getProps(this);
 
     window.addEventListener('resize', __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["throttle"])(function (e) {
@@ -2036,6 +2063,7 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
         }
 
         childProps.multiPanelProps = props;
+        wrapper.appendChild(child);
     }
 
     props.totalWidthPercentage = 100 / props.totalWidth * 100;
@@ -2048,7 +2076,7 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
     props.wrapper = wrapper;
 
     // Pass on selector
-    mount(this, wrapper, children, this.kompo.selector, false);
+    mount(this, children, this.kompo.selector);
     this.appendChild(wrapper);
 }, {
     classNames: [],
@@ -2057,7 +2085,8 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
     totalWidth: 0,
     wrapper: undefined,
     overlay: true,
-    easingFunction: 'ease'
+    easingFunction: 'ease',
+    children: []
 });
 
 /* harmony default export */ exports["c"] = multiPanel;
@@ -2148,9 +2177,10 @@ function slide(component, router, element) {
 
             var initial = false;
             if (!routed) {
+                multiPanelProps.children = panels;
                 mp = multiPanel(multiPanelProps);
-                children(mp, panels);
-                mount(component, el, mp);
+                mount(component, mp);
+                el.appendChild(mp);
                 initial = true;
             }
 

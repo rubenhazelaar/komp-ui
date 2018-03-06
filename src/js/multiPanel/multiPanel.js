@@ -1,5 +1,5 @@
 import component from 'kompo';
-const {getProps, mount, children} = component;
+const {getProps, mount} = component;
 
 import {create, isObject, throttle} from 'kompo-util';
 
@@ -8,10 +8,9 @@ import getDynamicWidth from '../utils/getDynamicWidth';
 import '../../css/multiPanel.css';
 
 const multiPanel = component.construct('div', function({
-    classNames, overlay, unit, transitionDuration, easingFunction
+    classNames, overlay, unit, transitionDuration, easingFunction, children
 }){
     const wrapper = create('div'),
-        children = this.kompo.children,
         props = getProps(this);
 
     window.addEventListener('resize', throttle(e => {
@@ -92,6 +91,7 @@ const multiPanel = component.construct('div', function({
         }
 
         childProps.multiPanelProps = props;
+        wrapper.appendChild(child); 
     }
 
     props.totalWidthPercentage = 100 / props.totalWidth * 100;
@@ -104,7 +104,7 @@ const multiPanel = component.construct('div', function({
     props.wrapper = wrapper;
 
     // Pass on selector
-    mount(this, wrapper, children, this.kompo.selector, false);
+    mount(this, children, this.kompo.selector);
     this.appendChild(wrapper);
 }, {
     classNames: [],
@@ -113,7 +113,8 @@ const multiPanel = component.construct('div', function({
     totalWidth: 0,
     wrapper: undefined,
     overlay: true,
-    easingFunction: 'ease'
+    easingFunction: 'ease',
+    children: []
 });
 
 export default multiPanel;
@@ -196,9 +197,10 @@ export function slide(component:KompoElement, router:router, element:Element, mu
 
             let initial = false;
             if (!routed) {
+                multiPanelProps.children = panels;
                 mp = multiPanel(multiPanelProps);
-                children(mp, panels);
-                mount(component, el, mp);
+                mount(component, mp);
+                el.appendChild(mp);
                 initial = true;
             }
 

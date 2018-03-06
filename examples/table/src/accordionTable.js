@@ -12,12 +12,14 @@ export default component.compose(table, {
 
         props.defaultClass = tableProps.rowClass;
 
-        component.append(parent, tableRow(props));
+        const tr = tableRow(props);
+        component.render(tr);
+        parent.appendChild(tr);
 
         if(typeof props.index !== 'undefined') {
-            component.append(parent, accordionTableRow(
-                merge(props, tableProps)
-            ));
+            const atr = accordionTableRow(merge(props, tableProps));
+            component.render(atr);
+            parent.appendChild(atr)
         }
     },
     on(table) {

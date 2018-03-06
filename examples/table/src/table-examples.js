@@ -95,6 +95,9 @@ const root = component.construct('div', function({}) {
     this.appendChild(minimize);
     this.appendChild(maximize);
     component.mount(this, [t1, t2, t3]);
+    this.appendChild(t1);
+    this.appendChild(t2);
+    this.appendChild(t3);
 });
 
 // Create instance of root and

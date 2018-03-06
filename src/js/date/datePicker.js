@@ -24,7 +24,7 @@ export default construct('table', function ({
     showRange
 }) {
     this.classList.add(defaultClass);
-
+console.log(123);
     addClasses(this, classes);
 
     const previous = create('a', {

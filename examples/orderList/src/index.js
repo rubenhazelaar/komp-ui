@@ -10,6 +10,7 @@ const root = construct('div', function({}) {
         available: ['phone', 'name', 'id', 'address']
     });
     mount(this, ol);
+    this.appendChild(ol);
 });
 
 // Create instance of root and

@@ -123,7 +123,8 @@ export default construct('div', function ({
 
                 const li = listitem();
                 li.textContent = value;
-                mount(this, frag, li, () => state[i]);
+                mount(this, li, () => state[i]);
+                frag.appendChild(li);
             }
 
             empty(list);

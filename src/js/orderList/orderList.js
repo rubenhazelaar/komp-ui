@@ -173,9 +173,11 @@ export default construct('div', function ({
             }
 
             ics.push(ic);
+            list.appendChild(ic);
         }
 
-        mount(this, list, ics, this.kompo.selector);
+        mount(this, ics, this.kompo.selector);
+        this.appendChild(list);
     };
     react(this, reactFn);
 }, {

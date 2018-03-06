@@ -30,6 +30,7 @@ export default component.construct('table', function({
 
         if(!Array.isArray(data) || data.length < 1) return;
 
+        component.unmountAll(this);
         props.rows = [];
 
         const hasRowFilter = isFunction(rowFilter),
@@ -80,7 +81,8 @@ export default component.construct('table', function({
     minimizeWhitelist: undefined,
     appendRow(table, parent, props) {
         const tr = tableRow(props);
-        component.mount(table, parent, tr, table.kompo.selector);
+        component.mount(table, tr, table.kompo.selector);
+        parent.appendChild(tr);
     }
 });
 

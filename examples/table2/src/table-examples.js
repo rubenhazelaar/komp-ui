@@ -137,6 +137,9 @@ const root = component.construct('div', function({}) {
     this.appendChild(addState);
     this.appendChild(removeState);
     component.mount(this, [t1, t2, t3]);
+    this.appendChild(t1);
+    this.appendChild(t2);
+    this.appendChild(t3);
 });
 
 // Create instance of root and
@@ -146,19 +149,19 @@ document.body.appendChild(state.app(root(), {
     minimize: true,
     offset: 0,
     data: [
-        // {
-        //     firstname: 'rick',
-        //     lastname: 'deckard',
-        //     movie: 'blade runner'
-        // }, {
-        //     firstname: 'mia',
-        //     lastname: 'wallace',
-        //     movie: 'pulp fiction'
-        // },{
-        //     firstname: 'rocky',
-        //     lastname: 'balboa',
-        //     movie: 'rocky'
-        // }
+        {
+            firstname: 'rick',
+            lastname: 'deckard',
+            movie: 'blade runner'
+        }, {
+            firstname: 'mia',
+            lastname: 'wallace',
+            movie: 'pulp fiction'
+        },{
+            firstname: 'rocky',
+            lastname: 'balboa',
+            movie: 'rocky'
+        }
     ]
 }).start());
 

@@ -39,6 +39,7 @@ export default component.construct('table', function({
 
         // Empty out before append
         empty(head);
+        component.unmountAll(this);
 
         // When empty...
         if(data.length == 0) {
@@ -113,11 +114,12 @@ export default component.construct('table', function({
         props
     ) {
         const tr = tableRow(props);
-        component.mount(table, frag, tr, s => {
+        component.mount(table, tr, s => {
             return table.kompo.selector?
                 table.kompo.selector(s).data[key]:
                 s.data[key];
         });
+        frag.appendChild(tr);
     },
     appendHead(
         table,
@@ -125,11 +127,12 @@ export default component.construct('table', function({
         props
     ) {
         const tr = tableHead(props);
-        component.mount(table, head, tr, s => {
+        component.mount(table, tr, s => {
             return table.kompo.selector?
                 table.kompo.selector(s).data[0]:
                 s.data[0];
         });
+        head.appendChild(tr);
     }
 });
 

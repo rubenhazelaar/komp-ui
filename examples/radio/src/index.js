@@ -18,6 +18,7 @@ const root = construct('div', function({}) {
     });
 
     mount(this, rc);
+    this.appendChild(rc);
 
     const a = create('a', {href: '#'});
     a.textContent = 'Set option 2';

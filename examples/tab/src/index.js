@@ -15,6 +15,7 @@ const root = construct('div', function({}) {
     });
 
     mount(this, tc);
+    this.appendChild(tc);
 });
 
 // Create instance of root and

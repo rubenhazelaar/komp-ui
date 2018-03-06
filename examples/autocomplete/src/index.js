@@ -7,6 +7,7 @@ import autocomplete from '../../../src/js/autocomplete/autocomplete';
 // Create root component
 const root = construct('div', function({}) {
     const ac = autocomplete({
+        name: 'movie',
         filter(raw, value) {
             if(!raw.movie.match(new RegExp(value,'gi')) || raw.movie === false) {
                 return false;
@@ -20,6 +21,7 @@ const root = construct('div', function({}) {
     });
 
     mount(this, ac, state => state.data);
+    this.appendChild(ac);
 });
 
 // Create instance of root and

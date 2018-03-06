@@ -1,5 +1,5 @@
 import component from 'kompo';
-const {construct, mount, children} = component;
+const {construct, mount} = component;
 
 import {create, addClasses} from 'kompo-util';
 
@@ -69,9 +69,14 @@ export default construct('div', function ({
             noFuture,
             noPast
         }),
-        mp = multiPanel({ classNames: [multiPanelClass],overlay}),
+        
         fromPanel = panel({component: fromDatePicker}),
         toPanel = panel({component: toDatePicker}),
+        mp = multiPanel({ 
+            classNames: [multiPanelClass]
+            ,overlay
+            ,children: [fromPanel, toPanel]
+        }),
         panels = [fromPanel, toPanel],
         applyContainer = create('div', {'class': applyContainerClass}),
         apply = create('a', {'class': applyClass, href: '#apply'}),
@@ -89,8 +94,8 @@ export default construct('div', function ({
     nav.appendChild(to);
     this.appendChild(nav);
 
-    children(mp, [fromPanel, toPanel]);
     mount(this, mp, this.kompo.selector);
+    this.appendChild(mp);
 
     if (applyCallback) {
         apply.appendChild(applyText);
