@@ -1,5 +1,5 @@
 import component, {state} from 'kompo';
-import {empty, isFunction, addClasses, throttle} from 'kompo-util';
+import {empty, isFunction, addClasses, throttle, isObject} from 'kompo-util';
 
 import tableRow from './tableRow';
 import tableHead from './tableHead';
@@ -58,14 +58,21 @@ export default component.construct('table', function({
     }
 
     const reactFn = state => {
-        const data = state.data,
-            offset = state.offset,
+        let data = state.data;
+        const offset = state.offset,
             limit = state.limit,
             minimize = state.minimize,
             rowFilter = props.rowFilter,
             columnFilter = props.columnFilter;
 
         if(!Array.isArray(data)) return;
+        if (!Array.isArray(data)) {
+            if (isObject(data)) {
+                data = Object.values(data);
+            } else {
+                return;
+            }
+        }
 
         // Empty out before append
         empty(head);
