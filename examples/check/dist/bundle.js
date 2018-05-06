@@ -84,6 +84,9 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 exports.default = construct;
 exports.constructClass = constructClass;
 exports.render = render;
@@ -105,6 +108,8 @@ exports.getMethods = getMethods;
 exports.getMounts = getMounts;
 exports.mountable = mountable;
 exports.debug = debug;
+exports.debugLifeCycle = debugLifeCycle;
+exports.getSelector = getSelector;
 
 var _merge = __webpack_require__(6);
 
@@ -125,14 +130,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
+ * When KOMPO_DEBUG is defined it returns it, otherwise is returns false
+ * @returns boolean
+ */
+function isKompoDebug() {
+    if (typeof KOMPO_DEBUG != 'undefined') {
+        return KOMPO_DEBUG;
+    }
+
+    return false;
+}
+
+/**
  * Adds construct function to Element prototype
  */
-Object.defineProperty(Element.prototype, 'construct', {
-    writable: true,
-    value: function value() {
-        throw new Error('Must override the construct method');
-    }
-});
+if ((typeof Element === 'undefined' ? 'undefined' : _typeof(Element)) === 'object') {
+    Object.defineProperty(Element.prototype, 'construct', {
+        writable: true,
+        value: function value() {
+            throw new Error('Must override the construct method');
+        }
+    });
+}
 
 /**
  * Creates a compnent from an Element
@@ -177,14 +196,20 @@ function constructClass(tag, constructClass) {
 function render(Element) {
     var kompo = Element.kompo;
     if (kompo.initial) {
-        console.groupCollapsed('RENDER: ');
-        console.log(Element);
-        console.log(kompo);
+        if (isKompoDebug() && kompo.debug) {
+            console.groupCollapsed('RENDER: ');
+            console.log(Element);
+            console.log(kompo);
+            console.groupCollapsed('CONSTRUCT: ');
+        }
+
         // Construct then ...
-        console.groupCollapsed('CONSTRUCT: ');
         Element.construct(kompo.props);
         kompo.initial = false;
-        console.groupEnd();
+
+        if (isKompoDebug() && kompo.debug) {
+            console.groupEnd();
+        }
 
         // ... react
         var statefulls = kompo.statefulls,
@@ -192,14 +217,23 @@ function render(Element) {
             state = _selector ? _selector(Element.__kompo__.state) : Element.__kompo__.state;
 
         if (statefulls.length > 0 && state) {
-            console.log('HAS STATE: ', state);
-            console.groupCollapsed('REACTS: ');
+            if (isKompoDebug() && kompo.debug) {
+                console.log('HAS STATE: ', state);
+                console.groupCollapsed('REACTS: ');
+            }
+
             for (var i = 0, l = statefulls.length; i < l; ++i) {
                 statefulls[i](state, Element);
             }
+
+            if (isKompoDebug() && kompo.debug) {
+                console.groupEnd();
+            }
+        }
+
+        if (isKompoDebug() && kompo.debug) {
             console.groupEnd();
         }
-        console.groupEnd();
     } else {
         update(Element);
     }
@@ -210,16 +244,20 @@ function update(Element) {
         statefulls = kompo.statefulls,
         isRoot = Element === Element.__kompo__.root;
 
-    console.groupCollapsed('UPDATE: ');
-    console.log(Element);
-    console.log(kompo);
+    if (isKompoDebug() && kompo.debug) {
+        console.groupCollapsed('UPDATE: ');
+        console.log(Element);
+        console.log(kompo);
+    }
 
     // Only run if a component has statefulls
     if (statefulls.length > 0) {
         var _selector2 = kompo.selector,
             state = _selector2 ? _selector2(Element.__kompo__.state) : Element.__kompo__.state;
 
-        console.log('HAS STATE: ', state);
+        if (isKompoDebug() && kompo.debug) {
+            console.log('HAS STATE: ', state);
+        }
 
         // State is false, do not run statefulls
         if (state) {
@@ -227,30 +265,43 @@ function update(Element) {
             var checkIfDirty = _hasProxy2.default ? (0, _isObject2.default)(state) || Array.isArray(state) : (0, _isObject2.default)(state) && !Array.isArray(state);
 
             if (!(checkIfDirty && state.hasOwnProperty('__kompo_dirty__') && state.__kompo_dirty__.length === 0)) {
-                console.log('_STATE_IS_DIRTY_');
-                console.groupCollapsed('REACTS: ');
+                if (isKompoDebug() && kompo.debug) {
+                    console.log('_STATE_IS_DIRTY_');
+                    console.groupCollapsed('REACTS: ');
+                }
+
                 for (var i = 0, l = statefulls.length; i < l; ++i) {
                     statefulls[i](state, Element);
                 }
-                console.groupEnd();
+
+                if (isKompoDebug() && kompo.debug) {
+                    console.groupEnd();
+                }
             }
         }
     }
 
     var mounts = kompo.mounts;
     if (mounts.length > 0) {
-        console.groupCollapsed('MOUNTS: ');
+        if (isKompoDebug() && kompo.debug) {
+            console.groupCollapsed('MOUNTS: ');
+        }
+
         for (var _i = 0, _l = mounts.length; _i < _l; ++_i) {
             render(mounts[_i]);
         }
+
+        if (isKompoDebug() && kompo.debug) {
+            console.groupEnd();
+        }
+    }
+
+    if (isKompoDebug() && kompo.debug) {
         console.groupEnd();
     }
 
-    console.groupEnd();
-
     if (isRoot) {
         (0, _observe.markClean)(Element.__kompo__.state);
-        console.log('___END_OF_UPDATE_LOOP___');
     }
 }
 
@@ -265,7 +316,8 @@ function kompo(Element) {
         routed: undefined,
         selector: undefined,
         // state: undefined, // TODO Unavailable now but could perhaps be used as caching mechanism (also see setState())
-        unmount: undefined
+        unmount: undefined,
+        debug: false
     };
 
     return Element;
@@ -470,6 +522,27 @@ function debug(Element, level) {
 
         console.groupEnd();
     }
+
+    return Element;
+}
+
+function debugLifeCycle(Element) {
+    if (!Element instanceof HTMLElement) {
+        throw new Error('Not an instance of Element');
+    }
+
+    if (!Element.hasOwnProperty('kompo')) {
+        throw new Error('Is not a KompoElement');
+    }
+
+    // Set to true so render & update functions log the components life cycle
+    Element.kompo.debug = true;
+
+    return Element;
+}
+
+function getSelector(Element) {
+    return Element.kompo.selector;
 }
 
 /***/ },
@@ -538,6 +611,8 @@ var state = {
     app: _app2.default,
     dispatch: _dispatch2.default,
     observe: _observe2.default,
+    ignore: _observe.ignore,
+    deproxy: _observe.deproxy,
     inheritObserved: _observe.inheritObserved,
     markClean: _observe.markClean,
     markDirty: _observe.markDirty
@@ -569,7 +644,9 @@ exports.default = {
     compose: _component.compose,
     getProps: _component.getProps,
     constructClass: _component.constructClass,
-    debug: _component.debug
+    debug: _component.debug,
+    debugLifeCycle: _component.debugLifeCycle,
+    getSelector: _component.getSelector
 };
 exports.router = router;
 exports.state = state;
@@ -853,9 +930,16 @@ function markDirty(obj) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
-exports.default = 'Proxy' in window;
+
+exports.default = function () {
+    if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+        return 'Proxy' in self;
+    } else {
+        return 'Proxy' in window;
+    }
+}();
 
 /***/ },
 /* 5 */
