@@ -8,7 +8,7 @@ import getDynamicWidth from '../utils/getDynamicWidth';
 import '../../css/multiPanel.css';
 
 const multiPanel = component.construct('div', function({
-    classNames, overlay, unit, transitionDuration, easingFunction, children
+    classNames, overlay, unit, transitionDuration, easingFunction, children, setChildWidth
 }){
     const wrapper = create('div'),
         props = getProps(this);
@@ -53,9 +53,13 @@ const multiPanel = component.construct('div', function({
                 basis = childProps.basis,
                 percentage = isObject(basis)?
                     childProps.activeWidth/100*props.totalWidthPercentage:
-                    basis/100*props.totalWidthPercentage;
+                    basis/100*props.totalWidthPercentage,
+                pu = percentage + unit;
 
-            child.style.flexBasis = percentage + unit;
+            child.style.flexBasis = pu;
+            if(setChildWidth) {
+                child.style.width = pu;
+            }
         }
 
         // Use double request animation frames to make sure
@@ -114,7 +118,8 @@ const multiPanel = component.construct('div', function({
     wrapper: undefined,
     overlay: true,
     easingFunction: 'ease',
-    children: []
+    children: [],
+    setChildWidth: false
 });
 
 export default multiPanel;
