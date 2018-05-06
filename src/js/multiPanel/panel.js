@@ -11,11 +11,15 @@ export default component.construct('div', function({
 }){
     const percentage = isObject(basis)?
         getDynamicWidth(basis)/100*multiPanelProps.totalWidthPercentage:
-        basis/100*multiPanelProps.totalWidthPercentage;
+        basis/100*multiPanelProps.totalWidthPercentage,
+        pu = percentage + unit;
 
     classNames.push('o-MultiPanel-panel');
     this.classList.add(...classNames);
-    this.style.flexBasis = percentage + unit;
+    this.style.flexBasis = pu;
+    if (multiPanelProps.setChildWidth) {
+        this.style.width = pu;
+    }
 
     if(overlay) {
         const o = create('div', {'class': 'o-MultiPanel-panel-overlay'});
