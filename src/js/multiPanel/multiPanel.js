@@ -151,7 +151,7 @@ export function slideTo(multiPanel, panels, index, initial = false) {
     if(index == panels.length-1) {
         const lastPanel = panels[panels.length-1],
             basis = lastPanel.kompo.props.basis,
-            lastBasis = isObject(basis)? basis.active : basis;
+            lastBasis = isObject(basis)? getDynamicWidth(basis) : basis;
 
           translateTo = translateTo - (100 - lastBasis)/100*props.totalWidthPercentage;
     }
