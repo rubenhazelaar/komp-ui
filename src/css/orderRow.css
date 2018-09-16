@@ -1,0 +1,14 @@
+.o-OrderRow {
+    display: flex;
+    flex-direction: column;
+}
+
+.o-OrderRow-row {
+    display: flex;
+
+    flex: 1 1 auto;
+}
+
+.o-OrderRow-column {
+    flex: 1 1 auto;
+}

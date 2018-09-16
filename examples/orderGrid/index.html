@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Grid Component - Kompo UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <style>
+        html,
+        body,
+        body > div,
+        .o-OrderGrid {
+            height: 100%;
+        }
+
+        .o-OrderGrid {
+            box-sizing: border-box;
+            padding: 2rem;
+        }
+
+        .o-OrderGrid-row {
+            border: 1px solid red;
+            margin: 1rem 0;
+        }
+
+        .o-OrderGrid-row:first-child {
+            margin-top: 0;
+        }
+
+        .o-OrderGrid-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .o-OrderGrid-column {
+            padding: 1rem;
+            background-color: lightgray;
+            box-sizing: border-box;
+            border: 1px solid yellow;
+            margin:0 1rem;
+        }
+
+        .o-OrderGrid-column:first-child {
+            margin-left: 0;
+        }
+        .o-OrderGrid-column:last-child {
+            margin-right: 0;
+        }
+    </style>
+ </head>
+<body>
+<script src="dist/bundle.js"></script>
+</body>
+</html>

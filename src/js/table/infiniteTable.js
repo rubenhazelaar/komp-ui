@@ -1,5 +1,6 @@
 import component, {state} from 'kompo';
 import {empty, isFunction, addClasses, throttle, isObject} from 'kompo-util';
+const {ignoreUpdate, resetIgnoreUpdate, triggerUpdate} = state;
 
 import tableRow from './tableRow';
 import tableHead from './tableHead';
@@ -50,9 +51,11 @@ export default component.construct('table', function({
                 visibleEnd = Math.min(renderStart + reqPerBody, dataLength);
 
             if(state.offset !== renderStart || state.limit !== visibleEnd - renderStart) {
+                ignoreUpdate(state);
                 state.offset = renderStart;
                 state.limit = visibleEnd - renderStart;
-                reactFn(state);
+                resetIgnoreUpdate(state);
+                triggerUpdate(state);
             }
         },scrollThrottle));
     }
@@ -165,7 +168,7 @@ export default component.construct('table', function({
                 s.data[key];
 
             if (ns && props.selected && ns.hasOwnProperty(props.uniqueKey)) {
-                ns.selected = props.selected.hasOwnProperty(ns[props.uniqueKey]);
+                tr.kompo.props.selected = props.selected.hasOwnProperty(ns[props.uniqueKey]);
             }
 
             return ns;

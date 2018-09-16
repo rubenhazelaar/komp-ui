@@ -14,10 +14,12 @@ var config = {
         'examples/tab/dist/bundle': './examples/tab/src/index.js',
         'examples/radio/dist/bundle': './examples/radio/src/index.js',
         'examples/check/dist/bundle': './examples/check/src/index.js',
-        'examples/orderList/dist/bundle': './examples/orderList/src/index.js'
+        'examples/orderList/dist/bundle': './examples/orderList/src/index.js',
+        'examples/orderRow/dist/bundle': './examples/orderRow/src/index.js',
+        'examples/orderGrid/dist/bundle': './examples/orderGrid/src/index.js'
     },
     output: {
-        path: './',
+        path: path.resolve(__dirname),
         filename: '[name].js',
         library: 'kompo',
         libraryTarget: 'umd'

@@ -1,6 +1,6 @@
 import component, {state} from 'kompo';
-const {construct, react, mount, unmountAll, getState} = component;
-const {dispatch, markDirty} = state;
+const {construct, react, mount, unmountAll, getState, debugLifeCycle} = component;
+const {triggerUpdate, dispatch} = state;
 
 import {addClasses, create, empty, delegate, throttle} from 'kompo-util';
 
@@ -40,9 +40,8 @@ const item = construct('li', function ({
      * Events
      */
     aliasEl.addEventListener('keyup', throttle(e => {
-        dispatch(this, state => {
-            state.mapping[name] = aliasEl.value;
-        });
+        const state = getState(this);
+        state.mapping[name] = aliasEl.value;
     }, 100));
 }, {
     defaultClass: 'o-OrderList-item',
@@ -107,7 +106,6 @@ export default construct('div', function ({
             arrayMove(available, ai, aim >= available.length ? 0 : aim);
             dispatch(orderList, state => {
                 orderByArray(state.want, available);
-                markDirty(state);
             });
         };
     };
@@ -132,6 +130,7 @@ export default construct('div', function ({
      * Reactions
      */
     const reactFn = state => {
+        console.log('REACY');
         unmountAll(this);
         empty(list);
 

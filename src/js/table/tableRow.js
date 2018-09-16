@@ -12,7 +12,7 @@ export default component.construct('tr', function({
 
     component.react(this, s => {
         if(selectedClass) {
-            if (s.selected) {
+            if (this.kompo.props.selected) {
                 this.classList.add(selectedClass);
             } else {
                 this.classList.remove(selectedClass);

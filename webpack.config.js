@@ -13,7 +13,7 @@ var config = {
     entry: {
     },
     output: {
-        path: './',
+        path: path.resolve(__dirname),
         filename: '[name].js',
         library: 'kompo',
         libraryTarget: 'umd'

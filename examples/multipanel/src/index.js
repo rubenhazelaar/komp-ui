@@ -1,9 +1,8 @@
 // Component and content creation classes and functions
 import component, {state, router} from 'kompo';
 
-const { construct, react, getRouter} = component;
+const { construct, react, getRouter, getState} = component;
 const {route, indexRoute, swap} = router;
-const {dispatch} = state;
 
 import leaf from './components/leaf'
 import branch from './components/branch'
@@ -31,9 +30,8 @@ const root = construct('div', function({}) {
             r.goTo(links[i]);
 
             // Dispatch change to state
-            dispatch(this, state => {
-                state.url = links[i];
-            });
+            const state = getState(this);
+            state.url = links[i];
         });
         a.setAttribute('href', 'javascript:void(0);');
         a.textContent = links[i];
@@ -118,8 +116,7 @@ state.app(ro, st, r).start();
 window.addEventListener('popstate', ()=>{
     // Just update the whole tree from the root up.
     if(r.setTo(window.location.pathname)) {
-        dispatch(ro, state => {
-            state.url = r.getUrl()
-        })
+        const state = getState(ro);
+        state.url = r.getUrl()
     }
 });
