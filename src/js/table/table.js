@@ -121,9 +121,13 @@ export default component.construct('table', function({
     ) {
         const tr = tableRow(props);
         component.mount(table, tr, s => {
-            return table.kompo.selector?
-                table.kompo.selector(s).data[key]:
-                s.data[key];
+            const data = table.kompo.selector?
+                table.kompo.selector(s).data:
+                s.data;
+
+            if (checkRowExistance(data, key)) return data[key];
+
+            return {};
         });
         frag.appendChild(tr);
     },
@@ -134,13 +138,21 @@ export default component.construct('table', function({
     ) {
         const tr = tableHead(props);
         component.mount(table, tr, s => {
-            return table.kompo.selector?
-                table.kompo.selector(s).data[0]:
-                s.data[0];
+            const data = table.kompo.selector?
+                table.kompo.selector(s).data:
+                s.data;
+
+            if (checkRowExistance(data, 0)) return data[0];
+
+            return {};
         });
         head.appendChild(tr);
     }
 });
+
+function checkRowExistance(data, key) {
+    return Array.isArray(data) && typeof(data[key]) !== 'undefined'
+}
 
 export const tableActions = {
     addLimit(Element, add) {
