@@ -12,6 +12,7 @@ import {compare} from '../utils/dateUtils';
 export default construct('div', function ({
     defaultClass, classes, multiPanelClass, selectedClass, navClass, fromClass, toClass, applyContainerClass, applyClass,
     applyFormat, applyCallback,
+    outputFormat,
     overlay,
     fromKey, toKey, setDate, getDate,
     resetClass, resetText, resetCallback,
@@ -44,7 +45,7 @@ export default construct('div', function ({
                     toProps.selectedDate = fromProps.selectedDate;
                 }
 
-                formatApply(applyTextDate, fromDatePicker, toDatePicker);
+                formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat);
 
                 // Only rerenders toDatePicker
                 isolatedReact(toDatePicker);
@@ -52,7 +53,7 @@ export default construct('div', function ({
                 if (fromSelectCallback) fromSelectCallback(fromDatePicker, toDatePicker);
                 if (selectCallback) selectCallback(fromDatePicker, toDatePicker);
             },
-            outputFormat: applyFormat,
+            outputFormat,
             noFuture,
             noPast
         }),
@@ -61,11 +62,11 @@ export default construct('div', function ({
             setDate,
             getDate,
             selectCallback: () => {
-                formatApply(applyTextDate, fromDatePicker, toDatePicker);
+                formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat);
                 if (toSelectCallback) toSelectCallback(fromDatePicker, toDatePicker);
                 if (selectCallback) selectCallback(fromDatePicker, toDatePicker);
             },
-            outputFormat: applyFormat,
+            outputFormat,
             noFuture,
             noPast
         }),
@@ -115,7 +116,7 @@ export default construct('div', function ({
                         setSelectedDate(toDatePicker, toDate);
                         slideTo(mp, panels, 0);
                         toggleToFrom(from, to, selectedClass);
-                        formatApply(applyTextDate, fromDatePicker, toDatePicker)
+                        formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat)
                     });
                 }
             });
@@ -124,7 +125,7 @@ export default construct('div', function ({
         }
 
         this.appendChild(applyContainer);
-        formatApply(applyTextDate, fromDatePicker, toDatePicker);
+        formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat);
 
         /**
          * Apply callback
@@ -168,6 +169,7 @@ export default construct('div', function ({
     applyClass: 'o-DateRange-apply',
     applyFormat: 'YYYY-MM-DD',
     applyCallback: undefined,
+    outputFormat: 'YYYY-MM-DD HH:mm:ss',
     overlay: false,
     fromKey: 'from',
     toKey: 'to',
@@ -193,6 +195,6 @@ function toggleToTo(from, to, clss) {
     to.classList.add(clss);
 }
 
-function formatApply(el, fromDatePicker, toDatePicker) {
-    el.textContent = outputSelectedDate(fromDatePicker) + ' / ' + outputSelectedDate(toDatePicker);
+function formatApply(el, fromDatePicker, toDatePicker, alternativeFormat) {
+    el.textContent = outputSelectedDate(fromDatePicker, alternativeFormat) + ' / ' + outputSelectedDate(toDatePicker, alternativeFormat);
 }

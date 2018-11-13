@@ -282,9 +282,9 @@ export default construct('table', function ({
     resetWorkingDate: false
 });
 
-export function outputSelectedDate(datePicker) {
+export function outputSelectedDate(datePicker, alternativeFormat) {
     const props = datePicker.kompo.props;
-    return fecha.format(props.selectedDate, props.outputFormat);
+    return fecha.format(props.selectedDate, alternativeFormat || props.outputFormat);
 }
 
 export function setSelectedDate(datePicker, date) {
