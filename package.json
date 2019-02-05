@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "rmlib": "rm -rf lib",
-    "build": "npm run build:cjs && npm run build:umd && npm run build:min",
+    "build": "npm run build:cjs",
     "build:cjs": "npm run rmlib && npm run build:_cjs",
     "build:_cjs": "./node_modules/.bin/babel src/js/ -d lib/js && cp -r src/css lib/css",
     "build:umd": "./node_modules/.bin/webpack --entry ./src/js/index.js --output-filename ./umd/kompo-ui.js",

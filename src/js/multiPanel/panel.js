@@ -16,7 +16,6 @@ export default component.construct('div', function({
 
     classNames.push('o-MultiPanel-panel');
     this.classList.add(...classNames);
-    this.style.flexBasis = pu;
     this.style.width = pu;
 
     if(overlay) {

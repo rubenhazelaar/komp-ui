@@ -56,7 +56,6 @@ const multiPanel = component.construct('div', function({
                     basis/100*props.totalWidthPercentage,
                 pu = percentage + unit;
 
-            child.style.flexBasis = pu;
             child.style.width = pu;
         }
 
@@ -131,7 +130,7 @@ export function slideTo(multiPanel, panels, index, initial = false) {
         const panel = panels[i];
 
         if (i < index) {
-            translateTo = translateTo + getFlexBasis(panel);
+            translateTo = translateTo + getWidth(panel);
         }
 
         if(!initial && !panel.classList.contains('o-MultiPanel-panel--withOverlayTransition')) {
@@ -145,7 +144,7 @@ export function slideTo(multiPanel, panels, index, initial = false) {
             panel.classList.remove('o-MultiPanel-panel--selected');
         }
 
-        totalPercentage = totalPercentage + getFlexBasis(panel);
+        totalPercentage = totalPercentage + getWidth(panel);
     }
 
     if(index == panels.length-1) {
@@ -212,12 +211,6 @@ export function slide(component:KompoElement, router:router, element:Element, mu
     };
 }
 
-function getFlexBasis(el) {
-    let fb = parseFloat(window.getComputedStyle(el).flexBasis);
-
-    if(isNaN(fb)) {
-       fb = parseFloat(el.style.flexBasis);
-    }
-
-    return fb;
+function getWidth(el) {
+    return parseFloat(el.style.width);
 }
