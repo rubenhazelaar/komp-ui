@@ -24,6 +24,9 @@ export default component.construct('table', function({
     scrollThrottle,
     uniqueKey
 }) {
+    // Prevent memory sharing of selected between instances of infiniteTables
+    this.kompo.props.selected = Object.assign({}, this.kompo.props.selected);
+
     const head = document.createElement('thead'),
         body = document.createElement('tbody'),
         props = component.getProps(this),
