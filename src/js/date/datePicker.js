@@ -129,15 +129,17 @@ export default construct('table', function ({
         if (!props.selectedDate) {
             props.selectedDate = isFunction(getDate)? getDate(state, key): state[key] || new Date(currentDate.getTime());
 
-            if (typeof props.selectedDate === 'string') {
-                props.selectedDate = new Date(props.selectedDate);
-            }
+            if (props.selectedDate) {
+                if (typeof props.selectedDate === 'string') {
+                    props.selectedDate = new Date(props.selectedDate);
+                }
 
-            props.selectedDate.setHours(0, 0, 0, 0);
+                props.selectedDate.setHours(0, 0, 0, 0);
+            }
         }
 
         if (!workingDate || props.resetWorkingDate) {
-            workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
+            workingDate = props.selectedDate? new Date(props.selectedDate.getTime()): new Date(currentDate.getTime());
             props.resetWorkingDate = false;
         } else {
             workingDate.setHours(0, 0, 0, 0);
@@ -234,7 +236,7 @@ export default construct('table', function ({
                 a.classList.add(notCurrentMonthClass)
             }
 
-            if (props.selectedDate !== null && compare(dayDate, props.selectedDate) === 0) {
+            if (props.selectedDate && compare(dayDate, props.selectedDate) === 0) {
                 a.classList.add(selectedClass);
                 selectedEl = a;
             }
