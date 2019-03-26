@@ -177,6 +177,6 @@ function emptyList(ac, list, clss) {
 }
 
 export function reset(autocomplete) {
-    this.kompo.props.__input__.value = '';
-    this.setAttribute('value', '');
+    autocomplete.kompo.props.__input__.value = '';
+    autocomplete.setAttribute('value', '');
 }
