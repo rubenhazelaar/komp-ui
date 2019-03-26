@@ -176,7 +176,7 @@ function emptyList(ac, list, clss) {
     ac.classList.add(clss);
 }
 
-export function empty(autocomplete) {
+export function reset(autocomplete) {
     this.kompo.props.__input__.value = '';
     this.setAttribute('value', '');
 }

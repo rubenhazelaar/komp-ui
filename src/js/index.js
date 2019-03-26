@@ -9,7 +9,7 @@ import infiniteTable, { resetSpacers, multiSelect } from './table/infiniteTable'
 import datePicker, { outputSelectedDate, isolatedReact, setSelectedDate } from './date/datePicker';
 import dateRange from './date/dateRange';
 
-import constructAutocomplete, { empty } from './autocomplete/autocomplete';
+import constructAutocomplete, { reset as empty } from './autocomplete/autocomplete';
 
 import constructTab, { Tab } from './tab/tab';
 
