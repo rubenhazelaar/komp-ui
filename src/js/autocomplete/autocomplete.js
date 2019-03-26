@@ -37,6 +37,8 @@ export default construct('div', function ({
         list = create('ul', {'class': listClass}),
         noResults = create('li', {'class': noResultsClass});
 
+    this.kompo.props.__input__ = input;
+
     if (required) {
         this.setAttribute('required', required);
         input.setAttribute('required', required);
@@ -172,4 +174,9 @@ export default construct('div', function ({
 function emptyList(ac, list, clss) {
     empty(list);
     ac.classList.add(clss);
+}
+
+export function empty(autocomplete) {
+    this.kompo.props.__input__.value = '';
+    this.setAttribute('value', '');
 }

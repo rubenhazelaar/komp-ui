@@ -1,68 +1,69 @@
-import constructMultipanel, {slideTo, slide} from './multiPanel/multiPanel'
+import constructMultipanel, { slideTo, slide } from './multiPanel/multiPanel'
 import panel from './multiPanel/panel';
 
-import constructTable, {tableActions} from './table/table';
+import constructTable, { tableActions } from './table/table';
 import accordionTable from './table/accordionTable';
 import selectTable from './table/selectTable';
-import infiniteTable, {resetSpacers, multiSelect} from './table/infiniteTable';
+import infiniteTable, { resetSpacers, multiSelect } from './table/infiniteTable';
 
-import datePicker, {outputSelectedDate, isolatedReact, setSelectedDate} from './date/datePicker';
+import datePicker, { outputSelectedDate, isolatedReact, setSelectedDate } from './date/datePicker';
 import dateRange from './date/dateRange';
 
-import constructAutocomplete from './autocomplete/autocomplete';
+import constructAutocomplete, { empty } from './autocomplete/autocomplete';
 
-import constructTab, {Tab} from './tab/tab';
+import constructTab, { Tab } from './tab/tab';
 
-import constructRadio, {getKey, getValue, setOption} from './form/radio';
-import constructCheck, {isChecked, setCheck} from './form/check';
+import constructRadio, { getKey, getValue, setOption } from './form/radio';
+import constructCheck, { isChecked, setCheck } from './form/check';
 
 import constructOrderList from './orderList/orderList';
 
 const multiPanel = {
     constructMultipanel
-    ,slideTo
-    ,slide
-    ,panel
+    , slideTo
+    , slide
+    , panel
 };
 
 const table = {
     constructTable
-    ,tableActions
-    ,accordionTable
-    ,selectTable
-    ,infiniteTable
-    ,resetSpacers
-    ,multiSelect
+    , tableActions
+    , accordionTable
+    , selectTable
+    , infiniteTable
+    , resetSpacers
+    , multiSelect
 };
 
 const date = {
     datePicker
-    ,outputSelectedDate
-    ,setSelectedDate
-    ,isolatedReact
-    ,dateRange
+    , outputSelectedDate
+    , setSelectedDate
+    , isolatedReact
+    , dateRange
 };
 
 const autocomplete = {
-    constructAutocomplete
+    constructAutocomplete,
+    empty
 };
 
 const tab = {
     constructTab
-    ,Tab
+    , Tab
 };
 
 const radio = {
     constructRadio
-    ,getKey
-    ,getValue
-    ,setOption
+    , getKey
+    , getValue
+    , setOption
 };
 
 const check = {
     constructCheck
-    ,isChecked
-    ,setCheck
+    , isChecked
+    , setCheck
 };
 
 const orderList = {
@@ -71,11 +72,11 @@ const orderList = {
 
 export {
     multiPanel
-    ,table
-    ,date
-    ,autocomplete
-    ,tab
-    ,radio
-    ,check
-    ,orderList
+    , table
+    , date
+    , autocomplete
+    , tab
+    , radio
+    , check
+    , orderList
 };
