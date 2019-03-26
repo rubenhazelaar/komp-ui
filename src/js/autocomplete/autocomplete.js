@@ -177,6 +177,16 @@ function emptyList(ac, list, clss) {
 }
 
 export function reset(autocomplete) {
-    autocomplete.kompo.props.__input__.value = '';
+    const props = autocomplete.kompo.props;
+    
+    props.__input__.value = '';
     autocomplete.setAttribute('value', '');
+
+    if ("createEvent" in document) {
+        const evt = document.createEvent("HTMLEvents");
+        evt.initEvent("keyup", false, true);
+        props.__input__.dispatchEvent(evt);
+    } else {
+        props.__input__.fireEvent("keyup");
+    }
 }
