@@ -17,7 +17,9 @@ export default construct('div', function ({
     fromKey, toKey, setDate, getDate,
     resetClass, resetText, resetCallback,
     noPast, noFuture,
-    toSelectCallback, fromSelectCallback, selectCallback
+    toSelectCallback, fromSelectCallback, selectCallback,
+    previousText,
+    nextText
 }) {
     this.classList.add(defaultClass);
     
@@ -55,7 +57,9 @@ export default construct('div', function ({
             },
             outputFormat,
             noFuture,
-            noPast
+            noPast,
+            previousText,
+            nextText
         }),
         toDatePicker = datePicker({
             key: toKey,
@@ -68,7 +72,9 @@ export default construct('div', function ({
             },
             outputFormat,
             noFuture,
-            noPast
+            noPast,
+            previousText,
+            nextText
         }),
         
         fromPanel = panel({component: fromDatePicker}),
@@ -182,7 +188,9 @@ export default construct('div', function ({
     noFuture: false,
     toSelectCallback: undefined,
     fromSelectCallback: undefined,
-    selectCallback: undefined
+    selectCallback: undefined,
+    previousText: '<',
+    nextText: '>'
 });
 
 function toggleToFrom(from, to, clss) {

@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -43,16 +43,18 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
-/******/ 	// define getter function for harmory exports
+/******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		Object.defineProperty(exports, name, {
-/******/ 			configurable: false,
-/******/ 			enumerable: true,
-/******/ 			get: getter
-/******/ 		});
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -71,15 +73,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 61);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -545,12 +547,12 @@ function getSelector(Element) {
     return Element.kompo.selector;
 }
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -652,12 +654,12 @@ exports.router = router;
 exports.state = state;
 exports.util = util;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -735,17 +737,22 @@ exports.replace = _replace2.default;
 exports.throttle = _throttle2.default;
 exports.addClasses = _addClasses2.default;
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.default = observe;
+exports.ignore = ignore;
+exports.deproxy = deproxy;
 exports.inheritObserved = inheritObserved;
 exports.markClean = markClean;
 exports.markDirty = markDirty;
@@ -766,7 +773,7 @@ function observe(obj) {
     var isObj = (0, _isObject2.default)(obj),
         isArray = Array.isArray(obj);
 
-    if (!isObj && !isArray) return obj;
+    if (!isObj && !isArray || obj.hasOwnProperty('__kompo_ignore__') || obj.hasOwnProperty('__kompo_dirty__')) return obj;
 
     Object.defineProperty(obj, '__kompo_dirty__', {
         writable: true,
@@ -864,6 +871,42 @@ function observeObjectFallback(obj) {
     return obj;
 }
 
+function ignore(obj) {
+    var isObj = (0, _isObject2.default)(obj),
+        isArray = Array.isArray(obj);
+
+    if (!isObj && !isArray) return obj;
+
+    Object.defineProperty(obj, '__kompo_ignore__', {
+        writable: true,
+        value: true
+    });
+
+    return obj;
+}
+
+function deproxy(obj) {
+    var isObj = (0, _isObject2.default)(obj),
+        isArray = Array.isArray(obj);
+
+    if (!isObj && !isArray) return obj;
+
+    if (isArray) {
+        obj = obj.slice();
+        for (var i = 0, l = obj.length; i < l; ++i) {
+            obj[i] = deproxy(obj[i]);
+        }
+    } else {
+        obj = _extends({}, obj);
+        var keys = Object.keys(obj);
+        for (var i = 0, l = keys.length; i < l; ++i) {
+            obj[keys[i]] = deproxy(obj[keys[i]]);
+        }
+    }
+
+    return obj;
+}
+
 function inheritObserved(obj) {
     var ignored = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
 
@@ -879,8 +922,6 @@ function inheritObserved(obj) {
             value = obj[_key];
 
         if (ignored.indexOf(_key) !== -1) continue;
-
-        if (typeof value === 'undefined') return;
 
         if (value && value.hasOwnProperty('__kompo_dirty__') && value.__kompo_dirty__.length > 0) {
             obj.__kompo_dirty__.push(true);
@@ -922,12 +963,12 @@ function markDirty(obj) {
     obj.__kompo_dirty__.push(true);
 }
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -941,12 +982,12 @@ exports.default = function () {
     }
 }();
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -985,12 +1026,12 @@ function isObject(value) {
   return type == 'function' || value && type == 'object' || false;
 }
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1015,12 +1056,12 @@ function merge() {
     return object;
 }
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1091,12 +1132,12 @@ function createText(str) {
     return doc.createTextNode(str);
 }
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1135,12 +1176,12 @@ function isObject(value) {
   return type == 'function' || value && type == 'object' || false;
 }
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1166,12 +1207,12 @@ exports.default = function () {
     }
 }();
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1194,12 +1235,12 @@ function dispatch(Element, cb, noRender) {
     });
 }
 
-/***/ },
+/***/ }),
 /* 11 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1217,12 +1258,12 @@ function isFunction(functionToCheck) {
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1234,12 +1275,12 @@ function addClasses(Element, classes) {
     }
 }
 
-/***/ },
+/***/ }),
 /* 13 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1258,12 +1299,12 @@ function capitalize(str) {
     }
 }
 
-/***/ },
+/***/ }),
 /* 14 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1290,12 +1331,12 @@ function debounce(fn, delay, scope) {
     };
 }
 
-/***/ },
+/***/ }),
 /* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1318,12 +1359,12 @@ function delegate(Element, selector, type, listener) {
     }, false);
 }
 
-/***/ },
+/***/ }),
 /* 16 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1336,12 +1377,12 @@ function empty(Element) {
     return Element;
 }
 
-/***/ },
+/***/ }),
 /* 17 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1359,12 +1400,12 @@ function isFunction(functionToCheck) {
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 
-/***/ },
+/***/ }),
 /* 18 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1388,12 +1429,12 @@ function merge() {
     return object;
 }
 
-/***/ },
+/***/ }),
 /* 19 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1406,12 +1447,12 @@ exports.default = function (Element) {
     }
 };
 
-/***/ },
+/***/ }),
 /* 20 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1466,12 +1507,12 @@ function replace(parent, child) {
     return child;
 }
 
-/***/ },
+/***/ }),
 /* 21 */
-/***/ function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-"use strict";
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1508,12 +1549,12 @@ function throttle(fn, threshold, scope) {
     };
 }
 
-/***/ },
+/***/ }),
 /* 22 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1592,12 +1633,12 @@ exports.default = (0, _component2.default)('a', function (_ref) {
     onClick: undefined
 });
 
-/***/ },
+/***/ }),
 /* 23 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1877,12 +1918,12 @@ function _swap(parent, routedComponent, element) {
     parent.kompo.routed = routedComponent;
 }
 
-/***/ },
+/***/ }),
 /* 24 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1922,12 +1963,12 @@ function app(root, state, router) {
     };
 }
 
-/***/ },
+/***/ }),
 /* 25 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ exports["a"] = getDynamicWidth;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getDynamicWidth;
 /**
  * Excepts an object such as:
  * 
@@ -1954,11 +1995,11 @@ function getDynamicWidth(widths) {
     return widths.default;
 }
 
-/***/ },
+/***/ }),
 /* 26 */,
 /* 27 */,
 /* 28 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
@@ -1968,34 +2009,35 @@ function getDynamicWidth(widths) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(25);
 
 var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
-var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
-var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
+var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount,
+    getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 
 
 
 
 
 
-/* harmony default export */ exports["a"] = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', function (_ref) {
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', function (_ref) {
     var _classList,
         _this = this;
 
-    var classNames = _ref.classNames;
-    var basis = _ref.basis;
-    var unit = _ref.unit;
-    var component = _ref.component;
-    var overlay = _ref.overlay;
-    var index = _ref.index;
-    var slideTo = _ref.slideTo;
-    var slideToUrl = _ref.slideToUrl;
-    var slideBack = _ref.slideBack;
-    var multiPanelProps = _ref.multiPanelProps;
+    var classNames = _ref.classNames,
+        basis = _ref.basis,
+        unit = _ref.unit,
+        component = _ref.component,
+        overlay = _ref.overlay,
+        index = _ref.index,
+        slideTo = _ref.slideTo,
+        slideToUrl = _ref.slideToUrl,
+        slideBack = _ref.slideBack,
+        multiPanelProps = _ref.multiPanelProps;
 
-    var percentage = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isObject"])(basis) ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__["a" /* default */])(basis) / 100 * multiPanelProps.totalWidthPercentage : basis / 100 * multiPanelProps.totalWidthPercentage;
+    var percentage = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isObject"])(basis) ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__["a" /* default */])(basis) / 100 * multiPanelProps.totalWidthPercentage : basis / 100 * multiPanelProps.totalWidthPercentage,
+        pu = percentage + unit;
 
     classNames.push('o-MultiPanel-panel');
     (_classList = this.classList).add.apply(_classList, classNames);
-    this.style.flexBasis = percentage + unit;
+    this.style.width = pu;
 
     if (overlay) {
         var o = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div', { 'class': 'o-MultiPanel-panel-overlay' });
@@ -2029,14 +2071,16 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
     slideToUrl: undefined,
     multiPanelProps: undefined,
     slideBack: false
-});
+}));
 
-/***/ },
+/***/ }),
 /* 29 */,
 /* 30 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = slideTo;
+/* harmony export (immutable) */ __webpack_exports__["c"] = slide;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
@@ -2044,11 +2088,9 @@ var getRouter = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getRouter;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_multiPanel_css__);
-/* harmony export (immutable) */ exports["b"] = slideTo;
-/* harmony export (immutable) */ exports["a"] = slide;
 
-var getProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps;
-var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
+var getProps = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getProps,
+    mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 
 
 
@@ -2061,13 +2103,12 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
     var _this = this,
         _classList;
 
-    var classNames = _ref.classNames;
-    var overlay = _ref.overlay;
-    var unit = _ref.unit;
-    var transitionDuration = _ref.transitionDuration;
-    var easingFunction = _ref.easingFunction;
-    var children = _ref.children;
-    var setChildWidth = _ref.setChildWidth;
+    var classNames = _ref.classNames,
+        overlay = _ref.overlay,
+        unit = _ref.unit,
+        transitionDuration = _ref.transitionDuration,
+        easingFunction = _ref.easingFunction,
+        children = _ref.children;
 
     var wrapper = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('div'),
         props = getProps(this);
@@ -2113,10 +2154,7 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
                 percentage = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isObject"])(_basis) ? _childProps.activeWidth / 100 * props.totalWidthPercentage : _basis / 100 * props.totalWidthPercentage,
                 pu = percentage + unit;
 
-            _child.style.flexBasis = pu;
-            if (setChildWidth) {
-                _child.style.width = pu;
-            }
+            _child.style.width = pu;
         }
 
         // Use double request animation frames to make sure
@@ -2175,11 +2213,10 @@ var multiPanel = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct('div', 
     wrapper: undefined,
     overlay: true,
     easingFunction: 'ease',
-    children: [],
-    setChildWidth: false
+    children: []
 });
 
-/* harmony default export */ exports["c"] = multiPanel;
+/* harmony default export */ __webpack_exports__["b"] = (multiPanel);
 
 function slideTo(multiPanel, panels, index) {
     var initial = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
@@ -2193,7 +2230,7 @@ function slideTo(multiPanel, panels, index) {
         var panel = panels[i];
 
         if (i < index) {
-            translateTo = translateTo + getFlexBasis(panel);
+            translateTo = translateTo + getWidth(panel);
         }
 
         if (!initial && !panel.classList.contains('o-MultiPanel-panel--withOverlayTransition')) {
@@ -2207,13 +2244,13 @@ function slideTo(multiPanel, panels, index) {
             panel.classList.remove('o-MultiPanel-panel--selected');
         }
 
-        totalPercentage = totalPercentage + getFlexBasis(panel);
+        totalPercentage = totalPercentage + getWidth(panel);
     }
 
     if (index == panels.length - 1) {
         var lastPanel = panels[panels.length - 1],
             basis = lastPanel.kompo.props.basis,
-            lastBasis = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isObject"])(basis) ? basis.active : basis;
+            lastBasis = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isObject"])(basis) ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils_getDynamicWidth__["a" /* default */])(basis) : basis;
 
         translateTo = translateTo - (100 - lastBasis) / 100 * props.totalWidthPercentage;
     }
@@ -2280,20 +2317,14 @@ function slide(component, router, element) {
     };
 }
 
-function getFlexBasis(el) {
-    var fb = parseFloat(window.getComputedStyle(el).flexBasis);
-
-    if (isNaN(fb)) {
-        fb = parseFloat(el.style.flexBasis);
-    }
-
-    return fb;
+function getWidth(el) {
+    return parseFloat(el.style.width);
 }
 
-/***/ },
+/***/ }),
 /* 31 */,
 /* 32 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(33)(undefined);
 // imports
@@ -2305,9 +2336,9 @@ exports.push([module.i, ".o-MultiPanel {\r\n    overflow: hidden;\r\n}\r\n\r\n.o
 // exports
 
 
-/***/ },
+/***/ }),
 /* 33 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
@@ -2387,9 +2418,9 @@ function toComment(sourceMap) {
 }
 
 
-/***/ },
+/***/ }),
 /* 34 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
@@ -2418,9 +2449,9 @@ if(false) {
 	module.hot.dispose(function() { update(); });
 }
 
-/***/ },
+/***/ }),
 /* 35 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
@@ -2777,9 +2808,9 @@ function updateLink (link, options, obj) {
 }
 
 
-/***/ },
+/***/ }),
 /* 36 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 
 /**
@@ -2872,25 +2903,24 @@ module.exports = function (css) {
 };
 
 
-/***/ },
+/***/ }),
 /* 37 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["b"] = outputSelectedDate;
+/* harmony export (immutable) */ __webpack_exports__["d"] = setSelectedDate;
+/* harmony export (immutable) */ __webpack_exports__["c"] = isolatedReact;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_kompo_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_kompo_util__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_fecha__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_fecha__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__ = __webpack_require__(39);
-/* harmony export (immutable) */ exports["b"] = outputSelectedDate;
-/* harmony export (immutable) */ exports["d"] = setSelectedDate;
-/* harmony export (immutable) */ exports["c"] = isolatedReact;
 
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react;
-var getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct,
+    react = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.react,
+    getState = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.getState;
 var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
 
 
@@ -2899,30 +2929,30 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
 
 
 
-/* harmony default export */ exports["a"] = construct('table', function (_ref) {
+/* harmony default export */ __webpack_exports__["a"] = (construct('table', function (_ref) {
     var _this = this;
 
-    var dayNames = _ref.dayNames;
-    var defaultClass = _ref.defaultClass;
-    var classes = _ref.classes;
-    var previousClass = _ref.previousClass;
-    var previousDisabledClass = _ref.previousDisabledClass;
-    var nextClass = _ref.nextClass;
-    var nextDisabledClass = _ref.nextDisabledClass;
-    var previousText = _ref.previousText;
-    var nextText = _ref.nextText;
-    var selectedClass = _ref.selectedClass;
-    var notCurrentMonthClass = _ref.notCurrentMonthClass;
-    var currentClass = _ref.currentClass;
-    var workingFormat = _ref.workingFormat;
-    var labelFormat = _ref.labelFormat;
-    var outputFormat = _ref.outputFormat;
-    var key = _ref.key;
-    var setDate = _ref.setDate;
-    var getDate = _ref.getDate;
-    var dispatchOnSelect = _ref.dispatchOnSelect;
-    var selectCallback = _ref.selectCallback;
-    var showRange = _ref.showRange;
+    var dayNames = _ref.dayNames,
+        defaultClass = _ref.defaultClass,
+        classes = _ref.classes,
+        previousClass = _ref.previousClass,
+        previousDisabledClass = _ref.previousDisabledClass,
+        nextClass = _ref.nextClass,
+        nextDisabledClass = _ref.nextDisabledClass,
+        previousText = _ref.previousText,
+        nextText = _ref.nextText,
+        selectedClass = _ref.selectedClass,
+        notCurrentMonthClass = _ref.notCurrentMonthClass,
+        currentClass = _ref.currentClass,
+        workingFormat = _ref.workingFormat,
+        labelFormat = _ref.labelFormat,
+        outputFormat = _ref.outputFormat,
+        key = _ref.key,
+        setDate = _ref.setDate,
+        getDate = _ref.getDate,
+        dispatchOnSelect = _ref.dispatchOnSelect,
+        selectCallback = _ref.selectCallback,
+        showRange = _ref.showRange;
 
     this.classList.add(defaultClass);
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["addClasses"])(this, classes);
@@ -3009,7 +3039,7 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
         selectedEl.classList.add(selectedClass);
 
         var dateStr = selectedEl.getAttribute('data-date');
-        props.selectedDate = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.parse(dateStr, workingFormat);
+        props.selectedDate = __WEBPACK_IMPORTED_MODULE_2_fecha__["a" /* default */].parse(dateStr, workingFormat);
 
         if (selectCallback) {
             selectCallback(e);
@@ -3018,9 +3048,9 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
         if (dispatchOnSelect) {
             dispatch(_this, function (state) {
                 if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(setDate)) {
-                    setDate(state, key, __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, outputFormat));
+                    setDate(state, key, __WEBPACK_IMPORTED_MODULE_2_fecha__["a" /* default */].format(props.selectedDate, outputFormat));
                 } else {
-                    state[key] = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, outputFormat);
+                    state[key] = __WEBPACK_IMPORTED_MODULE_2_fecha__["a" /* default */].format(props.selectedDate, outputFormat);
                 }
             });
         }
@@ -3030,15 +3060,17 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
         if (!props.selectedDate) {
             props.selectedDate = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["isFunction"])(getDate) ? getDate(state, key) : state[key] || new Date(currentDate.getTime());
 
-            if (typeof props.selectedDate === 'string') {
-                props.selectedDate = new Date(props.selectedDate);
-            }
+            if (props.selectedDate) {
+                if (typeof props.selectedDate === 'string') {
+                    props.selectedDate = new Date(props.selectedDate);
+                }
 
-            props.selectedDate.setHours(0, 0, 0, 0);
+                props.selectedDate.setHours(0, 0, 0, 0);
+            }
         }
 
         if (!workingDate || props.resetWorkingDate) {
-            workingDate = new Date(props.selectedDate.getTime()) || new Date(currentDate.getTime());
+            workingDate = props.selectedDate ? new Date(props.selectedDate.getTime()) : new Date(currentDate.getTime());
             props.resetWorkingDate = false;
         } else {
             workingDate.setHours(0, 0, 0, 0);
@@ -3054,7 +3086,7 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
             props.notAfter.setHours(0, 0, 0, 0);
         }
 
-        headLabel.textContent = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(workingDate, labelFormat);
+        headLabel.textContent = __WEBPACK_IMPORTED_MODULE_2_fecha__["a" /* default */].format(workingDate, labelFormat);
 
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["empty"])(tbody);
         hasNoPast = false;
@@ -3071,7 +3103,7 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
 
         for (var _i = 1 - start, _l = 42 - start; _i <= _l; ++_i) {
             var dayDate = new Date(workingDate.getFullYear(), workingDate.getMonth(), _i),
-                formattedDate = __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(dayDate, workingFormat),
+                formattedDate = __WEBPACK_IMPORTED_MODULE_2_fecha__["a" /* default */].format(dayDate, workingFormat),
                 td = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_kompo_util__["create"])('td');
 
             var a = void 0,
@@ -3129,7 +3161,7 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
                 a.classList.add(notCurrentMonthClass);
             }
 
-            if (props.selectedDate !== null && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.selectedDate) === 0) {
+            if (props.selectedDate && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils_dateUtils__["a" /* compare */])(dayDate, props.selectedDate) === 0) {
                 a.classList.add(selectedClass);
                 selectedEl = a;
             }
@@ -3175,11 +3207,11 @@ var dispatch = __WEBPACK_IMPORTED_MODULE_0_kompo__["state"].dispatch;
     showRange: false,
     selectCallback: undefined,
     resetWorkingDate: false
-});
+}));
 
-function outputSelectedDate(datePicker) {
+function outputSelectedDate(datePicker, alternativeFormat) {
     var props = datePicker.kompo.props;
-    return __WEBPACK_IMPORTED_MODULE_2_fecha___default.a.format(props.selectedDate, props.outputFormat);
+    return __WEBPACK_IMPORTED_MODULE_2_fecha__["a" /* default */].format(props.selectedDate, alternativeFormat || props.outputFormat);
 }
 
 function setSelectedDate(datePicker, date) {
@@ -3201,13 +3233,13 @@ function isolatedReact(datePicker) {
     datePicker.kompo.props.reactFn(state);
 }
 
-/***/ },
+/***/ }),
 /* 38 */,
 /* 39 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ exports["a"] = compare;
+/* harmony export (immutable) */ __webpack_exports__["a"] = compare;
 /* unused harmony export convert */
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -3235,14 +3267,14 @@ function convert(d) {
     return d.constructor === Date ? d : d.constructor === Array ? new Date(d[0], d[1], d[2]) : d.constructor === Number ? new Date(d) : d.constructor === String ? new Date(d) : (typeof d === "undefined" ? "undefined" : _typeof(d)) === "object" ? new Date(d.year, d.month, d.date) : NaN;
 }
 
-/***/ },
+/***/ }),
 /* 40 */,
 /* 41 */,
 /* 42 */,
 /* 43 */,
 /* 44 */,
 /* 45 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
@@ -3254,8 +3286,8 @@ function convert(d) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_dateUtils__ = __webpack_require__(39);
 
-var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct;
-var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
+var construct = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.construct,
+    mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 
 
 
@@ -3266,33 +3298,34 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
 
 
 
-/* harmony default export */ exports["a"] = construct('div', function (_ref) {
+/* harmony default export */ __webpack_exports__["a"] = (construct('div', function (_ref) {
     var _this = this;
 
-    var defaultClass = _ref.defaultClass;
-    var classes = _ref.classes;
-    var multiPanelClass = _ref.multiPanelClass;
-    var selectedClass = _ref.selectedClass;
-    var navClass = _ref.navClass;
-    var fromClass = _ref.fromClass;
-    var toClass = _ref.toClass;
-    var applyContainerClass = _ref.applyContainerClass;
-    var applyClass = _ref.applyClass;
-    var applyFormat = _ref.applyFormat;
-    var applyCallback = _ref.applyCallback;
-    var overlay = _ref.overlay;
-    var fromKey = _ref.fromKey;
-    var toKey = _ref.toKey;
-    var setDate = _ref.setDate;
-    var getDate = _ref.getDate;
-    var resetClass = _ref.resetClass;
-    var resetText = _ref.resetText;
-    var resetCallback = _ref.resetCallback;
-    var noPast = _ref.noPast;
-    var noFuture = _ref.noFuture;
-    var toSelectCallback = _ref.toSelectCallback;
-    var fromSelectCallback = _ref.fromSelectCallback;
-    var _selectCallback = _ref.selectCallback;
+    var defaultClass = _ref.defaultClass,
+        classes = _ref.classes,
+        multiPanelClass = _ref.multiPanelClass,
+        selectedClass = _ref.selectedClass,
+        navClass = _ref.navClass,
+        fromClass = _ref.fromClass,
+        toClass = _ref.toClass,
+        applyContainerClass = _ref.applyContainerClass,
+        applyClass = _ref.applyClass,
+        applyFormat = _ref.applyFormat,
+        applyCallback = _ref.applyCallback,
+        outputFormat = _ref.outputFormat,
+        overlay = _ref.overlay,
+        fromKey = _ref.fromKey,
+        toKey = _ref.toKey,
+        setDate = _ref.setDate,
+        getDate = _ref.getDate,
+        resetClass = _ref.resetClass,
+        resetText = _ref.resetText,
+        resetCallback = _ref.resetCallback,
+        noPast = _ref.noPast,
+        noFuture = _ref.noFuture,
+        toSelectCallback = _ref.toSelectCallback,
+        fromSelectCallback = _ref.fromSelectCallback,
+        _selectCallback = _ref.selectCallback;
 
     this.classList.add(defaultClass);
 
@@ -3306,7 +3339,7 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
         setDate: setDate,
         getDate: getDate,
         selectCallback: function selectCallback(e) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["a" /* slideTo */])(mp, panels, 1);
             toggleToTo(from, to, selectedClass);
 
             var fromProps = fromDatePicker.kompo.props,
@@ -3320,7 +3353,7 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
                 toProps.selectedDate = fromProps.selectedDate;
             }
 
-            formatApply(applyTextDate, fromDatePicker, toDatePicker);
+            formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat);
 
             // Only rerenders toDatePicker
             __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["c" /* isolatedReact */])(toDatePicker);
@@ -3328,7 +3361,7 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
             if (fromSelectCallback) fromSelectCallback(fromDatePicker, toDatePicker);
             if (_selectCallback) _selectCallback(fromDatePicker, toDatePicker);
         },
-        outputFormat: applyFormat,
+        outputFormat: outputFormat,
         noFuture: noFuture,
         noPast: noPast
     }),
@@ -3337,17 +3370,17 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
         setDate: setDate,
         getDate: getDate,
         selectCallback: function selectCallback() {
-            formatApply(applyTextDate, fromDatePicker, toDatePicker);
+            formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat);
             if (toSelectCallback) toSelectCallback(fromDatePicker, toDatePicker);
             if (_selectCallback) _selectCallback(fromDatePicker, toDatePicker);
         },
-        outputFormat: applyFormat,
+        outputFormat: outputFormat,
         noFuture: noFuture,
         noPast: noPast
     }),
         fromPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: fromDatePicker }),
         toPanel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__multiPanel_panel__["a" /* default */])({ component: toDatePicker }),
-        mp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["c" /* default */])({
+        mp = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* default */])({
         classNames: [multiPanelClass],
         overlay: overlay,
         children: [fromPanel, toPanel]
@@ -3388,9 +3421,9 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
                     resetCallback(function (fromDate, toDate) {
                         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(fromDatePicker, fromDate);
                         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["d" /* setSelectedDate */])(toDatePicker, toDate);
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["a" /* slideTo */])(mp, panels, 0);
                         toggleToFrom(from, to, selectedClass);
-                        formatApply(applyTextDate, fromDatePicker, toDatePicker);
+                        formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat);
                     });
                 }
             });
@@ -3399,7 +3432,7 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
         }
 
         this.appendChild(applyContainer);
-        formatApply(applyTextDate, fromDatePicker, toDatePicker);
+        formatApply(applyTextDate, fromDatePicker, toDatePicker, applyFormat);
 
         /**
          * Apply callback
@@ -3416,18 +3449,18 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
     /**
      * Events & Reactions
      */
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["a" /* slideTo */])(mp, panels, 0);
     from.classList.add(selectedClass);
 
     from.addEventListener('click', function (e) {
         e.preventDefault();
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 0);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["a" /* slideTo */])(mp, panels, 0);
         toggleToFrom(from, to, selectedClass);
     });
 
     to.addEventListener('click', function (e) {
         e.preventDefault();
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["b" /* slideTo */])(mp, panels, 1);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__multiPanel_multiPanel__["a" /* slideTo */])(mp, panels, 1);
         toggleToTo(from, to, selectedClass);
         toDatePicker.kompo.props.notBefore = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker);
     });
@@ -3443,6 +3476,7 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
     applyClass: 'o-DateRange-apply',
     applyFormat: 'YYYY-MM-DD',
     applyCallback: undefined,
+    outputFormat: 'YYYY-MM-DD HH:mm:ss',
     overlay: false,
     fromKey: 'from',
     toKey: 'to',
@@ -3456,7 +3490,7 @@ var mount = __WEBPACK_IMPORTED_MODULE_0_kompo___default.a.mount;
     toSelectCallback: undefined,
     fromSelectCallback: undefined,
     selectCallback: undefined
-});
+}));
 
 function toggleToFrom(from, to, clss) {
     from.classList.add(clss);
@@ -3468,11 +3502,11 @@ function toggleToTo(from, to, clss) {
     to.classList.add(clss);
 }
 
-function formatApply(el, fromDatePicker, toDatePicker) {
-    el.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker) + ' / ' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(toDatePicker);
+function formatApply(el, fromDatePicker, toDatePicker, alternativeFormat) {
+    el.textContent = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(fromDatePicker, alternativeFormat) + ' / ' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__datePicker__["b" /* outputSelectedDate */])(toDatePicker, alternativeFormat);
 }
 
-/***/ },
+/***/ }),
 /* 46 */,
 /* 47 */,
 /* 48 */,
@@ -3482,355 +3516,11 @@ function formatApply(el, fromDatePicker, toDatePicker) {
 /* 52 */,
 /* 53 */,
 /* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */
-/***/ function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
-  'use strict';
-
-  /**
-   * Parse or format dates
-   * @class fecha
-   */
-  var fecha = {};
-  var token = /d{1,4}|M{1,4}|YY(?:YY)?|S{1,3}|Do|ZZ|([HhMsDm])\1?|[aA]|"[^"]*"|'[^']*'/g;
-  var twoDigits = /\d\d?/;
-  var threeDigits = /\d{3}/;
-  var fourDigits = /\d{4}/;
-  var word = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
-  var literal = /\[([^]*?)\]/gm;
-  var noop = function () {
-  };
-
-  function shorten(arr, sLen) {
-    var newArr = [];
-    for (var i = 0, len = arr.length; i < len; i++) {
-      newArr.push(arr[i].substr(0, sLen));
-    }
-    return newArr;
-  }
-
-  function monthUpdate(arrName) {
-    return function (d, v, i18n) {
-      var index = i18n[arrName].indexOf(v.charAt(0).toUpperCase() + v.substr(1).toLowerCase());
-      if (~index) {
-        d.month = index;
-      }
-    };
-  }
-
-  function pad(val, len) {
-    val = String(val);
-    len = len || 2;
-    while (val.length < len) {
-      val = '0' + val;
-    }
-    return val;
-  }
-
-  var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  var monthNamesShort = shorten(monthNames, 3);
-  var dayNamesShort = shorten(dayNames, 3);
-  fecha.i18n = {
-    dayNamesShort: dayNamesShort,
-    dayNames: dayNames,
-    monthNamesShort: monthNamesShort,
-    monthNames: monthNames,
-    amPm: ['am', 'pm'],
-    DoFn: function DoFn(D) {
-      return D + ['th', 'st', 'nd', 'rd'][D % 10 > 3 ? 0 : (D - D % 10 !== 10) * D % 10];
-    }
-  };
-
-  var formatFlags = {
-    D: function(dateObj) {
-      return dateObj.getDate();
-    },
-    DD: function(dateObj) {
-      return pad(dateObj.getDate());
-    },
-    Do: function(dateObj, i18n) {
-      return i18n.DoFn(dateObj.getDate());
-    },
-    d: function(dateObj) {
-      return dateObj.getDay();
-    },
-    dd: function(dateObj) {
-      return pad(dateObj.getDay());
-    },
-    ddd: function(dateObj, i18n) {
-      return i18n.dayNamesShort[dateObj.getDay()];
-    },
-    dddd: function(dateObj, i18n) {
-      return i18n.dayNames[dateObj.getDay()];
-    },
-    M: function(dateObj) {
-      return dateObj.getMonth() + 1;
-    },
-    MM: function(dateObj) {
-      return pad(dateObj.getMonth() + 1);
-    },
-    MMM: function(dateObj, i18n) {
-      return i18n.monthNamesShort[dateObj.getMonth()];
-    },
-    MMMM: function(dateObj, i18n) {
-      return i18n.monthNames[dateObj.getMonth()];
-    },
-    YY: function(dateObj) {
-      return String(dateObj.getFullYear()).substr(2);
-    },
-    YYYY: function(dateObj) {
-      return dateObj.getFullYear();
-    },
-    h: function(dateObj) {
-      return dateObj.getHours() % 12 || 12;
-    },
-    hh: function(dateObj) {
-      return pad(dateObj.getHours() % 12 || 12);
-    },
-    H: function(dateObj) {
-      return dateObj.getHours();
-    },
-    HH: function(dateObj) {
-      return pad(dateObj.getHours());
-    },
-    m: function(dateObj) {
-      return dateObj.getMinutes();
-    },
-    mm: function(dateObj) {
-      return pad(dateObj.getMinutes());
-    },
-    s: function(dateObj) {
-      return dateObj.getSeconds();
-    },
-    ss: function(dateObj) {
-      return pad(dateObj.getSeconds());
-    },
-    S: function(dateObj) {
-      return Math.round(dateObj.getMilliseconds() / 100);
-    },
-    SS: function(dateObj) {
-      return pad(Math.round(dateObj.getMilliseconds() / 10), 2);
-    },
-    SSS: function(dateObj) {
-      return pad(dateObj.getMilliseconds(), 3);
-    },
-    a: function(dateObj, i18n) {
-      return dateObj.getHours() < 12 ? i18n.amPm[0] : i18n.amPm[1];
-    },
-    A: function(dateObj, i18n) {
-      return dateObj.getHours() < 12 ? i18n.amPm[0].toUpperCase() : i18n.amPm[1].toUpperCase();
-    },
-    ZZ: function(dateObj) {
-      var o = dateObj.getTimezoneOffset();
-      return (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4);
-    }
-  };
-
-  var parseFlags = {
-    D: [twoDigits, function (d, v) {
-      d.day = v;
-    }],
-    Do: [new RegExp(twoDigits.source + word.source), function (d, v) {
-      d.day = parseInt(v, 10);
-    }],
-    M: [twoDigits, function (d, v) {
-      d.month = v - 1;
-    }],
-    YY: [twoDigits, function (d, v) {
-      var da = new Date(), cent = +('' + da.getFullYear()).substr(0, 2);
-      d.year = '' + (v > 68 ? cent - 1 : cent) + v;
-    }],
-    h: [twoDigits, function (d, v) {
-      d.hour = v;
-    }],
-    m: [twoDigits, function (d, v) {
-      d.minute = v;
-    }],
-    s: [twoDigits, function (d, v) {
-      d.second = v;
-    }],
-    YYYY: [fourDigits, function (d, v) {
-      d.year = v;
-    }],
-    S: [/\d/, function (d, v) {
-      d.millisecond = v * 100;
-    }],
-    SS: [/\d{2}/, function (d, v) {
-      d.millisecond = v * 10;
-    }],
-    SSS: [threeDigits, function (d, v) {
-      d.millisecond = v;
-    }],
-    d: [twoDigits, noop],
-    ddd: [word, noop],
-    MMM: [word, monthUpdate('monthNamesShort')],
-    MMMM: [word, monthUpdate('monthNames')],
-    a: [word, function (d, v, i18n) {
-      var val = v.toLowerCase();
-      if (val === i18n.amPm[0]) {
-        d.isPm = false;
-      } else if (val === i18n.amPm[1]) {
-        d.isPm = true;
-      }
-    }],
-    ZZ: [/([\+\-]\d\d:?\d\d|Z)/, function (d, v) {
-      if (v === 'Z') v = '+00:00';
-      var parts = (v + '').match(/([\+\-]|\d\d)/gi), minutes;
-
-      if (parts) {
-        minutes = +(parts[1] * 60) + parseInt(parts[2], 10);
-        d.timezoneOffset = parts[0] === '+' ? minutes : -minutes;
-      }
-    }]
-  };
-  parseFlags.dd = parseFlags.d;
-  parseFlags.dddd = parseFlags.ddd;
-  parseFlags.DD = parseFlags.D;
-  parseFlags.mm = parseFlags.m;
-  parseFlags.hh = parseFlags.H = parseFlags.HH = parseFlags.h;
-  parseFlags.MM = parseFlags.M;
-  parseFlags.ss = parseFlags.s;
-  parseFlags.A = parseFlags.a;
-
-
-  // Some common format strings
-  fecha.masks = {
-    default: 'ddd MMM DD YYYY HH:mm:ss',
-    shortDate: 'M/D/YY',
-    mediumDate: 'MMM D, YYYY',
-    longDate: 'MMMM D, YYYY',
-    fullDate: 'dddd, MMMM D, YYYY',
-    shortTime: 'HH:mm',
-    mediumTime: 'HH:mm:ss',
-    longTime: 'HH:mm:ss.SSS'
-  };
-
-  /***
-   * Format a date
-   * @method format
-   * @param {Date|number} dateObj
-   * @param {string} mask Format of the date, i.e. 'mm-dd-yy' or 'shortDate'
-   */
-  fecha.format = function (dateObj, mask, i18nSettings) {
-    var i18n = i18nSettings || fecha.i18n;
-
-    if (typeof dateObj === 'number') {
-      dateObj = new Date(dateObj);
-    }
-
-    if (Object.prototype.toString.call(dateObj) !== '[object Date]' || isNaN(dateObj.getTime())) {
-      throw new Error('Invalid Date in fecha.format');
-    }
-
-    mask = fecha.masks[mask] || mask || fecha.masks['default'];
-
-    var literals = [];
-
-    // Make literals inactive by replacing them with ??
-    mask = mask.replace(literal, function($0, $1) {
-      literals.push($1);
-      return '??';
-    });
-    // Apply formatting rules
-    mask = mask.replace(token, function ($0) {
-      return $0 in formatFlags ? formatFlags[$0](dateObj, i18n) : $0.slice(1, $0.length - 1);
-    });
-    // Inline literal values back into the formatted value
-    return mask.replace(/\?\?/g, function() {
-      return literals.shift();
-    });
-  };
-
-  /**
-   * Parse a date string into an object, changes - into /
-   * @method parse
-   * @param {string} dateStr Date string
-   * @param {string} format Date parse format
-   * @returns {Date|boolean}
-   */
-  fecha.parse = function (dateStr, format, i18nSettings) {
-    var i18n = i18nSettings || fecha.i18n;
-
-    if (typeof format !== 'string') {
-      throw new Error('Invalid format in fecha.parse');
-    }
-
-    format = fecha.masks[format] || format;
-
-    // Avoid regular expression denial of service, fail early for really long strings
-    // https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS
-    if (dateStr.length > 1000) {
-      return false;
-    }
-
-    var isValid = true;
-    var dateInfo = {};
-    format.replace(token, function ($0) {
-      if (parseFlags[$0]) {
-        var info = parseFlags[$0];
-        var index = dateStr.search(info[0]);
-        if (!~index) {
-          isValid = false;
-        } else {
-          dateStr.replace(info[0], function (result) {
-            info[1](dateInfo, result, i18n);
-            dateStr = dateStr.substr(index + result.length);
-            return result;
-          });
-        }
-      }
-
-      return parseFlags[$0] ? '' : $0.slice(1, $0.length - 1);
-    });
-
-    if (!isValid) {
-      return false;
-    }
-
-    var today = new Date();
-    if (dateInfo.isPm === true && dateInfo.hour != null && +dateInfo.hour !== 12) {
-      dateInfo.hour = +dateInfo.hour + 12;
-    } else if (dateInfo.isPm === false && +dateInfo.hour === 12) {
-      dateInfo.hour = 0;
-    }
-
-    var date;
-    if (dateInfo.timezoneOffset != null) {
-      dateInfo.minute = +(dateInfo.minute || 0) - +dateInfo.timezoneOffset;
-      date = new Date(Date.UTC(dateInfo.year || today.getFullYear(), dateInfo.month || 0, dateInfo.day || 1,
-        dateInfo.hour || 0, dateInfo.minute || 0, dateInfo.second || 0, dateInfo.millisecond || 0));
-    } else {
-      date = new Date(dateInfo.year || today.getFullYear(), dateInfo.month || 0, dateInfo.day || 1,
-        dateInfo.hour || 0, dateInfo.minute || 0, dateInfo.second || 0, dateInfo.millisecond || 0);
-    }
-    return date;
-  };
-
-  /* istanbul ignore next */
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = fecha;
-  } else if (true) {
-    !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
-      return fecha;
-    }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else {
-    main.fecha = fecha;
-  }
-})(this);
-
-
-/***/ },
-/* 59 */,
-/* 60 */,
-/* 61 */
-/***/ function(module, exports, __webpack_require__) {
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_kompo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_kompo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_js_date_dateRange__ = __webpack_require__(45);
@@ -3910,8 +3600,354 @@ document.body.appendChild(__WEBPACK_IMPORTED_MODULE_0_kompo__["state"].app(root(
     to: '2017-07-12 23:59:59'
 }).start());
 
-/***/ }
-/******/ ])
+/***/ }),
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Parse or format dates
+ * @class fecha
+ */
+var fecha = {};
+var token = /d{1,4}|M{1,4}|YY(?:YY)?|S{1,3}|Do|ZZ|([HhMsDm])\1?|[aA]|"[^"]*"|'[^']*'/g;
+var twoDigits = '\\d\\d?';
+var threeDigits = '\\d{3}';
+var fourDigits = '\\d{4}';
+var word = '[^\\s]+';
+var literal = /\[([^]*?)\]/gm;
+var noop = function () {
+};
+
+function regexEscape(str) {
+  return str.replace( /[|\\{()[^$+*?.-]/g, '\\$&');
+}
+
+function shorten(arr, sLen) {
+  var newArr = [];
+  for (var i = 0, len = arr.length; i < len; i++) {
+    newArr.push(arr[i].substr(0, sLen));
+  }
+  return newArr;
+}
+
+function monthUpdate(arrName) {
+  return function (d, v, i18n) {
+    var index = i18n[arrName].indexOf(v.charAt(0).toUpperCase() + v.substr(1).toLowerCase());
+    if (~index) {
+      d.month = index;
+    }
+  };
+}
+
+function pad(val, len) {
+  val = String(val);
+  len = len || 2;
+  while (val.length < len) {
+    val = '0' + val;
+  }
+  return val;
+}
+
+var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+var monthNamesShort = shorten(monthNames, 3);
+var dayNamesShort = shorten(dayNames, 3);
+fecha.i18n = {
+  dayNamesShort: dayNamesShort,
+  dayNames: dayNames,
+  monthNamesShort: monthNamesShort,
+  monthNames: monthNames,
+  amPm: ['am', 'pm'],
+  DoFn: function DoFn(D) {
+    return D + ['th', 'st', 'nd', 'rd'][D % 10 > 3 ? 0 : (D - D % 10 !== 10) * D % 10];
+  }
+};
+
+var formatFlags = {
+  D: function(dateObj) {
+    return dateObj.getDate();
+  },
+  DD: function(dateObj) {
+    return pad(dateObj.getDate());
+  },
+  Do: function(dateObj, i18n) {
+    return i18n.DoFn(dateObj.getDate());
+  },
+  d: function(dateObj) {
+    return dateObj.getDay();
+  },
+  dd: function(dateObj) {
+    return pad(dateObj.getDay());
+  },
+  ddd: function(dateObj, i18n) {
+    return i18n.dayNamesShort[dateObj.getDay()];
+  },
+  dddd: function(dateObj, i18n) {
+    return i18n.dayNames[dateObj.getDay()];
+  },
+  M: function(dateObj) {
+    return dateObj.getMonth() + 1;
+  },
+  MM: function(dateObj) {
+    return pad(dateObj.getMonth() + 1);
+  },
+  MMM: function(dateObj, i18n) {
+    return i18n.monthNamesShort[dateObj.getMonth()];
+  },
+  MMMM: function(dateObj, i18n) {
+    return i18n.monthNames[dateObj.getMonth()];
+  },
+  YY: function(dateObj) {
+    return pad(String(dateObj.getFullYear()), 4).substr(2);
+  },
+  YYYY: function(dateObj) {
+    return pad(dateObj.getFullYear(), 4);
+  },
+  h: function(dateObj) {
+    return dateObj.getHours() % 12 || 12;
+  },
+  hh: function(dateObj) {
+    return pad(dateObj.getHours() % 12 || 12);
+  },
+  H: function(dateObj) {
+    return dateObj.getHours();
+  },
+  HH: function(dateObj) {
+    return pad(dateObj.getHours());
+  },
+  m: function(dateObj) {
+    return dateObj.getMinutes();
+  },
+  mm: function(dateObj) {
+    return pad(dateObj.getMinutes());
+  },
+  s: function(dateObj) {
+    return dateObj.getSeconds();
+  },
+  ss: function(dateObj) {
+    return pad(dateObj.getSeconds());
+  },
+  S: function(dateObj) {
+    return Math.round(dateObj.getMilliseconds() / 100);
+  },
+  SS: function(dateObj) {
+    return pad(Math.round(dateObj.getMilliseconds() / 10), 2);
+  },
+  SSS: function(dateObj) {
+    return pad(dateObj.getMilliseconds(), 3);
+  },
+  a: function(dateObj, i18n) {
+    return dateObj.getHours() < 12 ? i18n.amPm[0] : i18n.amPm[1];
+  },
+  A: function(dateObj, i18n) {
+    return dateObj.getHours() < 12 ? i18n.amPm[0].toUpperCase() : i18n.amPm[1].toUpperCase();
+  },
+  ZZ: function(dateObj) {
+    var o = dateObj.getTimezoneOffset();
+    return (o > 0 ? '-' : '+') + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4);
+  }
+};
+
+var parseFlags = {
+  D: [twoDigits, function (d, v) {
+    d.day = v;
+  }],
+  Do: [twoDigits + word, function (d, v) {
+    d.day = parseInt(v, 10);
+  }],
+  M: [twoDigits, function (d, v) {
+    d.month = v - 1;
+  }],
+  YY: [twoDigits, function (d, v) {
+    var da = new Date(), cent = +('' + da.getFullYear()).substr(0, 2);
+    d.year = '' + (v > 68 ? cent - 1 : cent) + v;
+  }],
+  h: [twoDigits, function (d, v) {
+    d.hour = v;
+  }],
+  m: [twoDigits, function (d, v) {
+    d.minute = v;
+  }],
+  s: [twoDigits, function (d, v) {
+    d.second = v;
+  }],
+  YYYY: [fourDigits, function (d, v) {
+    d.year = v;
+  }],
+  S: ['\\d', function (d, v) {
+    d.millisecond = v * 100;
+  }],
+  SS: ['\\d{2}', function (d, v) {
+    d.millisecond = v * 10;
+  }],
+  SSS: [threeDigits, function (d, v) {
+    d.millisecond = v;
+  }],
+  d: [twoDigits, noop],
+  ddd: [word, noop],
+  MMM: [word, monthUpdate('monthNamesShort')],
+  MMMM: [word, monthUpdate('monthNames')],
+  a: [word, function (d, v, i18n) {
+    var val = v.toLowerCase();
+    if (val === i18n.amPm[0]) {
+      d.isPm = false;
+    } else if (val === i18n.amPm[1]) {
+      d.isPm = true;
+    }
+  }],
+  ZZ: ['[^\\s]*?[\\+\\-]\\d\\d:?\\d\\d|[^\\s]*?Z', function (d, v) {
+    var parts = (v + '').match(/([+-]|\d\d)/gi), minutes;
+
+    if (parts) {
+      minutes = +(parts[1] * 60) + parseInt(parts[2], 10);
+      d.timezoneOffset = parts[0] === '+' ? minutes : -minutes;
+    }
+  }]
+};
+parseFlags.dd = parseFlags.d;
+parseFlags.dddd = parseFlags.ddd;
+parseFlags.DD = parseFlags.D;
+parseFlags.mm = parseFlags.m;
+parseFlags.hh = parseFlags.H = parseFlags.HH = parseFlags.h;
+parseFlags.MM = parseFlags.M;
+parseFlags.ss = parseFlags.s;
+parseFlags.A = parseFlags.a;
+
+
+// Some common format strings
+fecha.masks = {
+  default: 'ddd MMM DD YYYY HH:mm:ss',
+  shortDate: 'M/D/YY',
+  mediumDate: 'MMM D, YYYY',
+  longDate: 'MMMM D, YYYY',
+  fullDate: 'dddd, MMMM D, YYYY',
+  shortTime: 'HH:mm',
+  mediumTime: 'HH:mm:ss',
+  longTime: 'HH:mm:ss.SSS'
+};
+
+/***
+ * Format a date
+ * @method format
+ * @param {Date|number} dateObj
+ * @param {string} mask Format of the date, i.e. 'mm-dd-yy' or 'shortDate'
+ */
+fecha.format = function (dateObj, mask, i18nSettings) {
+  var i18n = i18nSettings || fecha.i18n;
+
+  if (typeof dateObj === 'number') {
+    dateObj = new Date(dateObj);
+  }
+
+  if (Object.prototype.toString.call(dateObj) !== '[object Date]' || isNaN(dateObj.getTime())) {
+    throw new Error('Invalid Date in fecha.format');
+  }
+
+  mask = fecha.masks[mask] || mask || fecha.masks['default'];
+
+  var literals = [];
+
+  // Make literals inactive by replacing them with ??
+  mask = mask.replace(literal, function($0, $1) {
+    literals.push($1);
+    return '@@@';
+  });
+  // Apply formatting rules
+  mask = mask.replace(token, function ($0) {
+    return $0 in formatFlags ? formatFlags[$0](dateObj, i18n) : $0.slice(1, $0.length - 1);
+  });
+  // Inline literal values back into the formatted value
+  return mask.replace(/@@@/g, function() {
+    return literals.shift();
+  });
+};
+
+/**
+ * Parse a date string into an object, changes - into /
+ * @method parse
+ * @param {string} dateStr Date string
+ * @param {string} format Date parse format
+ * @returns {Date|boolean}
+ */
+fecha.parse = function (dateStr, format, i18nSettings) {
+  var i18n = i18nSettings || fecha.i18n;
+
+  if (typeof format !== 'string') {
+    throw new Error('Invalid format in fecha.parse');
+  }
+
+  format = fecha.masks[format] || format;
+
+  // Avoid regular expression denial of service, fail early for really long strings
+  // https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS
+  if (dateStr.length > 1000) {
+    return null;
+  }
+
+  var dateInfo = {};
+  var parseInfo = [];
+  var literals = [];
+  format = format.replace(literal, function($0, $1) {
+    literals.push($1);
+    return '@@@';
+  });
+  var newFormat = regexEscape(format).replace(token, function ($0) {
+    if (parseFlags[$0]) {
+      var info = parseFlags[$0];
+      parseInfo.push(info[1]);
+      return '(' + info[0] + ')';
+    }
+
+    return $0;
+  });
+  newFormat = newFormat.replace(/@@@/g, function() {
+    return literals.shift();
+  });
+  var matches = dateStr.match(new RegExp(newFormat, 'i'));
+  if (!matches) {
+    return null;
+  }
+
+  for (var i = 1; i < matches.length; i++) {
+    parseInfo[i - 1](dateInfo, matches[i], i18n);
+  }
+
+  var today = new Date();
+  if (dateInfo.isPm === true && dateInfo.hour != null && +dateInfo.hour !== 12) {
+    dateInfo.hour = +dateInfo.hour + 12;
+  } else if (dateInfo.isPm === false && +dateInfo.hour === 12) {
+    dateInfo.hour = 0;
+  }
+
+  var date;
+  if (dateInfo.timezoneOffset != null) {
+    dateInfo.minute = +(dateInfo.minute || 0) - +dateInfo.timezoneOffset;
+    date = new Date(Date.UTC(dateInfo.year || today.getFullYear(), dateInfo.month || 0, dateInfo.day || 1,
+      dateInfo.hour || 0, dateInfo.minute || 0, dateInfo.second || 0, dateInfo.millisecond || 0));
+  } else {
+    date = new Date(dateInfo.year || today.getFullYear(), dateInfo.month || 0, dateInfo.day || 1,
+      dateInfo.hour || 0, dateInfo.minute || 0, dateInfo.second || 0, dateInfo.millisecond || 0);
+  }
+  return date;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (fecha);
+
+
+/***/ })
+/******/ ]);
 });
-;
 //# sourceMappingURL=bundle.js.map

@@ -17,13 +17,13 @@ var config = {
         'examples/orderList/dist/bundle': './examples/orderList/src/index.js'
     },
     output: {
-        path: './',
+        path: path.resolve(__dirname),
         filename: '[name].js',
         library: 'kompo',
         libraryTarget: 'umd'
     },
     resolve: {
-        extensions: ['.js', '.json'],
+        extensions: ['.js', '.json', '.css'],
         modules: [
             path.resolve('./examples'),
             'node_modules'
